@@ -1,6 +1,5 @@
-package com.mohsinon.users.entity;
+package com.mohsinon.modules.users.entity;
 
-import com.mohsinon.role.entity.Role;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

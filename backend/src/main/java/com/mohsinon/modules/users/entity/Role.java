@@ -1,4 +1,4 @@
-package com.mohsinon.role.entity;
+package com.mohsinon.modules.users.entity;
 
 import jakarta.persistence.*;
 

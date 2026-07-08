@@ -1,4 +1,4 @@
-package com.mohsinon.users.controller;
+package com.mohsinon.modules.users.controller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;

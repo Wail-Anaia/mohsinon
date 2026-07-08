@@ -1,6 +1,6 @@
-package com.mohsinon.role.repository;
+package com.mohsinon.modules.users.repository;
 
-import com.mohsinon.role.entity.Role;
+import com.mohsinon.modules.users.entity.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

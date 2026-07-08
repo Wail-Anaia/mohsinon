@@ -2,7 +2,9 @@ package com.mohsinon.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.LocalDateTime;
 
@@ -49,6 +51,21 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now(),
                 HttpStatus.UNAUTHORIZED.value(),
                 "Unauthorized",
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+    }
+
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ApiError handleGenericException(
+            Exception ex,
+            HttpServletRequest request) {
+
+        return new ApiError(
+                LocalDateTime.now(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Internal Server Error",
                 ex.getMessage(),
                 request.getRequestURI()
         );

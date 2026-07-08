@@ -1,7 +1,7 @@
 package com.mohsinon.security.service;
 
-import com.mohsinon.users.entity.User;
-import com.mohsinon.users.repository.UserRepository;
+import com.mohsinon.modules.users.entity.User;
+import com.mohsinon.modules.users.repository.UserRepository;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
