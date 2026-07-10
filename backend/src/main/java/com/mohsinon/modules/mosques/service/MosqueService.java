@@ -6,6 +6,15 @@ import com.mohsinon.modules.mosques.entity.Mosque;
 import com.mohsinon.modules.mosques.mapper.MosqueMapper;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
 import com.mohsinon.exception.MosqueNotFoundException;
+
+import com.mohsinon.security.utils.SecurityUtils;
+import com.mohsinon.modules.mosques.constants.MosquePositionCodes;
+import com.mohsinon.modules.mosques.entity.MosqueMembership;
+import com.mohsinon.modules.mosques.service.MosqueMembershipService;
+import com.mohsinon.modules.users.entity.User;
+import com.mohsinon.modules.users.repository.UserRepository;
+import jakarta.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,20 +24,42 @@ import java.util.stream.Collectors;
 @Service
 public class MosqueService {
 
-    private final MosqueRepository mosqueRepository;
+	private final MosqueRepository mosqueRepository;
+	private final UserRepository userRepository;
+	private final MosqueMembershipService mosqueMembershipService;
 
-    public MosqueService(MosqueRepository mosqueRepository) {
-        this.mosqueRepository = mosqueRepository;
-    }
+	public MosqueService(
+	        MosqueRepository mosqueRepository,
+	        UserRepository userRepository,
+	        MosqueMembershipService mosqueMembershipService) {
 
-    public MosqueResponse createMosque(CreateMosqueRequest request) {
+	    this.mosqueRepository = mosqueRepository;
+	    this.userRepository = userRepository;
+	    this.mosqueMembershipService = mosqueMembershipService;
+	}
 
-        Mosque mosque = MosqueMapper.toEntity(request);
+	@Transactional
+	public MosqueResponse createMosque(CreateMosqueRequest request) {
 
-        Mosque savedMosque = mosqueRepository.save(mosque);
+	    Mosque mosque = MosqueMapper.toEntity(request);
 
-        return MosqueMapper.toResponse(savedMosque);
-    }
+	    Mosque savedMosque = mosqueRepository.save(mosque);
+
+	    String username = SecurityUtils.getCurrentUsername();
+
+	    User currentUser = userRepository.findByUsername(username)
+	            .orElseThrow();
+
+	    mosqueMembershipService.assignPosition(
+	            savedMosque,
+	            currentUser,
+	            MosquePositionCodes.COMMITTEE_PRESIDENT,
+	            currentUser,
+	            "Mosque creator"
+	    );
+
+	    return MosqueMapper.toResponse(savedMosque);
+	}
 
     public List<MosqueResponse> getAllMosques() {
 

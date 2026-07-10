@@ -1,0 +1,1443 @@
+# Mohsinon Platform
+
+## Current Status
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 1 ✅
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+
+- Project initialized
+- Spring Boot
+- Angular
+- PostgreSQL
+- GitHub
+
+> **منصة محسنون - الحالة الحالية للمشروع**
+>
+> آخر تحديث: **2026-07-07**
+
+---
+
+# معلومات المشروع
+
+| العنصر          | القيمة                       |
+| --------------- | ---------------------------- |
+| اسم المشروع     | Mohsinon                     |
+| نوع المشروع     | Charity & Community Platform |
+| الحالة          | In Development               |
+| المرحلة الحالية | Project Foundation           |
+| الإصدار الحالي  | 0.1.0                        |
+| Backend         | Spring Boot                  |
+| Frontend        | Angular                      |
+| Database        | PostgreSQL                   |
+| Build Tool      | Maven                        |
+| Java Version    | 21                           |
+| Repository      | GitHub                       |
+
+---
+
+# الهدف الحالي
+
+الانتهاء من تأسيس المشروع بالكامل ثم البدء ببناء أول وحدة برمجية وهي:
+
+```text
+Users & Authentication Module
+```
+
+---
+
+# نسبة الإنجاز
+
+| المرحلة        | النسبة |
+| -------------- | -----: |
+| تأسيس المشروع  | ✅ 100% |
+| Backend Setup  | ✅ 100% |
+| Frontend Setup | ✅ 100% |
+| Git & GitHub   | ✅ 100% |
+| PostgreSQL     | ✅ 100% |
+| Architecture   |   ⏳ 0% |
+| Business Logic |   ⏳ 0% |
+| REST APIs      |   ⏳ 0% |
+| Security       |   ⏳ 0% |
+| Testing        |   ⏳ 0% |
+| Deployment     |   ⏳ 0% |
+
+---
+
+# التقنيات المستخدمة
+
+## Backend
+
+* Java 21
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* Maven
+* PostgreSQL
+* Lombok
+* Validation
+
+## Frontend
+
+* Angular (Standalone)
+* Angular Material
+* Angular Router
+* SCSS
+
+---
+
+# هيكل المشروع
+
+```text
+mohsinon/
+│
+├── backend/
+├── frontend/
+├── docs/
+│
+├── .gitignore
+├── README.md
+└── .git
+```
+
+---
+
+# الوحدات الحالية
+
+## Backend
+
+يوجد فقط:
+
+```
+BackendApplication
+```
+
+لا توجد أي:
+
+* Controllers
+* Services
+* Entities
+* DTOs
+* Repositories
+* Security Configuration
+
+---
+
+## Frontend
+
+يوجد فقط مشروع Angular الافتراضي.
+
+لا توجد:
+
+* Pages
+* Components
+* Services
+* Guards
+* Layouts
+
+---
+
+# قاعدة البيانات
+
+اسم قاعدة البيانات:
+
+```text
+mohsinon_db
+```
+
+الحالة الحالية:
+
+* لا توجد جداول.
+* لا توجد علاقات.
+* لا توجد بيانات.
+
+---
+
+# Git
+
+الحالة:
+
+* Repository مرتبط مع GitHub.
+* لا توجد Submodules.
+* لا توجد ملفات IDE داخل Git.
+* لا توجد ملفات مؤقتة مرفوعة.
+
+---
+
+# ما تم إنجازه
+
+* إنشاء مستودع GitHub.
+* إنشاء Backend.
+* إنشاء Frontend.
+* إضافة Angular Material.
+* إنشاء PostgreSQL Database.
+* إنشاء مجلد docs.
+* إنشاء ملفات التوثيق الأساسية.
+* تنظيف Git Repository.
+* إزالة Git الداخلي من Frontend.
+* فصل المشروع عن Workspace الخاص بـ Eclipse.
+
+---
+
+# ما لم يتم إنجازه بعد
+
+## Backend
+
+* User Entity
+* Role Entity
+* DTOs
+* Repository Layer
+* Service Layer
+* Controller Layer
+* Global Exception Handling
+* Validation
+* JWT Authentication
+* Refresh Token
+* Authorization
+* Swagger / OpenAPI
+* Unit Tests
+* Integration Tests
+
+---
+
+## Frontend
+
+* Authentication Pages
+* Dashboard
+* Shared Components
+* Layout
+* Theme
+* API Services
+* Route Guards
+* State Management
+
+---
+
+# الوحدة الحالية
+
+```
+Project Foundation
+```
+
+---
+
+# الوحدة التالية
+
+```
+Users & Authentication
+```
+
+---
+
+# الخطوة القادمة
+
+بدء بناء نظام المستخدمين والمصادقة.
+
+سيتم تنفيذ الوحدات بالترتيب التالي:
+
+1. Users
+2. Roles
+3. Authentication
+4. JWT
+5. Refresh Token
+6. Security Configuration
+7. Exception Handling
+8. API Testing
+
+---
+
+# المبادئ المعتمدة في المشروع
+
+* Clean Code
+* SOLID Principles
+* Layered Architecture
+* RESTful API
+* DTO Pattern
+* Separation of Concerns
+* Production Ready Code
+* Scalability
+* Maintainability
+
+---
+
+# قواعد العمل
+
+* عدم إنشاء أي كود بدون تصميم.
+* عدم تجاوز مراحل المشروع.
+* توثيق نهاية كل يوم تطوير.
+* تحديث هذا الملف بعد كل جلسة عمل.
+* تسجيل جميع الإنجازات في `CHANGELOG.md`.
+* إنشاء تقرير يومي داخل `docs/daily/`.
+
+---
+
+# ملاحظات
+
+هذا الملف يمثل **الحالة الحالية فقط**.
+
+أي معلومة لم تعد صحيحة يجب تحديثها أو حذفها، ولا يُستخدم كسجل تاريخي للمشروع.
+
+أما السجل التاريخي الكامل للتغييرات فيتم حفظه داخل:
+
+```
+docs/CHANGELOG.md
+```
+
+والتفاصيل اليومية يتم حفظها داخل:
+
+```
+docs/daily/
+```
+
+#### ##### #### ##### #### ##### #### ##### #### #####
+### Day 2 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+- User Entity
+- Role Entity
+- User Repository
+- Role Repository
+
+# PROJECT_STATUS.md
+
+آخر تحديث: 2026-07-08
+
+---
+
+# حالة مشروع منصة محسنون
+
+## اسم المشروع
+
+منصة محسنون (Mohsinon Platform)
+
+---
+
+# الرؤية
+
+بناء أكبر منصة رقمية للأعمال الخيرية والعمل التطوعي وإدارة المساجد والأوقاف والخدمات المجتمعية، مع قابلية التوسع مستقبلاً لتصبح نظامًا متكاملاً يخدم الأفراد والجمعيات والمؤسسات الخيرية في العالم الإسلامي.
+
+---
+
+# حالة المشروع الحالية
+
+المشروع ما زال في مرحلة التأسيس وبناء البنية الأساسية (Foundation Phase)، وقد تم الانتهاء من إعداد بيئة العمل والبدء في بناء أول وحدة أساسية وهي نظام المستخدمين والمصادقة.
+
+---
+
+# نسبة الإنجاز العامة
+
+| المرحلة | نسبة الإنجاز |
+|----------|--------------|
+| التأسيس | ✅ 100% |
+| نظام المستخدمين | ✅ 100% |
+| نظام Authentication | ✅ 100% |
+| JWT Authentication | ✅ 100% |
+| Security الأساسية | ✅ 100% |
+| إدارة المساجد | ⏳ لم تبدأ |
+| الجمعيات | ⏳ لم تبدأ |
+| المتطوعون | ⏳ لم تبدأ |
+| التبرعات | ⏳ لم تبدأ |
+| المشاريع | ⏳ لم تبدأ |
+| Frontend | ⏳ لم يبدأ |
+| لوحة التحكم | ⏳ لم تبدأ |
+
+---
+
+# الإنجازات الحالية
+
+## أولاً: Backend
+
+تم إنشاء مشروع Spring Boot باستخدام:
+
+- Java 21
+- Spring Boot 3.5.x
+- Maven
+
+---
+
+### Dependencies
+
+تم إضافة:
+
+- Spring Web
+- Spring Data JPA
+- Spring Security
+- Validation
+- PostgreSQL Driver
+- Lombok
+- JWT (jjwt)
+- DevTools
+
+---
+
+## ثانياً: قاعدة البيانات
+
+تم إنشاء قاعدة البيانات:
+
+```
+mohsinon_db
+```
+
+وتم إنشاء الجداول التالية:
+
+```
+users
+roles
+users_roles
+```
+
+مع العلاقات بينها بنجاح.
+
+---
+
+## ثالثاً: نظام المستخدمين
+
+تم إنشاء Entity كاملة للمستخدم.
+
+تشمل:
+
+- UUID ID
+- First Name
+- Last Name
+- Username
+- Email
+- Phone
+- Password
+- Enabled
+- Created At
+- Updated At
+
+---
+
+## رابعاً: نظام الصلاحيات
+
+تم إنشاء Entity خاصة بالأدوار.
+
+حالياً يدعم:
+
+```
+USER
+```
+
+وقابل لإضافة:
+
+- ADMIN
+- IMAM
+- MOSQUE_MANAGER
+- DONOR
+- VOLUNTEER
+
+بدون أي تعديل على التصميم.
+
+---
+
+## خامساً: Repositories
+
+تم إنشاء:
+
+### UserRepository
+
+يدعم:
+
+- البحث بالإيميل
+- البحث باسم المستخدم
+- التحقق من وجود البريد
+- التحقق من وجود Username
+
+---
+
+### RoleRepository
+
+يدعم:
+
+- البحث عن الدور بالاسم
+
+---
+
+## سادساً: Authentication
+
+تم إنشاء:
+
+### Register API
+
+```
+POST
+/api/auth/register
+```
+
+ويقوم بـ:
+
+- التحقق من البيانات
+- التحقق من البريد
+- التحقق من Username
+- تشفير كلمة المرور
+- إضافة دور USER
+- حفظ المستخدم
+
+---
+
+### Login API
+
+```
+POST
+/api/auth/login
+```
+
+يقوم بـ:
+
+- التحقق من البريد
+- التحقق من كلمة المرور
+- إنشاء JWT Token
+- إرجاع Token
+
+---
+
+## سابعاً: JWT
+
+تم إنشاء نظام JWT كامل.
+
+يشمل:
+
+- JwtService
+- Secret Key
+- Expiration
+- Token Generation
+- Token Validation
+
+---
+
+## ثامناً: Spring Security
+
+تم إنشاء:
+
+SecurityConfig
+
+ويشمل:
+
+- Stateless Session
+- PasswordEncoder
+- AuthenticationManager
+- السماح لـ Register
+- السماح لـ Login
+- حماية جميع الـ APIs الأخرى
+
+---
+
+## تاسعاً: Validation
+
+تم إضافة Validation إلى جميع DTOs.
+
+مثل:
+
+- @NotBlank
+- @Email
+- @Size
+
+---
+
+## عاشراً: معالجة الأخطاء
+
+تم إنشاء Exception Handler موحد.
+
+يدعم:
+
+- AuthenticationException
+- ResourceAlreadyExistsException
+- ResourceNotFoundException
+- Validation Errors
+
+ويعيد استجابات JSON موحدة.
+
+---
+
+# الاختبارات المنجزة
+
+تم اختبار:
+
+## Register
+
+✅ نجح
+
+---
+
+## Login
+
+✅ نجح
+
+---
+
+## Password Encryption
+
+✅ يعمل
+
+---
+
+## JWT Generation
+
+✅ يعمل
+
+---
+
+## JWT Validation
+
+✅ يعمل
+
+---
+
+## Validation
+
+✅ يعمل
+
+---
+
+## Database
+
+✅ تعمل
+
+---
+
+## PostgreSQL
+
+✅ تعمل
+
+---
+
+## Hibernate
+
+✅ يعمل بدون مشاكل
+
+---
+
+# المشاكل التي تم حلها
+
+## المشكلة الأولى
+
+لم يتم إنشاء الجداول.
+
+السبب:
+
+```
+permission denied for schema public
+```
+
+الحل:
+
+استخدام مستخدم PostgreSQL يمتلك صلاحيات إنشاء الجداول (postgres)، فتم إنشاء الجداول بنجاح.
+
+---
+
+## المشكلة الثانية
+
+ظهور:
+
+```
+401 Unauthorized
+```
+
+السبب:
+
+عدم إعداد SecurityConfig.
+
+الحل:
+
+إنشاء إعدادات Spring Security والسماح لمسارات:
+
+```
+/api/auth/register
+/api/auth/login
+```
+
+---
+
+## المشكلة الثالثة
+
+وجود ملفين:
+
+```
+SecurityConfig
+```
+
+داخل المشروع.
+
+الحل:
+
+حذف الملف القديم والإبقاء على ملف واحد فقط.
+
+---
+
+## المشكلة الرابعة
+
+عدم توليد JWT.
+
+الحل:
+
+إضافة مكتبة JWT وإنشاء JwtService وربطها مع Login.
+
+---
+
+# الهيكل الحالي للمشروع
+
+```
+backend
+│
+├── auth
+│   ├── controller
+│   ├── dto
+│   ├── service
+│   └── jwt
+│
+├── users
+│   ├── entity
+│   └── repository
+│
+├── role
+│   ├── entity
+│   └── repository
+│
+├── security
+│   └── config
+│
+├── config
+│
+├── exception
+│
+└── BackendApplication.java
+```
+
+---
+
+# الملفات المكتملة
+
+تم الانتهاء من:
+
+- User.java
+- Role.java
+- UserRepository.java
+- RoleRepository.java
+- RegisterRequest.java
+- RegisterResponse.java
+- LoginRequest.java
+- LoginResponse.java
+- AuthController.java
+- AuthService.java
+- JwtService.java
+- SecurityConfig.java
+- GlobalExceptionHandler.java
+- PasswordConfig.java
+- application.properties
+
+---
+
+# ما لم يبدأ بعد
+
+لا يزال غير منفذ:
+
+- Refresh Token
+- Forgot Password
+- Email Verification
+- Profile API
+- Change Password
+- Update Profile
+- User Details API
+- RBAC الكامل
+- Audit Logs
+- File Upload
+- Images
+- Frontend Authentication
+- Angular Login
+- Angular Register
+
+---
+
+# معايير المشروع
+
+يتم تطوير المشروع وفق:
+
+- Clean Code
+- SOLID Principles
+- Layered Architecture
+- REST API Best Practices
+- DTO Pattern
+- JWT Authentication
+- Stateless Authentication
+- Production Ready Design
+
+---
+
+# المرحلة الحالية
+
+✅ تم الانتهاء بالكامل من:
+
+```
+Users & Authentication Module
+```
+
+وأصبح المشروع جاهزًا للانتقال إلى المرحلة التالية.
+
+---
+
+# المرحلة القادمة
+
+سيبدأ العمل على:
+
+```
+إدارة المساجد (Mosques Module)
+```
+
+وسيشمل:
+
+- Mosque Entity
+- Mosque CRUD APIs
+- Imam Management
+- Mosque Committee
+- Mosque Address
+- Geo Location
+- Validation
+- Security
+- Documentation
+- Testing
+
+---
+
+# ملاحظات
+
+تم بناء المشروع منذ البداية وفق معايير المشاريع الإنتاجية (Production Grade)، مع التركيز على الجودة، سهولة الصيانة، وقابلية التوسع. وقد أصبح لدينا الآن أساس قوي يمكن البناء عليه لإضافة جميع وحدات منصة محسنون دون الحاجة إلى إعادة هيكلة النظام مستقبلاً.
+
+#### ##### #### ##### #### ##### #### ##### #### #####
+### Day 3 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+- Mosque Entity
+- Mosque Repository
+- CreateMosqueRequest
+- Exception Handling
+- Project Modules
+
+# PROJECT STATUS
+## منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-09  
+**الإصدار الحالي:** v0.0.3-alpha  
+**الحالة:** 🟢 قيد التطوير النشط
+
+---
+
+# نظرة عامة
+
+**محسنون** هي منصة رقمية تهدف إلى ربط المساجد، والمحسنين، والمتطوعين، والجهات الخيرية، وأفراد المجتمع في نظام موحد يساهم في تعزيز العمل الخيري وإدارة المبادرات المجتمعية بكفاءة وشفافية.
+
+يعتمد المشروع على بنية Modular Architecture مع الالتزام بأفضل ممارسات هندسة البرمجيات لضمان سهولة التوسع والصيانة مستقبلاً.
+
+---
+
+# نسبة الإنجاز الحالية
+
+| المرحلة | الحالة |
+|----------|---------|
+| تأسيس المشروع | ✅ 100% |
+| إعداد بيئة التطوير | ✅ 100% |
+| إعداد قاعدة البيانات | ✅ 100% |
+| نظام المستخدمين | ✅ 100% |
+| نظام المساجد | ✅ 100% |
+| نظام التوثيق | ⏳ لم يبدأ |
+| نظام الصلاحيات | ⏳ قيد التخطيط |
+| نظام الأئمة | ⏳ لم يبدأ |
+| نظام اللجان | ⏳ لم يبدأ |
+| نظام المبادرات | ⏳ لم يبدأ |
+| نظام الاحتياجات | ⏳ لم يبدأ |
+| نظام التبرعات | ⏳ لم يبدأ |
+| لوحة التحكم | ⏳ لم يبدأ |
+| الواجهة الأمامية | ⏳ تجهيز البنية قريبًا |
+
+---
+
+# ما تم إنجازه
+
+## اليوم الأول
+
+- إنشاء مستودع GitHub.
+- إنشاء مشروع Spring Boot.
+- إنشاء مشروع Angular.
+- إعداد PostgreSQL.
+- إعداد Maven.
+- إعداد هيكل المشروع.
+- تشغيل أول نسخة من النظام.
+
+---
+
+## اليوم الثاني
+
+تم بناء نظام المستخدمين بالكامل.
+
+يشمل:
+
+- User Entity
+- Role Entity
+- User Repository
+- Role Repository
+- نظام تسجيل المستخدم
+- نظام تسجيل الدخول
+- تشفير كلمات المرور
+- JWT (الأساس)
+- REST APIs
+- اختبار جميع الواجهات
+
+---
+
+## اليوم الثالث
+
+تم بناء أول وحدة أعمال في المنصة:
+
+### Mosque Module
+
+يشمل:
+
+- Mosque Entity
+- Mosque Repository
+- Mosque Service
+- Mosque Controller
+- Create Mosque API
+- Get All Mosques API
+- Get Mosque By Id API
+
+كما تم إضافة:
+
+- DTO Layer
+- Mapper Layer
+- Bean Validation
+- Exception Handling
+- إعادة تنظيم المشروع بالكامل
+
+---
+
+# الهيكل الحالي للمشروع
+
+```text
+mohsinon
+│
+├── backend
+│
+├── frontend
+│
+├── docs
+│
+└── README.md
+```
+
+---
+
+## Backend
+
+```text
+com.mohsinon
+│
+├── BackendApplication
+│
+├── common
+│
+├── config
+│
+├── exception
+│
+├── security
+│
+└── modules
+    │
+    ├── user
+    │
+    └── mosque
+```
+
+---
+
+# الوحدات المكتملة
+
+## User Module
+
+الحالة:
+
+✅ مكتمل
+
+يحتوي على:
+
+- User
+- Role
+- Authentication
+- JWT
+- REST APIs
+
+---
+
+## Mosque Module
+
+الحالة:
+
+✅ مكتمل
+
+يحتوي على:
+
+- CRUD (المرحلة الأولى)
+- DTO
+- Mapper
+- Validation
+- Exception Handling
+
+---
+
+# قاعدة البيانات
+
+الجداول الحالية:
+
+```text
+users
+
+roles
+
+users_roles
+
+mosques
+```
+
+---
+
+# REST APIs الحالية
+
+## Users
+
+- Register
+- Login
+
+---
+
+## Mosques
+
+```http
+POST /api/mosques
+```
+
+```http
+GET /api/mosques
+```
+
+```http
+GET /api/mosques/{id}
+```
+
+---
+
+# التقنيات المستخدمة
+
+## Backend
+
+- Java 21
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- Spring Security
+- Hibernate
+- PostgreSQL
+- Maven
+- JWT
+- Bean Validation
+
+---
+
+## Frontend
+
+- Angular (Standalone)
+- Angular Material
+- TypeScript
+- SCSS
+
+> تم إنشاء المشروع، وسيبدأ تطوير الواجهة بعد تثبيت نواة الـ Backend.
+
+---
+
+# القرارات المعمارية
+
+تم اعتماد:
+
+- Modular Architecture
+- Layered Architecture
+- DTO Pattern
+- Repository Pattern
+- Service Layer
+- Global Exception Handling
+- UUID Primary Keys
+- RESTful APIs
+- Bean Validation
+
+---
+
+# ما تم اختباره
+
+✅ تشغيل المشروع
+
+✅ الاتصال بقاعدة البيانات
+
+✅ إنشاء الجداول
+
+✅ نظام المستخدمين
+
+✅ نظام المساجد
+
+✅ REST APIs
+
+✅ Postman
+
+---
+
+# الأولويات القادمة
+
+## اليوم الرابع
+
+بناء العلاقة بين المستخدمين والمساجد.
+
+يشمل:
+
+- Imam Entity
+- Mosque Membership
+- Mosque Committee
+- Roles داخل المسجد
+- Ownership
+- صلاحيات الإدارة
+
+---
+
+## بعد ذلك
+
+- المبادرات
+- الاحتياجات
+- التبرعات
+- الحملات
+- المتطوعون
+- الإشعارات
+- الملفات
+- الصور
+
+---
+
+# حالة المشروع
+
+| العنصر | الحالة |
+|---------|---------|
+| Backend | 🟢 مستقر |
+| Database | 🟢 مستقرة |
+| REST API | 🟢 تعمل |
+| Architecture | 🟢 مستقرة |
+| Documentation | 🟢 محدثة |
+| Frontend | 🟡 جاهز للبدء قريبًا |
+
+---
+
+# التقييم العام
+
+بعد ثلاثة أيام من العمل أصبح المشروع يمتلك نواة قوية وقابلة للتوسع، مع بنية معمارية احترافية ووحدات مستقلة يمكن تطويرها بشكل متوازٍ. أصبح لدينا أساس متين لبناء بقية مكونات منصة **محسنون** دون الحاجة إلى إعادة هيكلة مستقبلية، مما يضمن سرعة التطوير واستقرار النظام مع نموه.
+
+#### ##### #### ##### #### ##### #### ##### #### #####
+### Day 4 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+# PROJECT STATUS
+
+**المشروع:** منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-09 (نهاية DAY 04)
+
+---
+
+# الحالة العامة للمشروع
+
+🟢 المشروع يسير وفق الخطة الموضوعة.
+
+تم الانتهاء من البنية الأساسية (Core Backend Foundation)، وأصبح النظام يمتلك هوية معمارية واضحة قابلة للتوسع إلى عشرات الوحدات دون إعادة تصميم.
+
+---
+
+# نسبة الإنجاز الكلية
+
+**≈ 18%**
+
+---
+
+# الإنجاز حسب الوحدات
+
+| الوحدة | الحالة | نسبة الإنجاز |
+|---------|--------|-------------:|
+| إعداد المشروع | ✅ مكتمل | 100% |
+| Backend Architecture | ✅ مكتمل | 100% |
+| قاعدة البيانات | ✅ مكتمل | 100% |
+| نظام المستخدمين | ✅ مكتمل | 100% |
+| Authentication (JWT) | ✅ مكتمل | 100% |
+| Roles | ✅ مكتمل | 100% |
+| وحدة المساجد | 🟢 شبه مكتملة | 95% |
+| نظام العضويات | ✅ مكتمل | 100% |
+| نظام المناصب | ✅ مكتمل | 100% |
+| نظام الصلاحيات | 🟢 مكتمل (الإصدار الأول) | 90% |
+| Authorization Engine | 🟢 يعمل | 90% |
+| REST APIs | 🟡 قيد التطوير | 35% |
+| Frontend Angular | ⚪ لم يبدأ | 0% |
+| وحدة الجمعيات | ⚪ لم تبدأ | 0% |
+| وحدة المشاريع | ⚪ لم تبدأ | 0% |
+| وحدة المبادرات | ⚪ لم تبدأ | 0% |
+| وحدة التبرعات | ⚪ لم تبدأ | 0% |
+| وحدة المتطوعين | ⚪ لم تبدأ | 0% |
+| Marketplace | ⚪ لم يبدأ | 0% |
+| AI Services | ⚪ لم تبدأ | 0% |
+
+---
+
+# ما تم إنجازه
+
+## DAY 01
+
+### تأسيس المشروع
+
+- إنشاء مستودع Git
+- إنشاء Backend
+- إنشاء Frontend
+- إعداد Spring Boot
+- إعداد Angular
+- إعداد PostgreSQL
+- إعداد Maven
+- إعداد هيكل المشروع
+
+---
+
+## DAY 02
+
+### نظام المستخدمين
+
+تم إنشاء:
+
+- User Entity
+- Role Entity
+- UserRepository
+- RoleRepository
+- Register API
+- Login API
+- BCrypt
+- JWT
+- Spring Security
+
+---
+
+## DAY 03
+
+### وحدة المساجد
+
+تم إنشاء:
+
+- Mosque Entity
+- Mosque Repository
+- Mosque Service
+- Mosque Controller
+- CRUD للمساجد
+
+---
+
+## DAY 04
+
+### إدارة أعضاء المسجد
+
+تم إنشاء:
+
+- MosquePosition
+- MosqueMembership
+
+---
+
+### إدارة المناصب
+
+تم إنشاء:
+
+- Seeder للمناصب
+- المناصب الفريدة
+- التحقق من صحة المناصب
+
+---
+
+### إدارة العضويات
+
+تم إنشاء:
+
+- تعيين عضو
+- تغيير الإمام
+- إنهاء العضوية
+- عرض الإمام الحالي
+- عرض تاريخ الأئمة
+- عرض أعضاء المسجد
+- عرض تاريخ المستخدم
+
+---
+
+### نظام الصلاحيات
+
+تم إنشاء:
+
+- Permission Groups
+- Permissions
+- Position Permissions
+- User Permissions
+
+---
+
+### Seeders
+
+تم إنشاء:
+
+- PermissionGroupSeeder
+- PermissionSeeder
+- PositionPermissionSeeder
+- MosquePositionSeeder
+
+---
+
+### Authorization
+
+تم إنشاء أول محرك صلاحيات يعتمد على قاعدة البيانات.
+
+---
+
+# البنية الحالية
+
+```
+Users
+│
+├── Roles
+│
+├── Permissions
+│
+├── User Permissions
+│
+└── Memberships
+        │
+        ▼
+Mosques
+        │
+        ▼
+Positions
+        │
+        ▼
+Position Permissions
+```
+
+---
+
+# عدد الكيانات (Entities)
+
+- User
+- Role
+- Mosque
+- MosqueMembership
+- MosquePosition
+- Permission
+- PermissionGroup
+- PositionPermission
+- UserPermission
+
+**الإجمالي: 9 كيانات**
+
+---
+
+# عدد المستودعات (Repositories)
+
+- UserRepository
+- RoleRepository
+- MosqueRepository
+- MosqueMembershipRepository
+- MosquePositionRepository
+- PermissionRepository
+- PermissionGroupRepository
+- PositionPermissionRepository
+- UserPermissionRepository
+
+**الإجمالي: 9 مستودعات**
+
+---
+
+# الخدمات (Services)
+
+- AuthenticationService
+- JwtService
+- MosqueService
+- MosqueMembershipService
+- AuthorizationService
+
+---
+
+# أهم الإنجازات المعمارية
+
+## تم بناء محرك صلاحيات ديناميكي
+
+بدلاً من الاعتماد على أكواد ثابتة داخل المشروع، أصبحت جميع الصلاحيات تُدار من قاعدة البيانات.
+
+---
+
+## تم فصل المفاهيم
+
+- المستخدم (User)
+- المنصب (Position)
+- الصلاحية (Permission)
+- العضوية (Membership)
+
+وأصبحت العلاقات بينها مرنة وقابلة للتوسع.
+
+---
+
+## أصبح النظام متعدد الوحدات
+
+يمكن استخدام نفس محرك الصلاحيات مستقبلاً في:
+
+- المساجد
+- الجمعيات
+- المشاريع
+- المبادرات
+- التبرعات
+- المتطوعين
+- سوق الإحسان
+
+بدون إعادة تصميم.
+
+---
+
+# التحديات التي تم حلها
+
+- إصلاح علاقات JPA.
+- معالجة المناصب الفريدة.
+- الاحتفاظ بالسجل التاريخي للإمام.
+- تصميم محرك صلاحيات ديناميكي.
+- ربط المناصب بالصلاحيات.
+- السماح بصلاحيات استثنائية للمستخدمين.
+- تحسين بنية الخدمات وتقليل تكرار الكود.
+
+---
+
+# المخاطر الحالية
+
+لا توجد مخاطر تقنية كبيرة حالياً.
+
+النظام مستقر وقابل للتوسع.
+
+---
+
+# المرحلة القادمة (DAY 05)
+
+سيتم بناء إطار صلاحيات احترافي يعتمد على:
+
+- Spring AOP
+- Custom Annotation
+- @RequirePermission
+- Permission Aspect
+
+بحيث يمكن حماية أي خدمة أو API بطريقة موحدة دون الحاجة إلى استدعاء AuthorizationService يدوياً في كل مرة.
+
+---
+
+# الرؤية الحالية
+
+بعد أربعة أيام فقط من التطوير، أصبحت منصة **محسنون** تمتلك نواة Backend قوية تعتمد على مبادئ التصميم المؤسسي (Modular Architecture)، مما يجعلها جاهزة لاستقبال الوحدات القادمة مع الحفاظ على قابلية الصيانة والتوسع وإعادة الاستخدام.
+
+#### ##### #### ##### #### ##### #### ##### #### #####
+### Day 5 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
