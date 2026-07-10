@@ -10,6 +10,7 @@ import com.mohsinon.modules.mosques.repository.MosqueMembershipRepository;
 import com.mohsinon.modules.mosques.repository.MosquePositionRepository;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
 import com.mohsinon.modules.authorization.service.AuthorizationService;
+import com.mohsinon.modules.mosques.constants.MosquePositionCodes;
 import com.mohsinon.modules.mosques.dto.response.MosqueMembershipResponse;
 import com.mohsinon.modules.mosques.mapper.MosqueMembershipMapper;
 import com.mohsinon.modules.users.entity.User;
@@ -17,6 +18,9 @@ import com.mohsinon.modules.users.repository.UserRepository;
 import com.mohsinon.exception.MosqueNotFoundException;
 import com.mohsinon.exception.UserNotFoundException;
 import com.mohsinon.exception.MosqueMembershipNotFoundException;
+import com.mohsinon.security.annotation.RequirePermission;
+import com.mohsinon.security.annotation.ResourceId;
+import com.mohsinon.security.current.CurrentUserService;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -34,34 +38,31 @@ public class MosqueMembershipService {
     private final MosqueRepository mosqueRepository;
     private final UserRepository userRepository;
     private final AuthorizationService authorizationService;
+    private final CurrentUserService currentUserService;
 
     public MosqueMembershipService(
             MosqueRepository mosqueRepository,
             MosqueMembershipRepository membershipRepository,
             MosquePositionRepository positionRepository,
             UserRepository userRepository,
-            AuthorizationService authorizationService) {
+            AuthorizationService authorizationService,
+            CurrentUserService currentUserService) {
 
         this.mosqueRepository = mosqueRepository;
         this.membershipRepository = membershipRepository;
         this.positionRepository = positionRepository;
         this.userRepository = userRepository;
         this.authorizationService = authorizationService;
-    } 
+        this.currentUserService = currentUserService;
+    }
     
-    @Transactional
-    public MosqueMembershipResponse assignPosition(
+    
+    private MosqueMembershipResponse assignPositionInternal(
             Mosque mosque,
             User user,
             String positionCode,
-            User appointedBy,
+            User currentUser,
             String notes) {
-
-        authorizationService.checkPermission(
-                appointedBy,
-                mosque,
-                "mosque.add_member"
-        );
 
         MosquePosition position = getPositionByCode(positionCode);
 
@@ -69,20 +70,25 @@ public class MosqueMembershipService {
                 mosque,
                 user,
                 position,
-                appointedBy,
+                currentUser,
                 notes
         );
 
         return MosqueMembershipMapper.toResponse(membership);
     }
     
+    @RequirePermission(
+            groupCode = "mosque",
+            permission = "add_member"
+    )
     @Transactional
     public MosqueMembershipResponse assignPosition(
-            UUID mosqueId,
+            @ResourceId UUID mosqueId,
             UUID userId,
             String positionCode,
-            User appointedBy,
             String notes) {
+
+        User currentUser = currentUserService.getCurrentUser();
 
         Mosque mosque = mosqueRepository.findById(mosqueId)
                 .orElseThrow(MosqueNotFoundException::new);
@@ -90,13 +96,12 @@ public class MosqueMembershipService {
         User user = userRepository.findById(userId)
                 .orElseThrow(UserNotFoundException::new);
 
-        return assignPosition(
+        return assignPositionInternal(
                 mosque,
                 user,
                 positionCode,
-                appointedBy,
-                notes
-        );
+                currentUser,
+                notes);
     }
 
     private MosquePosition getPositionByCode(String code) {
@@ -144,6 +149,23 @@ public class MosqueMembershipService {
         }
     }
     
+    @Transactional
+    public void createFounderMembership(
+            Mosque mosque,
+            User founder) {
+
+        MosquePosition position =
+                getPositionByCode(
+                        MosquePositionCodes.COMMITTEE_PRESIDENT);
+
+        createMembership(
+                mosque,
+                founder,
+                position,
+                founder,
+                "Mosque creator");
+    }
+    
     public List<MosqueMembershipResponse> getActiveMembers(UUID mosqueId) {
 
         Mosque mosque = mosqueRepository.findById(mosqueId)
@@ -156,24 +178,23 @@ public class MosqueMembershipService {
                 .collect(Collectors.toList());
     }
     
+    @RequirePermission(
+            groupCode = "mosque",
+            permission = "assign_imam"
+    )
     @Transactional
     public MosqueMembershipResponse changeImam(
-            UUID mosqueId,
+    		@ResourceId UUID mosqueId,
             UUID newImamUserId,
-            User appointedBy,
             String notes) {
+    	
+    	User currentUser = currentUserService.getCurrentUser();
 
         Mosque mosque = mosqueRepository.findById(mosqueId)
                 .orElseThrow(MosqueNotFoundException::new);
 
         User newImam = userRepository.findById(newImamUserId)
                 .orElseThrow(UserNotFoundException::new);
-
-        authorizationService.checkPermission(
-                appointedBy,
-                mosque,
-                "mosque.assign_imam"
-        );
 
         membershipRepository
                 .findByMosqueAndPosition_CodeAndActiveTrue(
@@ -191,25 +212,25 @@ public class MosqueMembershipService {
                 mosque,
                 newImam,
                 imamPosition,
-                appointedBy,
+                currentUser,
                 notes
         );
 
         return MosqueMembershipMapper.toResponse(membership);
     }
     
+    @RequirePermission(
+            groupCode = "mosque",
+            permission = "remove_member"
+    )
     @Transactional
-    public MosqueMembershipResponse deactivateMembership(UUID membershipId, User currentUser) {
+    public MosqueMembershipResponse deactivateMembership(UUID membershipId) {
+    	
+    	User currentUser = currentUserService.getCurrentUser();
  
         MosqueMembership membership = membershipRepository
                 .findByIdAndActiveTrue(membershipId)
                 .orElseThrow(MosqueMembershipNotFoundException::new);
-        
-        authorizationService.checkPermission(
-                currentUser,
-                membership.getMosque(),
-                "mosque.remove_member"
-        );
         
         membership.setActive(false);
         membership.setEndDate(LocalDate.now());

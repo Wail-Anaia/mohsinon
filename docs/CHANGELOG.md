@@ -1155,3 +1155,369 @@ pom.xml
 ### Day 5 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# CHANGELOG
+
+جميع التغييرات المهمة في مشروع **منصة محسنون (Mohsinon Platform)** سيتم توثيقها في هذا الملف.
+
+يعتمد هذا المشروع على مبادئ **Keep a Changelog** مع الالتزام بالإصدار الدلالي (Semantic Versioning).
+
+---
+
+# [0.5.0-alpha] - 2026-07-10
+
+## 🚀 أكبر تحديث معماري منذ بداية المشروع
+
+تمت إعادة تصميم نظام الصلاحيات بالكامل وتحويله إلى محرك Authorization احترافي يعتمد على Spring AOP وProvider Pattern، مما يجعل النظام قابلاً للتوسع دون تعديل النواة.
+
+---
+
+## ✨ Added
+
+### Authorization Engine
+
+- إنشاء AuthorizationProvider Interface.
+- إنشاء AuthorizationRegistry.
+- دعم التسجيل التلقائي لجميع Providers.
+- إنشاء أول MosqueAuthorizationProvider.
+- فصل منطق الصلاحيات عن AuthorizationService.
+
+---
+
+### Spring AOP
+
+- إضافة Spring AOP للمشروع.
+- إنشاء PermissionAspect.
+- تنفيذ Authorization قبل تنفيذ أي Method محمية.
+
+---
+
+### Security Annotations
+
+إضافة Annotation جديدة:
+
+- `@RequirePermission`
+- `@ResourceId`
+
+وأصبح بالإمكان حماية أي Method بواسطة Annotation فقط.
+
+---
+
+### Dynamic Authorization
+
+إضافة نظام يعتمد على:
+
+- Permission Groups
+- Authorization Registry
+- Authorization Providers
+
+بدلاً من الاعتماد على شروط if/else داخل AuthorizationService.
+
+---
+
+### Testing
+
+إضافة AuthorizationTestController لاختبار:
+
+- Aspect
+- Registry
+- Provider
+- AuthorizationService
+
+---
+
+## 🔄 Changed
+
+### AuthorizationService
+
+قبل:
+
+كان يحتوي جميع منطق الصلاحيات.
+
+بعد:
+
+أصبح مجرد Facade يقوم بتوجيه الطلب إلى AuthorizationProvider المناسب.
+
+---
+
+### Mosque Authorization
+
+تم نقل جميع منطق صلاحيات المساجد إلى:
+
+```
+MosqueAuthorizationProvider
+```
+
+وأصبح مسؤولاً عن:
+
+- البحث عن المسجد
+- التحقق من User Permissions
+- التحقق من عضوية المستخدم
+- التحقق من صلاحيات المنصب
+
+---
+
+### Security Architecture
+
+تم الانتقال من:
+
+```
+Controller
+      │
+      ▼
+Service
+      │
+      ▼
+authorizationService.checkPermission()
+```
+
+إلى:
+
+```
+Controller
+      │
+      ▼
+@RequirePermission
+      │
+      ▼
+PermissionAspect
+      │
+      ▼
+AuthorizationService
+      │
+      ▼
+AuthorizationRegistry
+      │
+      ▼
+AuthorizationProvider
+```
+
+---
+
+## 🏗 Architecture
+
+تم اعتماد الأنماط التالية:
+
+- Provider Pattern
+- Registry Pattern
+- Annotation Driven Authorization
+- Aspect Oriented Programming (AOP)
+- Dynamic Permission Resolution
+
+---
+
+## 🧪 Tested
+
+تم اختبار:
+
+- PermissionAspect
+- AuthorizationRegistry
+- MosqueAuthorizationProvider
+- CurrentUserService
+- JWT Authentication
+- Spring Security Integration
+
+---
+
+تم التأكد من نجاح السيناريوهات التالية:
+
+- المستخدم يملك الصلاحية → ✅ 200 OK
+- المستخدم عضو في المسجد → ✅
+- انتقال التنفيذ عبر Aspect → ✅
+- انتقال التنفيذ إلى Provider الصحيح → ✅
+- تنفيذ Authorization قبل Controller → ✅
+
+---
+
+## 📁 New Files
+
+### Security
+
+```
+security/
+│
+├── annotation/
+│   ├── RequirePermission.java
+│   └── ResourceId.java
+│
+├── aspect/
+│   └── PermissionAspect.java
+│
+├── authorization/
+│   ├── AuthorizationProvider.java
+│   └── AuthorizationRegistry.java
+```
+
+---
+
+### Authorization
+
+```
+modules/
+│
+└── authorization/
+    └── service/
+        └── AuthorizationService.java
+```
+
+---
+
+### Mosques
+
+```
+modules/
+│
+└── mosques/
+    └── authorization/
+        └── MosqueAuthorizationProvider.java
+```
+
+---
+
+### Testing
+
+```
+modules/
+│
+└── test/
+    └── AuthorizationTestController.java
+```
+
+---
+
+## 🛠 Updated Files
+
+- AuthorizationService
+- MosqueMembershipService
+- MosqueService
+- pom.xml
+- Security Configuration
+
+---
+
+## 📦 Dependencies
+
+تمت إضافة:
+
+```
+spring-boot-starter-aop
+```
+
+لدعم Spring AOP.
+
+---
+
+## 🔐 Security
+
+أصبح المشروع يدعم:
+
+- JWT Authentication
+- Spring Security
+- Current User Resolution
+- Dynamic Permissions
+- User Permissions
+- Position Permissions
+- Provider Based Authorization
+- Annotation Based Authorization
+
+---
+
+## 📊 Progress
+
+بعد هذا التحديث أصبحت الوحدات التالية مكتملة بالكامل:
+
+- Users
+- JWT Authentication
+- Mosques
+- Mosque Positions
+- Mosque Memberships
+- Permission Groups
+- Permissions
+- Position Permissions
+- User Permissions
+- Authorization Engine
+- Spring AOP Integration
+
+---
+
+# [0.4.0-alpha] - 2026-07-09
+
+## Added
+
+- Mosque Positions
+- Mosque Memberships
+- Imam Management
+- Membership History
+- Permission Groups
+- Permissions
+- Position Permissions
+- User Permissions
+
+---
+
+# [0.3.0-alpha] - 2026-07-08
+
+## Added
+
+- Mosque Module
+- Mosque CRUD
+- Mosque Mapper
+- Mosque DTOs
+- Mosque Repository
+- Mosque Service
+- Global Exception Handling
+
+---
+
+# [0.2.0-alpha] - 2026-07-07
+
+## Added
+
+- User Management
+- Roles
+- Registration
+- Login
+- BCrypt Password Encoding
+- JWT Authentication
+- Spring Security
+- Current User
+
+---
+
+# [0.1.0-alpha] - 2026-07-07
+
+## Initial Release
+
+### Added
+
+- إنشاء مستودع GitHub
+- إنشاء Backend باستخدام Spring Boot
+- إنشاء Frontend باستخدام Angular
+- إعداد PostgreSQL
+- إنشاء الهيكل العام للمشروع
+- إنشاء بنية المجلدات
+- إعداد Maven
+- إعداد Git
+- إعداد وثائق المشروع
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 6 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 7 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 8 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 9 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 10 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####

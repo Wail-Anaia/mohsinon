@@ -1517,3 +1517,404 @@ v1.0.0
 #### ##### #### ##### #### ##### #### ##### #### #####
 ### Day 5 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
+
+# ROADMAP.md
+
+# خارطة طريق منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-10  
+**الإصدار الحالي:** 0.5.0
+
+---
+
+# الرؤية العامة
+
+تهدف منصة **محسنون** إلى أن تكون أكبر منصة رقمية لإدارة العمل الخيري والتطوعي والمؤسسات المجتمعية، مع نظام صلاحيات مرن وقابل للتوسع، يسمح بإضافة أي نوع من الكيانات دون إعادة تصميم النظام.
+
+---
+
+# المرحلة الأولى (Core Platform)
+
+> الهدف: بناء الأساس الصلب الذي ستعتمد عليه جميع الوحدات.
+
+## ✅ اليوم 01
+
+### تأسيس المشروع
+
+- إنشاء مشروع Spring Boot
+- إنشاء مشروع Angular
+- إعداد Git
+- إعداد PostgreSQL
+- تنظيم هيكل المشروع
+- إنشاء المستودع على GitHub
+
+**الحالة:** ✅ مكتمل
+
+---
+
+## ✅ اليوم 02
+
+### نظام المستخدمين
+
+- User Entity
+- Role Entity
+- Register API
+- Login API
+- BCrypt
+- JWT Authentication
+- Security Configuration
+
+**الحالة:** ✅ مكتمل
+
+---
+
+## ✅ اليوم 03
+
+### نظام المساجد
+
+- Mosque Entity
+- Mosque CRUD
+- Mosque Repository
+- Mosque Service
+- Mosque Controller
+- DTO
+- Mapper
+
+**الحالة:** ✅ مكتمل
+
+---
+
+## ✅ اليوم 04
+
+### المناصب والعضويات
+
+- Mosque Positions
+- Mosque Memberships
+- Assign Position
+- Change Imam
+- Membership History
+- Founder Membership
+- Position Validation
+- Unique Positions
+
+**الحالة:** ✅ مكتمل
+
+---
+
+## ✅ اليوم 05
+
+### محرك الصلاحيات الديناميكي
+
+- Permission Groups
+- Permissions
+- Position Permissions
+- User Permissions
+- AuthorizationService
+- AuthorizationProvider
+- AuthorizationRegistry
+- MosqueAuthorizationProvider
+- PermissionAspect (AOP)
+- @RequirePermission
+- @ResourceId
+- CurrentUserService
+- Dynamic Authorization
+- Authorization Testing
+
+**الحالة:** ✅ مكتمل
+
+---
+
+# المرحلة الثانية
+
+## 🚧 اليوم 06
+
+### نظام الجمعيات (Associations)
+
+- Association Entity
+- Association Memberships
+- Association Positions
+- Founder Association
+- AssociationAuthorizationProvider
+- CRUD كامل
+- ربط النظام بمحرك الصلاحيات
+
+**الحالة:** ⏳ التالي
+
+---
+
+## ⏳ اليوم 07
+
+### نظام المشاريع الخيرية
+
+- Project Entity
+- إنشاء المشاريع
+- متابعة التنفيذ
+- ربط المشروع بالمسجد أو الجمعية
+- صلاحيات إدارة المشاريع
+
+---
+
+## ⏳ اليوم 08
+
+### نظام الحملات
+
+- Campaign Entity
+- إنشاء الحملات
+- جمع التبرعات
+- متابعة النتائج
+- إدارة المشاركين
+
+---
+
+## ⏳ اليوم 09
+
+### نظام المتطوعين
+
+- Volunteer Profiles
+- Volunteer Skills
+- Volunteer Requests
+- Volunteer Assignments
+- Volunteer Permissions
+
+---
+
+## ⏳ اليوم 10
+
+### نظام التبرعات
+
+- Money Donations
+- In-Kind Donations
+- Donation Tracking
+- Donation History
+- Donation Permissions
+
+---
+
+## ⏳ اليوم 11
+
+### نظام المخازن
+
+- Inventory
+- Stock Management
+- Item Categories
+- Distribution Tracking
+
+---
+
+## ⏳ اليوم 12
+
+### نظام المحتاجين
+
+- Beneficiary Profiles
+- Families
+- Requests
+- Case Management
+
+---
+
+## ⏳ اليوم 13
+
+### نظام المهام
+
+- Tasks
+- Assignments
+- Workflow
+- Status Tracking
+
+---
+
+## ⏳ اليوم 14
+
+### نظام الإشعارات
+
+- Notifications
+- Email
+- SMS
+- Push Notifications
+
+---
+
+# المرحلة الثالثة
+
+## منصة التعليم
+
+- الدروس
+- الحلقات
+- الاختبارات
+- الشهادات
+
+---
+
+## منصة الوظائف
+
+- نشر الوظائف
+- استقبال الطلبات
+- إدارة المرشحين
+
+---
+
+## السوق الخيري
+
+- بيع المنتجات
+- دعم المشاريع
+- إدارة الطلبات
+- المدفوعات
+
+---
+
+## الذكاء الاصطناعي
+
+- مساعد للإمام
+- مساعد للجمعيات
+- كتابة التقارير
+- تحليل البيانات
+- اقتراح المشاريع
+- تحليل الاحتياجات
+
+---
+
+# المرحلة الرابعة
+
+## تطبيق الهاتف
+
+### Android
+
+- Flutter
+
+### iOS
+
+- Flutter
+
+---
+
+# المرحلة الخامسة
+
+## البنية السحابية
+
+- Docker
+- Docker Compose
+- Kubernetes
+- Nginx
+- CI/CD
+- GitHub Actions
+- Monitoring
+- Logging
+
+---
+
+# المرحلة السادسة
+
+## التحليلات
+
+- Dashboard
+- Statistics
+- Impact Metrics
+- Reports
+- Charts
+
+---
+
+# المرحلة السابعة
+
+## المنصة العالمية
+
+دعم:
+
+- المساجد
+- الجمعيات
+- المؤسسات
+- المدارس
+- الجامعات
+- الأوقاف
+- المبادرات
+- المتبرعين
+- المتطوعين
+
+في جميع دول العالم.
+
+---
+
+# التطور المعماري
+
+حالياً:
+
+```
+Modular Monolith
+```
+
+لاحقاً:
+
+```
+Microservices
+```
+
+دون إعادة كتابة النظام.
+
+---
+
+# المبادئ الأساسية
+
+- Modular Architecture
+- Clean Code
+- SOLID Principles
+- Domain-Driven Design (DDD)
+- Event-Driven Ready
+- Dynamic Authorization
+- JWT Authentication
+- Aspect-Oriented Programming (AOP)
+- Multi-Tenant Ready
+- API First Design
+- Cloud Ready
+
+---
+
+# نسبة الإنجاز الحالية
+
+| المرحلة | الحالة |
+|----------|--------|
+| تأسيس المشروع | ✅ 100% |
+| المستخدمون | ✅ 100% |
+| المصادقة (JWT) | ✅ 100% |
+| المساجد | ✅ 100% |
+| المناصب | ✅ 100% |
+| العضويات | ✅ 100% |
+| الصلاحيات الديناميكية | ✅ 100% |
+| محرك Authorization | ✅ 100% |
+| الجمعيات | ⏳ 0% |
+| المشاريع | ⏳ 0% |
+| الحملات | ⏳ 0% |
+| التبرعات | ⏳ 0% |
+| المتطوعون | ⏳ 0% |
+| التطبيقات المحمولة | ⏳ 0% |
+| الذكاء الاصطناعي | ⏳ 0% |
+
+---
+
+# الهدف التالي
+
+🎯 **DAY 06 — بناء وحدة الجمعيات (Association Module)**
+
+سنقوم ببناء وحدة جديدة بالكامل اعتمادًا على نفس محرك الصلاحيات الديناميكي الذي أنجزناه، دون أي تعديل في البنية الأساسية، مما يؤكد نجاح التصميم وقابليته للتوسع.
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 6 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 7 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 8 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 9 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 10 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####

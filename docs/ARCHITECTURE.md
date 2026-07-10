@@ -2187,3 +2187,564 @@ Projects
 #### ##### #### ##### #### ##### #### ##### #### #####
 ### Day 5 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
+
+# ARCHITECTURE.md
+
+# معمارية منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-10  
+**الإصدار:** 0.5.0
+
+---
+
+# نظرة عامة
+
+تعتمد منصة **محسنون** على معمارية Modular Monolith تعتمد على مبدأ فصل الوحدات (Modules)، بحيث تكون كل وحدة مستقلة قدر الإمكان، مع إمكانية فصلها مستقبلاً إلى Microservices دون إعادة كتابة المنطق الأساسي.
+
+يعتمد المشروع على:
+
+- Java 21
+- Spring Boot 3.5.x
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- JWT Authentication
+- Dynamic Authorization Engine
+- Angular (Frontend)
+
+---
+
+# البنية العامة
+
+```
+Backend
+│
+├── common
+│
+├── security
+│
+├── modules
+│      │
+│      ├── users
+│      ├── auth
+│      ├── mosques
+│      ├── authorization
+│      ├── associations (future)
+│      ├── projects (future)
+│      ├── donations (future)
+│      ├── volunteers (future)
+│      ├── marketplace (future)
+│      └── ...
+│
+└── config
+```
+
+---
+
+# طبقات النظام
+
+كل Module يحتوي تقريباً على نفس الطبقات.
+
+```
+module
+│
+├── controller
+├── service
+├── repository
+├── entity
+├── dto
+├── mapper
+├── authorization
+├── constants
+└── exception
+```
+
+---
+
+# Authentication Layer
+
+تعتمد عملية تسجيل الدخول على:
+
+```
+JWT
+
+↓
+
+Security Filter
+
+↓
+
+CurrentUserService
+
+↓
+
+User
+```
+
+لا يتم استعمال HttpSession نهائياً.
+
+كل Request يحتوي على JWT.
+
+---
+
+# Authorization Layer
+
+من أهم أجزاء المشروع.
+
+تم تصميم النظام ليكون Dynamic بالكامل.
+
+```
+Controller
+
+↓
+
+@RequirePermission
+
+↓
+
+PermissionAspect
+
+↓
+
+AuthorizationService
+
+↓
+
+AuthorizationRegistry
+
+↓
+
+AuthorizationProvider
+
+↓
+
+Module Authorization Provider
+
+↓
+
+Database
+```
+
+---
+
+# Authorization Providers
+
+كل Module يمتلك AuthorizationProvider خاصاً به.
+
+مثال:
+
+```
+MosqueAuthorizationProvider
+
+AssociationAuthorizationProvider
+
+ProjectAuthorizationProvider
+
+DonationAuthorizationProvider
+
+VolunteerAuthorizationProvider
+```
+
+وبالتالي لا يعرف أي Module شيئاً عن الآخر.
+
+---
+
+# AuthorizationRegistry
+
+يقوم بتسجيل جميع Providers الموجودة داخل النظام.
+
+```
+AuthorizationRegistry
+
+↓
+
+mosque
+
+↓
+
+MosqueAuthorizationProvider
+
+
+association
+
+↓
+
+AssociationAuthorizationProvider
+
+
+project
+
+↓
+
+ProjectAuthorizationProvider
+```
+
+---
+
+# PermissionAspect
+
+تم نقل التحقق من الصلاحيات إلى AOP.
+
+أي Controller يستطيع فقط كتابة:
+
+```
+@RequirePermission(
+    groupCode="mosque",
+    permission="mosque.view"
+)
+```
+
+ولا يحتاج إلى كتابة أي سطر Authorization داخل الـ Controller.
+
+---
+
+# Resource Identification
+
+بدلاً من تمرير Entity كاملة يتم تمرير ResourceId.
+
+```
+@PathVariable UUID mosqueId
+
+↓
+
+@ResourceId
+
+↓
+
+PermissionAspect
+
+↓
+
+AuthorizationProvider
+```
+
+وبذلك لا يعتمد الـ Aspect على أي Module.
+
+---
+
+# Permission Groups
+
+أصبح النظام يعتمد على جدول:
+
+```
+permission_groups
+```
+
+ويحتوي على جميع الوحدات.
+
+مثال:
+
+```
+mosque
+
+association
+
+project
+
+donation
+
+marketplace
+
+volunteer
+
+education
+
+campaign
+
+...
+```
+
+وعند إضافة Module جديد لا يتم تعديل الكود.
+
+يكفي إضافة Provider جديد.
+
+---
+
+# قاعدة البيانات
+
+الوحدات الحالية:
+
+```
+users
+
+roles
+
+mosques
+
+mosque_positions
+
+mosque_memberships
+
+permissions
+
+permission_groups
+
+position_permissions
+
+user_permissions
+```
+
+---
+
+# العلاقة بين المستخدم والمسجد
+
+```
+User
+
+↓
+
+MosqueMembership
+
+↓
+
+MosquePosition
+
+↓
+
+PositionPermissions
+
+↓
+
+Permissions
+```
+
+أي أن الصلاحيات تأتي من:
+
+- المنصب
+- أو الصلاحيات المباشرة للمستخدم
+
+---
+
+# Dynamic Permission Resolution
+
+أولوية التحقق:
+
+```
+User Permission
+
+↓
+
+إذا موجودة
+
+↓
+
+Success
+
+
+وإلا
+
+↓
+
+Mosque Membership
+
+↓
+
+Position
+
+↓
+
+Position Permissions
+
+↓
+
+Permission Exists ?
+
+↓
+
+Success
+
+↓
+
+Otherwise
+
+↓
+
+AccessDeniedException
+```
+
+---
+
+# إنشاء مسجد جديد
+
+أصبح النظام ينشئ أول عضوية تلقائياً.
+
+```
+Create Mosque
+
+↓
+
+Save Mosque
+
+↓
+
+Current User
+
+↓
+
+Committee President
+
+↓
+
+MosqueMembership
+```
+
+وبذلك يصبح منشئ المسجد أول رئيس لجنة.
+
+---
+
+# Current User
+
+يعتمد المشروع على:
+
+```
+CurrentUserService
+```
+
+بدلاً من استخدام SecurityContext مباشرة داخل الخدمات.
+
+```
+Service
+
+↓
+
+CurrentUserService
+
+↓
+
+Authenticated User
+```
+
+---
+
+# Security
+
+يتكون النظام حالياً من:
+
+```
+JWT
+
+↓
+
+Authentication Filter
+
+↓
+
+CurrentUserService
+
+↓
+
+Authorization Aspect
+
+↓
+
+Authorization Providers
+```
+
+---
+
+# تصميم قابل للتوسع
+
+عند إضافة أي Module جديد ستكون الخطوات:
+
+```
+إنشاء الجداول
+
+↓
+
+إنشاء Provider
+
+↓
+
+إضافة Permission Group
+
+↓
+
+استعمال @RequirePermission
+
+↓
+
+ينتهي كل شيء
+```
+
+لن يتم تعديل:
+
+- AuthorizationService
+
+ولا
+
+- PermissionAspect
+
+ولا
+
+- Security Configuration
+
+---
+
+# المبادئ المعتمدة
+
+- Modular Architecture
+- Separation of Concerns
+- Single Responsibility Principle (SRP)
+- Open/Closed Principle (OCP)
+- Dependency Injection
+- Aspect Oriented Programming (AOP)
+- Dynamic Authorization
+- Extensible Permission Engine
+- Domain Driven Modular Design
+
+---
+
+# الوضع الحالي
+
+تم الانتهاء من:
+
+- ✅ Authentication
+- ✅ JWT
+- ✅ Users Module
+- ✅ Mosques Module
+- ✅ Mosque Positions
+- ✅ Mosque Memberships
+- ✅ Permission Groups
+- ✅ Permissions
+- ✅ Position Permissions
+- ✅ User Permissions
+- ✅ Dynamic Authorization Engine
+- ✅ Authorization Providers
+- ✅ Authorization Registry
+- ✅ Permission Aspect
+- ✅ Automatic Founder Membership
+- ✅ CurrentUserService
+- ✅ Authorization Testing
+
+---
+
+# المرحلة القادمة
+
+اليوم السادس سيركز على:
+
+- Association Module
+
+ثم إعادة استخدام نفس محرك الصلاحيات دون أي تعديل على البنية الحالية.
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 6 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 7 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 8 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 9 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 10 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####

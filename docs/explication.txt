@@ -1,7 +1,141 @@
 اعطني تقارير هذا اليوم وليكن Markdown وبنفس تنسيق التقارير السابقة لنبدا بسم الله اعطني daily/DAY_04.md
 
 =============================================================================
+cd C:\Projects\mohsinon
 
+git status
+
+git add .
+
+git commit -m "Day 4: implement authorization engine with permissions, position permissions and membership management"
+git commit -m "feat(day-04): implement authorization engine with permissions, position permissions and membership management"
+
+git push origin main
+
+=============================================================================
+docs/
+│
+├── PROJECT_STATUS.md      # الحالة الحالية للمشروع (يتغير باستمرار)
+├── CHANGELOG.md           # سجل جميع الإنجازات
+├── ARCHITECTURE.md        # معمارية النظام
+├── ROADMAP.md             # الخطة المستقبلية
+├── VISION.md              # الرؤية
+├── REQUIREMENTS.md        # المتطلبات
+├── DECISIONS.md           # القرارات الهندسية المهمة
+│
+└── daily/DAY_03.md
+    ├── DAY_01.md
+    ├── DAY_02.md
+    ├── DAY_03.md
+    └── ...
+=============================================================================
+
+src/main/java
+└── com
+    └── mohsinon
+        └── modules
+            └── test
+                └── AuthorizationTestController.java 
+
+security
+└── authorization
+    ├── AuthorizationProvider
+    ├── AuthorizationRegistry
+    ├── AuthorizationService
+    └── PermissionAspect
+
+modules
+├── mosques
+│   └── MosqueAuthorizationProvider
+├── associations
+│   └── AssociationAuthorizationProvider
+├── projects
+│   └── ProjectAuthorizationProvider
+
+
+security
+│
+├── annotation
+│      ├── RequirePermission
+│      └── ResourceId
+│
+├── aspect
+│      └── PermissionAspect
+│
+├── authorization
+│      ├── AuthorizationProvider
+│      └── AuthorizationRegistry
+│
+└── current
+       └── CurrentUserService
+
+
+modules
+│
+├── authorization
+│      └── AuthorizationService
+│
+├── mosques
+├── users
+├── ...
+=============================================================================
+GET
+http://localhost:8080/api/mosques
+http://localhost:8080/api/test/0a8e0cd5-84c6-4cda-b645-60fe2c8eb1bd
+
+[
+    {
+        "id": "4243d871-8cbc-4c2b-a77f-0c3a768dd303",
+        "name": "مسجد النور",
+        "description": "أحد أكبر مساجد المدينة",
+        "country": "Morocco",
+        "city": "Meknes",
+        "district": "Hamria",
+        "address": "Rue Hassan II",
+        "latitude": 33.8935,
+        "longitude": -5.5473,
+        "phone": "+212600000000",
+        "email": "mosque@example.com",
+        "verified": false,
+        "active": true,
+        "createdAt": "2026-07-08T22:41:15.120882",
+        "updatedAt": "2026-07-08T22:41:15.120882"
+    },
+    {
+        "id": "0a8e0cd5-84c6-4cda-b645-60fe2c8eb1bd",
+        "name": "مسجد النصر",
+        "description": "أحد أهم مساجد المدينة",
+        "country": "Morocco",
+        "city": "Meknes",
+        "district": "Nasser",
+        "address": "Lot Nasser",
+        "latitude": 33.9955,
+        "longitude": -5.5573,
+        "phone": "+212610000000",
+        "email": "mosquenasser@example.com",
+        "verified": false,
+        "active": true,
+        "createdAt": "2026-07-08T23:15:45.419558",
+        "updatedAt": "2026-07-08T23:15:45.419558"
+    },
+    {
+        "id": "5b6d50e8-a114-4800-9315-6f8320029f71",
+        "name": "مسجد عمر بن الخطاب",
+        "description": "مسجد تجريبي",
+        "country": "Morocco",
+        "city": "Meknes",
+        "district": "Hamria",
+        "address": "Rue Hassan II",
+        "latitude": null,
+        "longitude": null,
+        "phone": "0600000000",
+        "email": "mosque@test.com",
+        "verified": false,
+        "active": true,
+        "createdAt": "2026-07-09T17:37:05.331899",
+        "updatedAt": "2026-07-09T17:37:05.331899"
+    }
+]
 الاختبار
 
 في Postman:
@@ -229,23 +363,7 @@ Delegation
 Super Admin Overrides
 
 كل هذا ينتمي إلى Authorization وليس إلى Permissions فقط.
-=============================================================================
 
-docs/
-│
-├── PROJECT_STATUS.md      # الحالة الحالية للمشروع (يتغير باستمرار)
-├── CHANGELOG.md           # سجل جميع الإنجازات
-├── ARCHITECTURE.md        # معمارية النظام
-├── ROADMAP.md             # الخطة المستقبلية
-├── VISION.md              # الرؤية
-├── REQUIREMENTS.md        # المتطلبات
-├── DECISIONS.md           # القرارات الهندسية المهمة
-│
-└── daily/DAY_03.md
-    ├── DAY_01.md
-    ├── DAY_02.md
-    ├── DAY_03.md
-    └── ...
 =============================================================================
 
 طلب تنفيذ عملية

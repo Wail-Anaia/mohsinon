@@ -49,13 +49,10 @@ public class MosqueService {
 
 	    User currentUser = userRepository.findByUsername(username)
 	            .orElseThrow();
-
-	    mosqueMembershipService.assignPosition(
+	    
+	    mosqueMembershipService.createFounderMembership(
 	            savedMosque,
-	            currentUser,
-	            MosquePositionCodes.COMMITTEE_PRESIDENT,
-	            currentUser,
-	            "Mosque creator"
+	            currentUser
 	    );
 
 	    return MosqueMapper.toResponse(savedMosque);
