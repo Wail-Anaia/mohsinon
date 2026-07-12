@@ -171,7 +171,7 @@ class AuthorizationIntegrationTest {
         membership.setUser(user);
         membership.setMosque(mosque);
         membership.setPosition(imam);
-        membership.setActive(true);
+        membership.activate();
 
         return membershipRepository.save(membership);
     }

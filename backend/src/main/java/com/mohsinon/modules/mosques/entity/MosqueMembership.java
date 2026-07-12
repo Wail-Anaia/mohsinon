@@ -1,11 +1,18 @@
 package com.mohsinon.modules.mosques.entity;
 
+import com.mohsinon.modules.mosques.membership.model.MembershipStatus;
 import com.mohsinon.modules.users.entity.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "mosque_memberships")
 public class MosqueMembership {
@@ -31,8 +38,10 @@ public class MosqueMembership {
 
     private LocalDate endDate;
 
-    @Column(nullable = false)
-    private Boolean active = true;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    @Builder.Default
+    private MembershipStatus status = MembershipStatus.PENDING;
 
     @ManyToOne
     @JoinColumn(name = "appointed_by")
@@ -50,76 +59,62 @@ public class MosqueMembership {
             startDate = LocalDate.now();
         }
     }
+    
+    public void invite() {
+        this.status = MembershipStatus.INVITED;
+    }
 
-	public UUID getId() {
-		return id;
-	}
+    public void activate() {
+        this.status = MembershipStatus.ACTIVE;
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+        if (this.startDate == null) {
+            this.startDate = LocalDate.now();
+        }
 
-	public Mosque getMosque() {
-		return mosque;
-	}
+        this.endDate = null;
+    }
 
-	public void setMosque(Mosque mosque) {
-		this.mosque = mosque;
-	}
+    public void suspend() {
+        this.status = MembershipStatus.SUSPENDED;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void reject() {
+        this.status = MembershipStatus.REJECTED;
 
-	public void setUser(User user) {
-		this.user = user;
-	}
+        if (this.endDate == null) {
+            this.endDate = LocalDate.now();
+        }
+    }
 
-	public MosquePosition getPosition() {
-		return position;
-	}
+    public void terminate() {
+        this.status = MembershipStatus.TERMINATED;
 
-	public void setPosition(MosquePosition position) {
-		this.position = position;
-	}
+        if (this.endDate == null) {
+            this.endDate = LocalDate.now();
+        }
+    }
+    
+    public boolean isInvited() {
+        return status == MembershipStatus.INVITED;
+    }
 
-	public LocalDate getStartDate() {
-		return startDate;
-	}
+    public boolean isPending() {
+        return status == MembershipStatus.PENDING;
+    }
 
-	public void setStartDate(LocalDate startDate) {
-		this.startDate = startDate;
-	}
+    public boolean isActive() {
+        return status == MembershipStatus.ACTIVE;
+    }
 
-	public LocalDate getEndDate() {
-		return endDate;
-	}
+    public boolean isSuspended() {
+        return status == MembershipStatus.SUSPENDED;
+    }
 
-	public void setEndDate(LocalDate endDate) {
-		this.endDate = endDate;
-	}
+    public boolean isRejected() {
+        return status == MembershipStatus.REJECTED;
+    }
 
-	public Boolean getActive() {
-		return active;
-	}
-
-	public void setActive(Boolean active) {
-		this.active = active;
-	}
-
-	public User getAppointedBy() {
-		return appointedBy;
-	}
-
-	public void setAppointedBy(User appointedBy) {
-		this.appointedBy = appointedBy;
-	}
-
-	public String getNotes() {
-		return notes;
-	}
-
-	public void setNotes(String notes) {
-		this.notes = notes;
-	}
+    public boolean isTerminated() {
+        return status == MembershipStatus.TERMINATED;
+    }
 }

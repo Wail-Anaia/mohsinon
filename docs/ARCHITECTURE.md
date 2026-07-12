@@ -3168,6 +3168,495 @@ CommandLineRunner
 ### Day 7 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ARCHITECTURE
+
+**مشروع:** منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-12
+
+**الإصدار:** 0.7.0-dev
+
+---
+
+# نظرة عامة
+
+تعتمد منصة **محسنون** على بنية **Modular Monolith** مع تصميم قابل للتحول مستقبلاً إلى **Microservices** عند الحاجة، دون الحاجة إلى إعادة كتابة منطق الأعمال.
+
+تم تقسيم النظام إلى وحدات مستقلة (Modules)، بحيث تكون كل وحدة مسؤولة عن مجال أعمال محدد (Business Domain)، مع الاعتماد على محركات (Engines) مشتركة تقدم خدمات عامة لجميع الوحدات.
+
+---
+
+# المبادئ المعمارية
+
+تعتمد المنصة على المبادئ التالية:
+
+* Modular Architecture
+* Domain-Driven Design (DDD)
+* Rich Domain Model
+* Separation of Concerns (SoC)
+* Single Responsibility Principle (SRP)
+* Dependency Injection
+* Aspect-Oriented Programming (AOP)
+* Plug-in Architecture
+* Registry Pattern
+* Strategy Pattern
+* Open/Closed Principle (OCP)
+
+---
+
+# البنية العامة
+
+```text
+                Client
+                   │
+                   ▼
+          REST Controllers
+                   │
+                   ▼
+        Application Services
+                   │
+     ┌─────────────┼─────────────┐
+     ▼             ▼             ▼
+ Authorization   Dashboard     Audit
+    Engine        Engine        Engine
+     │             │             │
+     └─────────────┼─────────────┘
+                   ▼
+            Domain Modules
+                   │
+                   ▼
+            Spring Data JPA
+                   │
+                   ▼
+              PostgreSQL
+```
+
+---
+
+# هيكل المشروع
+
+```text
+backend
+└── src/main/java/com/mohsinon
+    │
+    ├── common
+    │
+    ├── security
+    │
+    └── modules
+        │
+        ├── auth
+        ├── users
+        ├── authorization
+        ├── audit
+        ├── mosques
+        └── ...
+```
+
+---
+
+# الوحدات الحالية
+
+## Users Module
+
+مسؤول عن:
+
+* إدارة المستخدمين
+* بيانات الحساب
+* الملف الشخصي
+
+---
+
+## Authentication Module
+
+مسؤول عن:
+
+* تسجيل الدخول
+* JWT
+* تشفير كلمات المرور
+* Spring Security
+
+---
+
+## Authorization Module
+
+يحتوي على محرك الصلاحيات بالكامل.
+
+يشمل:
+
+* Permission Groups
+* Permissions
+* User Permissions
+* Position Permissions
+* Permission Resolvers
+* Permission Cache
+* Authorization Providers
+* Authorization Registry
+
+---
+
+## Mosque Module
+
+يمثل أول وحدة أعمال في المنصة.
+
+يشمل:
+
+### Mosques
+
+* إنشاء مسجد
+* تعديل مسجد
+* إدارة بيانات المسجد
+
+---
+
+### Positions
+
+* المناصب
+* المناصب الفريدة
+* صلاحيات المناصب
+
+---
+
+### Memberships
+
+* العضويات
+* تعيين الأعضاء
+* تغيير الإمام
+* إنهاء العضوية
+* سجل العضويات
+
+---
+
+# دورة حياة العضوية
+
+يعتمد النظام على:
+
+```text
+ACTIVE
+
+↓
+
+SUSPENDED
+
+↓
+
+TERMINATED
+```
+
+بدلاً من:
+
+```text
+active = true / false
+```
+
+وهو تصميم يسمح بإضافة حالات مستقبلية مثل:
+
+* INVITED
+* PENDING
+* REJECTED
+* EXPIRED
+
+---
+
+# المحركات (Engines)
+
+## Authorization Engine
+
+المسؤول عن التحقق من الصلاحيات.
+
+```text
+@RequirePermission
+        │
+        ▼
+Permission Aspect
+        │
+        ▼
+Authorization Service
+        │
+        ▼
+Authorization Registry
+        │
+        ▼
+Authorization Providers
+        │
+        ▼
+Permission Resolvers
+```
+
+---
+
+## Dashboard Engine
+
+المسؤول عن إنشاء لوحات المعلومات.
+
+```text
+Dashboard Service
+        │
+        ▼
+Dashboard Registry
+        │
+ ┌──────┼─────────┐
+ ▼      ▼         ▼
+Membership Provider
+Position Provider
+Donation Provider
+Volunteer Provider
+```
+
+كل Provider مسؤول عن جزء مستقل من الإحصائيات.
+
+---
+
+## Audit Engine
+
+المسؤول عن تسجيل جميع العمليات.
+
+```text
+@Audit
+    │
+    ▼
+Audit Aspect
+    │
+    ▼
+Audit Service
+    │
+    ▼
+Audit Registry
+    │
+ ┌──────┼──────────────┐
+ ▼      ▼              ▼
+Membership Provider
+Donation Provider
+Volunteer Provider
+```
+
+كل عملية يتم تسجيلها تلقائياً دون تدخل من Services.
+
+---
+
+# Rich Domain Model
+
+يعتمد المشروع على نقل منطق الأعمال إلى الكيانات (Entities).
+
+مثال:
+
+بدلاً من:
+
+```java
+membership.setActive(false);
+```
+
+أصبح:
+
+```java
+membership.activate();
+
+membership.suspend();
+
+membership.terminate();
+```
+
+وهذا يقلل من منطق الأعمال داخل الخدمات ويجعل الكيانات أكثر تعبيرًا عن المجال.
+
+---
+
+# Registry Pattern
+
+يستخدم المشروع Registry Pattern في أكثر من محرك.
+
+الحالية:
+
+* Authorization Registry
+* Dashboard Registry
+* Audit Registry
+
+والهدف:
+
+إضافة Providers جديدة دون تعديل المحرك الرئيسي.
+
+---
+
+# Plug-in Architecture
+
+تعتمد المنصة على إضافة المزايا عن طريق Providers.
+
+مثال Dashboard:
+
+```text
+Dashboard
+        │
+        ▼
+Provider 1
+
+Provider 2
+
+Provider 3
+
+Provider N
+```
+
+ومثال Audit:
+
+```text
+Audit
+      │
+      ▼
+Provider 1
+
+Provider 2
+
+Provider N
+```
+
+وبذلك يصبح النظام قابلاً للتوسع دون تعديل البنية الحالية.
+
+---
+
+# Aspect-Oriented Programming
+
+يستخدم المشروع AOP لعزل الاهتمامات المشتركة (Cross-Cutting Concerns).
+
+حالياً:
+
+* Authorization
+* Audit
+
+ومستقبلاً:
+
+* Logging
+* Notifications
+* Metrics
+* Performance Monitoring
+
+---
+
+# الطبقات
+
+```text
+Controller
+
+↓
+
+Service
+
+↓
+
+Repository
+
+↓
+
+Database
+```
+
+بينما تعمل المحركات بشكل عرضي (Cross-Cutting) عبر AOP أو Registry.
+
+---
+
+# قاعدة البيانات
+
+يعتمد المشروع على:
+
+* PostgreSQL
+* UUID كمفاتيح رئيسية للكيانات الرئيسية
+* Spring Data JPA
+* Hibernate
+
+---
+
+# الوحدات المستقبلية
+
+سيتم بناء الوحدات التالية اعتمادًا على نفس البنية:
+
+* Donation Module
+* Volunteer Module
+* Initiative Module
+* Education Module
+* Marketplace Module
+* Jobs Module
+* AI Module
+
+وجميعها ستستخدم مباشرة:
+
+* Authorization Engine
+* Dashboard Engine
+* Audit Engine
+
+دون إعادة تطويرها.
+
+---
+
+# نمط التطوير
+
+تعتمد المنصة على التطوير التدريجي عبر Milestones.
+
+## Milestone 0.1
+
+Project Setup
+
+---
+
+## Milestone 0.2
+
+Authentication
+
+---
+
+## Milestone 0.3
+
+Mosque Module
+
+---
+
+## Milestone 0.4
+
+Membership & Positions
+
+---
+
+## Milestone 0.5
+
+Authorization
+
+---
+
+## Milestone 0.6
+
+Permission Engine
+
+---
+
+## Milestone 0.7
+
+Mosque Administration
+
+* Membership Lifecycle
+* Dashboard Engine
+* Audit Engine
+
+---
+
+## Milestone 0.8
+
+Donation Management
+
+---
+
+## Milestone 0.9
+
+Volunteering & Initiatives
+
+---
+
+## Milestone 1.0
+
+First Production Ready Release
+
+---
+
+# الحالة الحالية
+
+أصبحت منصة **محسنون** تمتلك نواة معمارية متكاملة تتكون من وحدات أعمال مستقلة ومحركات عامة قابلة لإعادة الاستخدام. وقد اكتمل بناء محركات **Authorization** و**Dashboard** و**Audit**، مما يجعل إضافة أي وحدة جديدة (مثل التبرعات أو التطوع أو المبادرات) تعتمد على نفس البنية دون الحاجة إلى إعادة بناء المكونات الأساسية، وهو ما يضمن سهولة التوسع، وتقليل التكرار، وتحسين قابلية الصيانة على المدى الطويل.
+
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 8 ✅

@@ -2,6 +2,11 @@ package com.mohsinon.modules.mosques.entity;
 
 import jakarta.persistence.*;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
 @Table(name = "mosque_positions")
 public class MosquePosition {
@@ -25,54 +30,7 @@ public class MosquePosition {
     @Column(nullable = false)
     private Boolean uniquePosition = false;
 
-    public Boolean getUniquePosition() {
-		return uniquePosition;
-	}
-
-	public void setUniquePosition(Boolean uniquePosition) {
-		this.uniquePosition = uniquePosition;
-	}
-
 	public MosquePosition() {
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
+    
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.mohsinon.modules.authorization.resolver.PermissionResolver;
 import com.mohsinon.modules.mosques.entity.Mosque;
 import com.mohsinon.modules.mosques.entity.MosqueMembership;
+import com.mohsinon.modules.mosques.membership.model.MembershipStatus;
 import com.mohsinon.modules.mosques.repository.MosqueMembershipRepository;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
 import com.mohsinon.modules.users.entity.User;
@@ -41,7 +42,11 @@ public class MosqueAuthorizationProvider implements AuthorizationProvider {
 
         MosqueMembership membership =
                 membershipRepository
-                        .findByMosqueAndUserAndActiveTrue(mosque, user)
+                        .findByMosqueAndUserAndStatus(
+                                mosque,
+                                user,
+                                MembershipStatus.ACTIVE
+                        )
                         .orElseThrow(() ->
                                 new AccessDeniedException("Access denied."));
 

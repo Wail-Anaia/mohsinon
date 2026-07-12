@@ -2271,6 +2271,434 @@ Microservices
 ### Day 7 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ROADMAP
+
+**مشروع:** منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-12
+
+**الإصدار الحالي:** 0.7.0-dev
+
+---
+
+# الرؤية
+
+بناء منصة عالمية متكاملة لإدارة العمل الخيري والمجتمعي، تبدأ بإدارة المساجد، ثم تمتد إلى إدارة التبرعات، المبادرات، التطوع، التعليم، وسوق الخدمات المجتمعية، مع الاعتماد على بنية معمارية حديثة وقابلة للتوسع.
+
+---
+
+# فلسفة التطوير
+
+يعتمد المشروع على التطوير التدريجي عبر **Milestones**.
+
+كل Milestone يقدم قيمة حقيقية وقابلة للتجربة، بحيث تصبح المنصة أكثر اكتمالاً بعد كل إصدار.
+
+---
+
+# الحالة الحالية
+
+## الإصدار الحالي
+
+**0.7.0-dev**
+
+### الحالة
+
+🟢 مكتمل
+
+---
+
+## ما تم إنجازه
+
+### Core Platform
+
+* Spring Boot
+* PostgreSQL
+* UUID
+* Validation
+* Exception Handling
+* DTO Pattern
+* Mapper Pattern
+
+---
+
+### Authentication
+
+* User Registration
+* Login
+* JWT
+* Password Encryption
+* Spring Security
+
+---
+
+### Authorization Engine
+
+* Permission Groups
+* Permissions
+* User Permissions
+* Position Permissions
+* Authorization Service
+* Authorization Registry
+* Permission Resolvers
+* Permission Cache
+* @RequirePermission
+* Authorization Aspect
+
+---
+
+### Mosque Module
+
+* Mosque CRUD
+* Mosque Positions
+* Mosque Memberships
+* Membership Lifecycle
+* Change Imam
+* Membership History
+
+---
+
+### Dashboard Engine
+
+* Dashboard Registry
+* Dashboard Providers
+* Membership Statistics
+* Position Statistics
+
+---
+
+### Audit Engine
+
+* Audit Annotation
+* Audit Aspect
+* Audit Service
+* Audit Registry
+* Audit Providers
+* AuditableResource
+
+---
+
+# خارطة الطريق
+
+---
+
+# Milestone 0.8
+
+## Donation Management
+
+### الهدف
+
+إنشاء أول نظام متكامل لإدارة التبرعات داخل المنصة.
+
+### يشمل
+
+### Donation Categories
+
+* إنشاء الفئات
+* تعديل الفئات
+* حذف الفئات
+* ترتيب الفئات
+
+---
+
+### Donation Campaigns
+
+* إنشاء حملة
+* تعديل حملة
+* إنهاء حملة
+* إحصائيات الحملة
+
+---
+
+### Donations
+
+* إنشاء تبرع
+* تعديل التبرع
+* إلغاء التبرع
+* تتبع حالة التبرع
+
+---
+
+### Donation Transactions
+
+* تسجيل العمليات المالية
+* تتبع الحركة المالية
+* سجل العمليات
+
+---
+
+### Dashboard
+
+* Donation Statistics Provider
+
+---
+
+### Audit
+
+* Donation Audit Provider
+
+---
+
+### Authorization
+
+* Donation Permissions
+
+---
+
+### Tests
+
+* Integration Tests
+
+---
+
+# Milestone 0.9
+
+## Volunteers & Initiatives
+
+### Volunteers
+
+* Volunteer Registration
+* Volunteer Skills
+* Availability
+* Teams
+
+---
+
+### Initiatives
+
+* إنشاء المبادرات
+* إدارة المبادرات
+* متابعة التنفيذ
+* المشاركون
+
+---
+
+### Tasks
+
+* إنشاء المهام
+* توزيع المهام
+* متابعة الإنجاز
+
+---
+
+### Dashboard
+
+* Volunteer Statistics
+* Initiative Statistics
+
+---
+
+### Audit
+
+* Volunteer Audit
+* Initiative Audit
+
+---
+
+# Milestone 1.0
+
+## First Usable Release
+
+### Angular Front-End
+
+* Authentication UI
+* Dashboard
+* Mosque Management
+* Membership Management
+* Donation Management
+* Volunteer Management
+
+---
+
+### Reports
+
+* Dashboard Reports
+* PDF Export
+* Excel Export
+
+---
+
+### Notifications
+
+* Email
+* SMS
+* In-App Notifications
+
+---
+
+### Search
+
+* Global Search
+
+---
+
+### Deployment
+
+* Docker
+* CI/CD
+* Production Environment
+
+---
+
+# Milestone 1.1
+
+## Mosque Operations
+
+### Invitations
+
+* إرسال دعوات
+* قبول الدعوات
+* رفض الدعوات
+* انتهاء صلاحية الدعوات
+
+---
+
+### Settings
+
+* إعدادات المسجد
+* الشعار
+* الصور
+* اللغة
+* المنطقة الزمنية
+* العملة
+
+---
+
+### Audit Viewer
+
+* سجل العمليات
+* البحث
+* الفلاتر
+* التصدير
+
+---
+
+# Milestone 1.2
+
+## Community Platform
+
+يشمل
+
+* الأسر المحتاجة
+* المتبرعون
+* المتطوعون
+* الجمعيات
+* المدارس
+* المبادرات
+
+---
+
+# Milestone 1.3
+
+## Marketplace
+
+يشمل
+
+* عرض الاحتياجات
+* عرض الفائض
+* طلب المساعدة
+* إدارة المخزون
+
+---
+
+# Milestone 1.4
+
+## Education
+
+يشمل
+
+* حلقات القرآن
+* الدروس
+* الدورات
+* الاختبارات
+* الشهادات
+
+---
+
+# Milestone 1.5
+
+## AI Services
+
+يشمل
+
+* المساعد الذكي
+* الاقتراحات الذكية
+* تحليل البيانات
+* التقارير الذكية
+
+---
+
+# المبادئ المستقبلية
+
+سيتم بناء جميع الوحدات الجديدة باستخدام نفس المحركات الحالية.
+
+## Authorization Engine
+
+للتحكم في الصلاحيات.
+
+---
+
+## Dashboard Engine
+
+لإضافة الإحصائيات.
+
+---
+
+## Audit Engine
+
+لتسجيل جميع العمليات.
+
+---
+
+وبذلك لن تحتاج أي وحدة جديدة إلى إعادة بناء هذه المكونات.
+
+---
+
+# الأولويات الحالية
+
+## أولوية رقم 1
+
+✅ استكمال Mosque Administration
+
+---
+
+## أولوية رقم 2
+
+🚧 Donation Management
+
+---
+
+## أولوية رقم 3
+
+Volunteer Management
+
+---
+
+## أولوية رقم 4
+
+Initiatives
+
+---
+
+## أولوية رقم 5
+
+Angular Front-End
+
+---
+
+# الرؤية طويلة المدى
+
+تهدف منصة **محسنون** إلى أن تصبح منصة موحدة لإدارة العمل الخيري والمجتمعي، بحيث تجمع في نظام واحد:
+
+* المساجد
+* الجمعيات
+* المتبرعين
+* المتطوعين
+* المبادرات
+* المشاريع
+* التعليم
+* الخدمات المجتمعية
+
+مع بنية تقنية قابلة للتوسع تعتمد على محركات عامة (Authorization، Dashboard، Audit) ووحدات أعمال مستقلة، بما يسمح بإضافة ميزات جديدة دون التأثير على استقرار النظام أو إعادة بناء بنيته الأساسية.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 8 ✅

@@ -9,10 +9,13 @@ import com.mohsinon.modules.mosques.entity.MosquePosition;
 import com.mohsinon.modules.mosques.repository.MosqueMembershipRepository;
 import com.mohsinon.modules.mosques.repository.MosquePositionRepository;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
+import com.mohsinon.modules.audit.annotation.Audit;
+import com.mohsinon.modules.audit.model.*;
 import com.mohsinon.modules.authorization.service.AuthorizationService;
 import com.mohsinon.modules.mosques.constants.MosquePositionCodes;
 import com.mohsinon.modules.mosques.dto.response.MosqueMembershipResponse;
 import com.mohsinon.modules.mosques.mapper.MosqueMembershipMapper;
+import com.mohsinon.modules.mosques.membership.model.MembershipStatus;
 import com.mohsinon.modules.users.entity.User;
 import com.mohsinon.modules.users.repository.UserRepository;
 import com.mohsinon.modules.mosques.exception.MosqueNotFoundException;
@@ -77,6 +80,10 @@ public class MosqueMembershipService {
         return MosqueMembershipMapper.toResponse(membership);
     }
     
+    @Audit(
+            action = AuditAction.ASSIGN,
+            entity = AuditEntityType.MEMBERSHIP
+    )
     @RequirePermission(
             groupCode = "mosque",
             permission = "add_member"
@@ -112,9 +119,13 @@ public class MosqueMembershipService {
 
     private void validateUserMembership(Mosque mosque, User user) {
 
-        if (membershipRepository.existsByMosqueAndUserAndActiveTrue(mosque, user)) {
-            throw new MosqueMembershipAlreadyExistsException();
-        }
+    	if (membershipRepository.existsByMosqueAndUserAndStatus(
+    	        mosque,
+    	        user,
+    	        MembershipStatus.ACTIVE)) {
+
+    	    throw new MosqueMembershipAlreadyExistsException();
+    	}
     }
     
     private MosqueMembership createMembership(
@@ -137,16 +148,20 @@ public class MosqueMembershipService {
         membership.setPosition(position);
         membership.setAppointedBy(appointedBy);
         membership.setNotes(notes);
-        membership.setActive(true);
+        membership.activate();
 
         return membershipRepository.save(membership);
     }
     
     private void validateUniquePosition(Mosque mosque, MosquePosition position) {
 
-        if (membershipRepository.existsByMosqueAndPositionAndActiveTrue(mosque, position)) {
-            throw new MosquePositionAlreadyAssignedException(position.getName());
-        }
+    	if (membershipRepository.existsByMosqueAndPositionAndStatus(
+    	        mosque,
+    	        position,
+    	        MembershipStatus.ACTIVE)) {
+
+    	    throw new MosquePositionAlreadyAssignedException(position.getName());
+    	}
     }
     
     @Transactional
@@ -172,7 +187,10 @@ public class MosqueMembershipService {
                 .orElseThrow(MosqueNotFoundException::new);
 
         return membershipRepository
-                .findAllByMosqueAndActiveTrue(mosque)
+        		.findAllByMosqueAndStatus(
+        		        mosque,
+        		        MembershipStatus.ACTIVE
+        		)
                 .stream()
                 .map(MosqueMembershipMapper::toResponse)
                 .collect(Collectors.toList());
@@ -197,16 +215,17 @@ public class MosqueMembershipService {
                 .orElseThrow(UserNotFoundException::new);
 
         membershipRepository
-                .findByMosqueAndPosition_CodeAndActiveTrue(
-                        mosque,
-                        "IMAM")
+		        .findByMosqueAndPosition_CodeAndStatus(
+		                mosque,
+		                MosquePositionCodes.IMAM,
+		                MembershipStatus.ACTIVE
+		        )
                 .ifPresent(currentImam -> {
-                    currentImam.setActive(false);
-                    currentImam.setEndDate(LocalDate.now());
+                	currentImam.terminate();
                     membershipRepository.save(currentImam);
                 });
 
-        MosquePosition imamPosition = getPositionByCode("IMAM");
+        MosquePosition imamPosition = getPositionByCode(MosquePositionCodes.IMAM);
 
         MosqueMembership membership = createMembership(
                 mosque,
@@ -219,21 +238,25 @@ public class MosqueMembershipService {
         return MosqueMembershipMapper.toResponse(membership);
     }
     
+    @Audit(
+            action = AuditAction.REMOVE,
+            entity = AuditEntityType.MEMBERSHIP
+    )
     @RequirePermission(
             groupCode = "mosque",
             permission = "remove_member"
     )
     @Transactional
-    public MosqueMembershipResponse deactivateMembership(UUID membershipId) {
-    	
-    	User currentUser = currentUserService.getCurrentUser();
+    public MosqueMembershipResponse terminateMembership(UUID membershipId) {
  
         MosqueMembership membership = membershipRepository
-                .findByIdAndActiveTrue(membershipId)
+        		.findByIdAndStatus(
+        		        membershipId,
+        		        MembershipStatus.ACTIVE
+        		)
                 .orElseThrow(MosqueMembershipNotFoundException::new);
         
-        membership.setActive(false);
-        membership.setEndDate(LocalDate.now());
+        membership.terminate();
 
         MosqueMembership saved =
                 membershipRepository.save(membership);
@@ -247,13 +270,12 @@ public class MosqueMembershipService {
                 .orElseThrow(MosqueNotFoundException::new);
 
         MosqueMembership imam = membershipRepository
-                .findByMosqueAndPosition_CodeAndActiveTrue(
+                .findByMosqueAndPosition_CodeAndStatus(
                         mosque,
-                        "IMAM")
-                .stream()
-                .findFirst()
-                .orElseThrow(() ->
-                        new MosqueMembershipNotFoundException());
+                        MosquePositionCodes.IMAM,
+                        MembershipStatus.ACTIVE
+                )
+                .orElseThrow(MosqueMembershipNotFoundException::new);
 
         return MosqueMembershipMapper.toResponse(imam);
     }
@@ -266,7 +288,7 @@ public class MosqueMembershipService {
         return membershipRepository
                 .findByMosqueAndPosition_CodeOrderByStartDateDesc(
                         mosque,
-                        "IMAM")
+                        MosquePositionCodes.IMAM)
                 .stream()
                 .map(MosqueMembershipMapper::toResponse)
                 .toList();

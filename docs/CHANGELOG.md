@@ -1793,6 +1793,251 @@ spring-boot-starter-aop
 ### Day 7 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# CHANGELOG
+
+جميع التغييرات المهمة في مشروع **محسنون (Mohsinon Platform)** يتم توثيقها في هذا الملف.
+
+يعتمد هذا المشروع على مبدأ **Keep a Changelog** مع استخدام **Semantic Versioning**.
+
+---
+
+# [0.7.0-dev] - 2026-07-12
+
+## 🎯 Milestone 0.7 — Mosque Administration
+
+يمثل هذا الإصدار الانتقال من بناء البنية الأساسية (Infrastructure) إلى بناء أول وحدة أعمال متكاملة في المنصة.
+
+---
+
+## Added
+
+### Mosque Administration
+
+* إضافة دورة حياة متكاملة للعضوية (Membership Lifecycle).
+* إضافة `MembershipStatus`.
+* إضافة حالات:
+
+  * ACTIVE
+  * SUSPENDED
+  * TERMINATED
+* إضافة منطق تعيين الأعضاء.
+* إضافة تغيير الإمام.
+* إضافة إنهاء العضوية.
+* إضافة استرجاع الإمام الحالي.
+* إضافة سجل الأئمة.
+* إضافة سجل عضويات المستخدم.
+
+---
+
+### Dashboard Engine
+
+* إضافة Mosque Dashboard.
+* إضافة Dashboard Service.
+* إضافة Dashboard Controller.
+* إضافة Dashboard Registry.
+* إضافة Dashboard Provider Interface.
+* إضافة Membership Statistics Provider.
+* إضافة Position Statistics Provider.
+* دعم Plug-in Architecture لإحصائيات المسجد.
+
+---
+
+### Audit Engine
+
+* إضافة Audit Annotation.
+* إضافة Audit Aspect.
+* إضافة Audit Service.
+* إضافة Audit Registry.
+* إضافة Audit Provider Interface.
+* إضافة Membership Assign Audit Provider.
+* إضافة AuditLog Entity.
+* إضافة Audit Repository.
+* إضافة Audit DTO.
+* إضافة AuditAction.
+* إضافة AuditEntityType.
+* إضافة AuditableResource.
+
+---
+
+### Domain Model
+
+* اعتماد Rich Domain Model داخل MosqueMembership.
+* إضافة:
+
+  * activate()
+  * suspend()
+  * terminate()
+
+---
+
+## Changed
+
+### Membership
+
+* استبدال Active Boolean بـ MembershipStatus.
+* تحديث جميع الخدمات للاعتماد على MembershipStatus.
+* تحديث جميع الـ Repositories.
+* تحديث جميع الـ DTOs.
+* تحديث الـ Mapper.
+* تحديث اختبارات التكامل.
+
+---
+
+### Dashboard
+
+* تحويل Dashboard إلى Plug-in Architecture.
+* فصل الإحصائيات داخل Providers مستقلة.
+* إزالة أي اعتماد مباشر على وحدات الأعمال داخل DashboardService.
+
+---
+
+### Audit
+
+* اعتماد Annotation-Based Audit.
+* فصل بناء وصف العمليات داخل Audit Providers.
+* اعتماد Registry Pattern لإدارة Providers.
+* جعل Audit Engine مستقلاً عن وحدات النظام.
+
+---
+
+## Refactored
+
+* إعادة كتابة MosqueMembershipService.
+* تبسيط منطق تعيين المناصب.
+* تبسيط منطق تغيير الإمام.
+* إزالة جميع استدعاءات:
+
+  * setActive(true)
+  * setActive(false)
+* نقل منطق تغيير حالة العضوية إلى الكيان نفسه.
+
+---
+
+## Improved
+
+* تحسين قابلية التوسع.
+* تحسين فصل المسؤوليات (Separation of Concerns).
+* تحسين إعادة الاستخدام (Reusability).
+* تحسين تصميم الـ Services.
+* تحسين تنظيم المشروع.
+* توحيد نمط Registry في المحركات المختلفة.
+
+---
+
+## Architecture
+
+تم إنشاء ثلاثة محركات مستقلة داخل المنصة:
+
+* Authorization Engine
+* Dashboard Engine
+* Audit Engine
+
+لتصبح جميع الوحدات المستقبلية قابلة للإضافة دون تعديل البنية الحالية.
+
+---
+
+## Tests
+
+تم اختبار:
+
+* Membership Assignment
+* Change Imam
+* Membership Termination
+* Membership History
+* Dashboard Providers
+* Authorization Integration
+* Audit Registration
+
+---
+
+# [0.6.0-dev] - 2026-07-11
+
+## Permission Engine
+
+### Added
+
+* Position Permission Management.
+* User Permission Management.
+* Permission Cache.
+* Composite Permission Resolver.
+* Permission Resolution Layer.
+* Authorization Registry.
+* Authorization Providers.
+* @RequirePermission Annotation.
+* Permission Aspect.
+* Integration Tests.
+
+---
+
+# [0.5.0-dev] - 2026-07-10
+
+## Authorization Framework
+
+### Added
+
+* AuthorizationService.
+* Spring Security Integration.
+* Mosque Authorization Provider.
+* Dynamic Permission Resolution.
+
+---
+
+# [0.4.0-dev] - 2026-07-09
+
+## Membership & Positions
+
+### Added
+
+* Mosque Membership Module.
+* Mosque Positions Module.
+* Membership CRUD.
+* Position CRUD.
+
+---
+
+# [0.3.0-dev] - 2026-07-08
+
+## Mosque Module
+
+### Added
+
+* Mosque Entity.
+* Mosque Repository.
+* Mosque Service.
+* Mosque Controller.
+* Mosque APIs.
+
+---
+
+# [0.2.0-dev] - 2026-07-08
+
+## Authentication
+
+### Added
+
+* User Registration.
+* Login.
+* JWT Authentication.
+* Password Encryption.
+* Spring Security Configuration.
+
+---
+
+# [0.1.0-dev] - 2026-07-07
+
+## Initial Project Setup
+
+### Added
+
+* Spring Boot Project.
+* Angular Workspace.
+* PostgreSQL Configuration.
+* Maven Configuration.
+* Project Structure.
+* Git Repository.
+* Initial Documentation.
+* Development Roadmap.
+* Vision Document.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 8 ✅

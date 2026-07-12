@@ -60,11 +60,11 @@ public class MosqueMembershipController {
         );
     }
     
-    @PatchMapping("/members/{membershipId}/deactivate")
-    public MosqueMembershipResponse deactivateMembership(
+    @PatchMapping("/members/{membershipId}/terminate")
+    public MosqueMembershipResponse terminateMembership(
             @PathVariable UUID membershipId) {
 
-        return membershipService.deactivateMembership(
+        return membershipService.terminateMembership(
                 membershipId
         );
     }

@@ -2075,6 +2075,382 @@ backend
 ### Day 7 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# PROJECT STATUS
+
+**اسم المشروع:** محسنون (Mohsinon Platform)
+
+**الإصدار الحالي:** 0.7.0-dev
+
+**آخر تحديث:** 2026-07-12
+
+---
+
+# الرؤية
+
+منصة محسنون هي منصة متكاملة لإدارة العمل الخيري والمجتمعي، تبدأ بإدارة المساجد وتمتد لاحقًا لإدارة التبرعات، المبادرات، التطوع، التعليم، وسائر الأنشطة المجتمعية، مع الاعتماد على بنية معمارية قابلة للتوسع (Modular Architecture).
+
+---
+
+# الحالة العامة للمشروع
+
+🟢 المشروع مستقر.
+
+تم الانتهاء من بناء النواة الأساسية (Core Platform) وأصبحت المنصة تمتلك محركات مستقلة يمكن إعادة استخدامها في جميع الوحدات المستقبلية.
+
+---
+
+# نسبة الإنجاز
+
+| المرحلة | الحالة | نسبة الإنجاز |
+|---------|--------|-------------:|
+| إعداد المشروع | ✅ | 100% |
+| إدارة المستخدمين | ✅ | 100% |
+| Authentication (JWT) | ✅ | 100% |
+| Spring Security | ✅ | 100% |
+| نظام الأدوار | ✅ | 100% |
+| نظام الصلاحيات | ✅ | 100% |
+| Authorization Engine | ✅ | 100% |
+| Mosque Module | ✅ | 95% |
+| Dashboard Engine | ✅ | 100% |
+| Audit Engine | ✅ | 95% |
+| Donation Module | ⏳ | 0% |
+| Volunteer Module | ⏳ | 0% |
+| Initiative Module | ⏳ | 0% |
+| Front-End (Angular) | ⏳ | 0% |
+
+---
+
+# ما تم إنجازه
+
+## Core Platform
+
+- Spring Boot
+- Java 21
+- PostgreSQL
+- Maven
+- UUID Support
+- Global Exception Handling
+- Validation
+- DTO Pattern
+- Mapper Pattern
+
+---
+
+## Authentication
+
+- User Registration
+- Login
+- JWT Authentication
+- Password Encryption
+- Spring Security Integration
+
+---
+
+## Authorization Engine
+
+تم الانتهاء بالكامل من محرك الصلاحيات.
+
+يشمل:
+
+- Permission Groups
+- Permissions
+- Position Permissions
+- User Permissions
+- AuthorizationService
+- AuthorizationProvider
+- AuthorizationRegistry
+- Permission Resolver
+- Composite Resolver
+- Permission Cache
+- @RequirePermission
+- Permission Aspect
+- Integration Tests
+
+---
+
+## Mosque Module
+
+يشمل:
+
+### إدارة المساجد
+
+- إنشاء مسجد
+- تعديل مسجد
+- عرض المساجد
+- تفاصيل المسجد
+
+---
+
+### المناصب
+
+- Mosque Positions
+- Position Permissions
+- Unique Positions
+
+---
+
+### العضويات
+
+- Assign Member
+- Change Imam
+- Terminate Membership
+- Membership History
+- Current Imam
+- Membership Lifecycle
+
+---
+
+### Membership Lifecycle
+
+يعتمد النظام الآن على:
+
+- ACTIVE
+- SUSPENDED
+- TERMINATED
+
+بدلاً من Active Boolean.
+
+---
+
+## Dashboard Engine
+
+تم إنشاء محرك Dashboard مستقل.
+
+يعتمد على:
+
+- Dashboard Service
+- Dashboard Registry
+- Dashboard Providers
+
+ويستطيع استقبال أي Provider جديد دون تعديل الكود الحالي.
+
+---
+
+## Audit Engine
+
+تم إنشاء محرك Audit مستقل.
+
+يشمل:
+
+- Audit Annotation
+- Audit Aspect
+- Audit Service
+- Audit Registry
+- Audit Providers
+- Audit Entity
+- AuditableResource
+
+ويعمل تلقائياً عبر:
+
+```java
+@Audit(...)
+```
+
+---
+
+# البنية الحالية
+
+```
+Client
+    │
+    ▼
+REST Controllers
+    │
+    ▼
+Application Services
+    │
+    ├──────────────┐
+    ▼              ▼
+Authorization   Audit
+Engine          Engine
+    │              │
+    ▼              ▼
+Dashboard Engine
+    │
+    ▼
+Repositories
+    │
+    ▼
+PostgreSQL
+```
+
+---
+
+# الوحدات الحالية
+
+```
+modules
+
+├── users
+├── auth
+├── authorization
+├── mosques
+├── audit
+└── common
+```
+
+---
+
+# المحركات (Engines)
+
+## Authorization Engine
+
+الحالة:
+
+✅ مكتمل
+
+---
+
+## Dashboard Engine
+
+الحالة:
+
+✅ مكتمل
+
+---
+
+## Audit Engine
+
+الحالة:
+
+✅ شبه مكتمل
+
+المتبقي:
+
+- Audit Viewer API
+- Audit Search
+- Audit Filters
+
+---
+
+# الاختبارات
+
+تم اختبار:
+
+- Authentication
+- Authorization
+- Permission Resolution
+- Mosque CRUD
+- Membership Assignment
+- Change Imam
+- Membership Termination
+- Dashboard Providers
+- Audit Registration
+
+---
+
+# ما يعمل حالياً
+
+✔ إنشاء المستخدمين
+
+✔ تسجيل الدخول
+
+✔ JWT
+
+✔ إدارة المساجد
+
+✔ إدارة المناصب
+
+✔ إدارة العضويات
+
+✔ تعيين الإمام
+
+✔ استبدال الإمام
+
+✔ صلاحيات ديناميكية
+
+✔ Dashboard
+
+✔ Audit
+
+---
+
+# الأولويات القادمة
+
+## الإصدار 0.8
+
+Donation Management
+
+يشمل:
+
+- Donation Categories
+- Donation Campaigns
+- Donations
+- Donation Transactions
+- Donation Dashboard Provider
+- Donation Audit Provider
+- Donation Authorization
+- Reports
+
+---
+
+## الإصدار 0.9
+
+Volunteering & Initiatives
+
+يشمل:
+
+- Volunteer Management
+- Initiatives
+- Tasks
+- Teams
+- Scheduling
+
+---
+
+## الإصدار 1.0
+
+الإصدار الأول القابل للاستخدام
+
+يشمل:
+
+- Angular Front-End
+- Dashboard UI
+- Authentication UI
+- Donations UI
+- Volunteer UI
+- Reports
+- Deployment
+
+---
+
+# التقييم الحالي
+
+## جاهزية البنية الأساسية
+
+⭐⭐⭐⭐⭐
+
+---
+
+## جودة التصميم
+
+⭐⭐⭐⭐⭐
+
+---
+
+## قابلية التوسع
+
+⭐⭐⭐⭐⭐
+
+---
+
+## إعادة الاستخدام
+
+⭐⭐⭐⭐⭐
+
+---
+
+## الحالة الحالية
+
+يمكن اعتبار المشروع قد أنهى مرحلة بناء النواة الأساسية (Core Platform)، وأصبح جاهزًا للانتقال إلى بناء وحدات الأعمال (Business Modules).
+
+تمتلك المنصة الآن ثلاثة محركات رئيسية:
+
+- Authorization Engine
+- Dashboard Engine
+- Audit Engine
+
+وهي تشكل الأساس الذي ستُبنى عليه جميع الوحدات المستقبلية دون الحاجة إلى إعادة تطوير البنية التحتية.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 8 ✅

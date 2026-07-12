@@ -41,8 +41,8 @@ public class MosqueMembershipMapper {
                 membership.getEndDate()
         );
 
-        response.setActive(
-                membership.getActive()
+        response.setStatus(
+        	    membership.getStatus()
         );
 
         if (membership.getAppointedBy() != null) {
