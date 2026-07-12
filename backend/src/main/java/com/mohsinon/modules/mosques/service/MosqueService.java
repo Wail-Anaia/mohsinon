@@ -5,7 +5,7 @@ import com.mohsinon.modules.mosques.dto.response.MosqueResponse;
 import com.mohsinon.modules.mosques.entity.Mosque;
 import com.mohsinon.modules.mosques.mapper.MosqueMapper;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
-import com.mohsinon.exception.MosqueNotFoundException;
+import com.mohsinon.modules.mosques.exception.MosqueNotFoundException;
 
 import com.mohsinon.security.utils.SecurityUtils;
 import com.mohsinon.modules.mosques.constants.MosquePositionCodes;

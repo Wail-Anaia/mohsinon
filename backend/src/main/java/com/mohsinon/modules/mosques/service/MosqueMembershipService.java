@@ -1,8 +1,8 @@
 package com.mohsinon.modules.mosques.service;
 
-import com.mohsinon.exception.MosqueMembershipAlreadyExistsException;
-import com.mohsinon.exception.MosquePositionAlreadyAssignedException;
-import com.mohsinon.exception.MosquePositionNotFoundException;
+import com.mohsinon.modules.mosques.exception.MosqueMembershipAlreadyExistsException;
+import com.mohsinon.modules.mosques.exception.MosquePositionAlreadyAssignedException;
+import com.mohsinon.modules.mosques.exception.MosquePositionNotFoundException;
 import com.mohsinon.modules.mosques.entity.Mosque;
 import com.mohsinon.modules.mosques.entity.MosqueMembership;
 import com.mohsinon.modules.mosques.entity.MosquePosition;
@@ -15,9 +15,9 @@ import com.mohsinon.modules.mosques.dto.response.MosqueMembershipResponse;
 import com.mohsinon.modules.mosques.mapper.MosqueMembershipMapper;
 import com.mohsinon.modules.users.entity.User;
 import com.mohsinon.modules.users.repository.UserRepository;
-import com.mohsinon.exception.MosqueNotFoundException;
-import com.mohsinon.exception.UserNotFoundException;
-import com.mohsinon.exception.MosqueMembershipNotFoundException;
+import com.mohsinon.modules.mosques.exception.MosqueNotFoundException;
+import com.mohsinon.modules.users.exception.UserNotFoundException;
+import com.mohsinon.modules.mosques.exception.MosqueMembershipNotFoundException;
 import com.mohsinon.security.annotation.RequirePermission;
 import com.mohsinon.security.annotation.ResourceId;
 import com.mohsinon.security.current.CurrentUserService;

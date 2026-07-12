@@ -8,6 +8,10 @@ import java.util.Optional;
 public interface PermissionGroupRepository extends JpaRepository<PermissionGroup, Long> {
 
     Optional<PermissionGroup> findByCode(String code);
+    
+    Optional<PermissionGroup> findByName(String name);
+
+    boolean existsByName(String name);
 
     boolean existsByCode(String code);
 

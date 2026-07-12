@@ -1900,6 +1900,372 @@ Microservices
 ### Day 6 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ROADMAP
+
+**المشروع:** منصة محسنون (Mohsinon Platform)  
+**الإصدار:** 0.1.0-dev  
+**آخر تحديث:** 2026-07-12
+
+---
+
+# رؤية خارطة الطريق
+
+يتم تطوير منصة **محسنون** على مراحل متتابعة، بحيث تبني كل مرحلة الأساس للمرحلة التي تليها. الهدف هو الوصول إلى منصة خيرية متكاملة تخدم المساجد، الجمعيات، المتطوعين، المتبرعين، والمبادرات المجتمعية ضمن بنية تقنية قابلة للتوسع.
+
+---
+
+# المرحلة الأولى — البنية الأساسية (Foundation)
+
+**الحالة:** ✅ مكتملة
+
+### الأهداف
+
+- إعداد بيئة العمل.
+- إنشاء المشروع.
+- إعداد Git وGitHub.
+- إعداد Spring Boot.
+- إعداد Angular.
+- إعداد PostgreSQL.
+- تنظيم هيكل المشروع.
+
+### الإنجازات
+
+- إنشاء مشروع Backend.
+- إنشاء مشروع Frontend.
+- إنشاء هيكل الوحدات (Modules).
+- إعداد ملفات التوثيق.
+- اعتماد بنية Modular Monolith.
+
+---
+
+# المرحلة الثانية — إدارة المستخدمين (Users & Authentication)
+
+**الحالة:** ✅ مكتملة
+
+### الإنجازات
+
+- User Entity
+- Role Entity
+- Register API
+- Login API
+- JWT Authentication
+- Password Encryption
+- User Repository
+- User Service
+- User Controller
+- UserApi
+- Validation
+- Exception Handling
+
+---
+
+# المرحلة الثالثة — إدارة المساجد (Mosques)
+
+**الحالة:** ✅ مكتملة
+
+### الإنجازات
+
+- Mosque Entity
+- Mosque CRUD
+- MosquePosition
+- MosqueMembership
+- MosqueApi
+- Position Management
+- Membership Management
+
+---
+
+# المرحلة الرابعة — نظام الصلاحيات (Authorization Engine)
+
+**الحالة:** ✅ مكتملة
+
+## Permission Groups
+
+- إنشاء مجموعات الصلاحيات.
+- CRUD كامل.
+- Validation.
+- REST APIs.
+
+## Permissions
+
+- إنشاء الصلاحيات.
+- CRUD كامل.
+- ربط الصلاحيات بالمجموعات.
+- Validation.
+
+## Position Permissions
+
+- ربط الصلاحيات بالمناصب.
+- إدارة صلاحيات المناصب.
+- REST APIs.
+
+## User Permissions
+
+- منح صلاحيات مباشرة للمستخدم.
+- إلغاء الصلاحيات.
+- REST APIs.
+
+## Permission Resolution
+
+- CompositePermissionResolver
+- DirectPermissionResolver
+- PositionPermissionResolver
+
+## Authorization Layer
+
+- AuthorizationProvider
+- AuthorizationRegistry
+- AuthorizationService
+
+## Performance
+
+- Permission Cache
+- Cache Invalidation
+
+## Seeders
+
+- Mosque Positions
+- Permission Groups
+- Permissions
+- Position Permissions
+
+## Integration Testing
+
+- اختبار إنشاء المجموعات.
+- اختبار إنشاء الصلاحيات.
+- اختبار ربط الصلاحيات.
+- اختبار التفويض الحقيقي (Authorization Scenario).
+
+---
+
+# المرحلة الخامسة — دمج Authorization مع Spring Security
+
+**الحالة:** ⏳ قادمة
+
+### الأهداف
+
+- إنشاء Annotation مخصص مثل:
+
+```java
+@RequirePermission(...)
+```
+
+- Method Security.
+- PermissionEvaluator.
+- AuthorizationInterceptor.
+- التخلص من استدعاء AuthorizationService يدويًا داخل الـ Controllers.
+
+---
+
+# المرحلة السادسة — نظام التبرعات (Donations)
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- Donation Entity
+- Donation Categories
+- Donation Requests
+- Donation Offers
+- Donation Tracking
+- Donation History
+
+---
+
+# المرحلة السابعة — المبادرات والمشاريع
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- Initiative
+- Project
+- Tasks
+- Teams
+- Volunteers
+- Progress Tracking
+
+---
+
+# المرحلة الثامنة — الجمعيات
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- Association
+- Members
+- Roles
+- Branches
+- Projects
+- Reports
+
+---
+
+# المرحلة التاسعة — المتطوعون
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- Volunteer Profile
+- Skills
+- Certificates
+- Availability
+- Matching Engine
+
+---
+
+# المرحلة العاشرة — السوق الخيري
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- Marketplace
+- Products
+- Categories
+- Orders
+- Delivery
+- Payments
+
+---
+
+# المرحلة الحادية عشرة — التعليم
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- Courses
+- Lessons
+- Teachers
+- Certificates
+- Exams
+
+---
+
+# المرحلة الثانية عشرة — الإشعارات
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- Notifications
+- Email
+- SMS
+- Push Notifications
+- In-App Notifications
+
+---
+
+# المرحلة الثالثة عشرة — الذكاء الاصطناعي
+
+**الحالة:** ⏳ مخططة
+
+### المكونات
+
+- AI Assistant
+- اقتراح المتطوعين.
+- اقتراح المشاريع.
+- تحليل التبرعات.
+- التوصيات الذكية.
+- التقارير الذكية.
+
+---
+
+# المرحلة الرابعة عشرة — Frontend
+
+**الحالة:** ⏳ لم تبدأ
+
+### الأهداف
+
+- Angular Architecture
+- Authentication
+- Dashboard
+- Layout
+- Shared Components
+- Authorization Guards
+- Dynamic Menus
+- Material Design
+
+---
+
+# المرحلة الخامسة عشرة — Mobile App
+
+**الحالة:** ⏳ مستقبلية
+
+### الخيارات
+
+- Flutter
+- أو Angular + Ionic
+
+---
+
+# المرحلة السادسة عشرة — DevOps
+
+**الحالة:** ⏳ مستقبلية
+
+### المكونات
+
+- Docker
+- Docker Compose
+- CI/CD
+- GitHub Actions
+- Monitoring
+- Logging
+- Backup Strategy
+
+---
+
+# المرحلة السابعة عشرة — التحول إلى Microservices
+
+**الحالة:** ⏳ بعيدة المدى
+
+الوحدات المرشحة للاستقلال:
+
+- Authentication
+- Authorization
+- Donations
+- Marketplace
+- Notifications
+- AI
+- Education
+
+---
+
+# الإنجاز الحالي
+
+حتى نهاية **اليوم السادس** تم إنجاز ما يقارب **35–40% من البنية الخلفية الأساسية (Backend Foundation)**، وتشمل:
+
+- ✅ هيكل المشروع.
+- ✅ المستخدمون والمصادقة.
+- ✅ إدارة المساجد.
+- ✅ المناصب والعضويات.
+- ✅ محرك الصلاحيات الديناميكي.
+- ✅ التخزين المؤقت للصلاحيات.
+- ✅ البيانات الأولية (Seeders).
+- ✅ واجهات REST الأساسية.
+- ✅ اختبارات التكامل.
+
+---
+
+# أولويات الأيام القادمة
+
+1. دمج Authorization مع Spring Security.
+2. إنشاء Annotation مخصص للصلاحيات.
+3. بناء نظام Donations.
+4. بدء تطوير واجهات Angular.
+5. إنشاء لوحة التحكم (Admin Dashboard).
+6. إضافة اختبارات Unit واختبارات تكامل إضافية.
+7. تحسين الأداء والمراقبة (Logging & Metrics).
+
+---
+
+# الهدف النهائي
+
+بناء منصة خيرية عالمية، قابلة للتوسع، تعتمد على بنية برمجية حديثة، وتوفر نظامًا موحدًا لإدارة المساجد، الجمعيات، المبادرات، التبرعات، المتطوعين، والتعليم، مع دعم الذكاء الاصطناعي وتطبيقات الويب والهواتف المحمولة.
+
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 7 ✅

@@ -2,7 +2,7 @@ package com.mohsinon.security.current;
 
 import com.mohsinon.modules.users.entity.User;
 import com.mohsinon.modules.users.repository.UserRepository;
-import com.mohsinon.exception.UserNotFoundException;
+import com.mohsinon.modules.users.exception.UserNotFoundException;
 
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

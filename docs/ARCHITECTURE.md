@@ -2730,6 +2730,439 @@ Authorization Providers
 ### Day 6 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ARCHITECTURE
+
+**المشروع:** منصة محسنون (Mohsinon Platform)  
+**آخر تحديث:** 2026-07-12
+
+---
+
+# الرؤية المعمارية
+
+تعتمد منصة **محسنون** على معمارية **Modular Monolith** في مراحلها الأولى، مع تصميم جميع الوحدات بطريقة مستقلة تسمح بتحويلها مستقبلاً إلى **Microservices** دون الحاجة إلى إعادة كتابة منطق الأعمال.
+
+الهدف هو بناء منصة كبيرة، قابلة للتوسع، وسهلة الصيانة، مع فصل واضح للمسؤوليات بين الوحدات.
+
+---
+
+# المبادئ المعمارية
+
+يعتمد المشروع على المبادئ التالية:
+
+- Separation of Concerns (SoC)
+- SOLID Principles
+- Clean Code
+- Domain-Driven Modular Design
+- Layered Architecture
+- API First Design
+- Convention over Configuration
+- High Cohesion & Low Coupling
+
+---
+
+# الهيكل العام
+
+```
+Client
+│
+├── Angular Web App
+├── Mobile App (Future)
+└── Public REST API
+        │
+        ▼
+Spring Boot Backend
+        │
+        ▼
+Application Layer
+        │
+        ▼
+Domain Modules
+        │
+        ▼
+Persistence Layer
+        │
+        ▼
+PostgreSQL
+```
+
+---
+
+# طبقات النظام
+
+## 1. Presentation Layer
+
+مسؤولة عن استقبال الطلبات وإرجاع الاستجابات.
+
+تتكون من:
+
+- REST Controllers
+- DTOs
+- Validation
+- API Responses
+
+---
+
+## 2. Application Layer
+
+تمثل منطق التطبيق وتنسق بين الوحدات المختلفة.
+
+تشمل:
+
+- Services
+- Facades
+- APIs بين الوحدات
+- Authorization Services
+
+---
+
+## 3. Domain Layer
+
+تحتوي على منطق الأعمال (Business Logic).
+
+تشمل:
+
+- Entities
+- Domain Rules
+- Business Validation
+
+---
+
+## 4. Persistence Layer
+
+مسؤولة عن الوصول إلى قاعدة البيانات.
+
+تشمل:
+
+- Spring Data JPA
+- Repositories
+- Hibernate
+
+---
+
+# هيكل المشروع
+
+```
+backend
+│
+├── common
+│   ├── api
+│   ├── constants
+│   ├── exception
+│   ├── mapper
+│   └── util
+│
+├── config
+│   ├── security
+│   ├── seed
+│   └── properties
+│
+├── modules
+│   │
+│   ├── auth
+│   ├── users
+│   ├── mosques
+│   ├── authorization
+│   ├── donations          (Future)
+│   ├── initiatives        (Future)
+│   ├── associations       (Future)
+│   ├── volunteers         (Future)
+│   ├── marketplace        (Future)
+│   ├── education          (Future)
+│   └── notifications      (Future)
+│
+└── BackendApplication
+```
+
+---
+
+# تصميم الوحدات (Modules)
+
+كل Module مستقل ويحتوي غالبًا على:
+
+```
+module
+│
+├── api
+├── controller
+├── dto
+├── entity
+├── exception
+├── mapper
+├── repository
+├── service
+│    └── impl
+├── validation
+└── constants
+```
+
+وهذا يحقق استقلالية الوحدات وسهولة صيانتها.
+
+---
+
+# طبقة Authorization
+
+تم تصميم نظام الصلاحيات ليكون ديناميكيًا وقابلًا للتوسع.
+
+```
+AuthorizationService
+        │
+        ▼
+AuthorizationRegistry
+        │
+        ▼
+AuthorizationProvider
+        │
+        ▼
+PermissionResolver
+        │
+        ▼
+CompositePermissionResolver
+        │
+        ├──────────────┐
+        ▼              ▼
+DirectPermission   PositionPermission
+Resolver           Resolver
+```
+
+---
+
+# Permission Cache
+
+```
+Authorization
+        │
+        ▼
+PermissionResolver
+        │
+        ▼
+PermissionCache
+        │
+        ▼
+Database
+```
+
+الهدف:
+
+- تقليل الاستعلامات.
+- تحسين الأداء.
+- إعادة حساب الصلاحيات فقط عند الحاجة.
+
+---
+
+# العلاقات الأساسية
+
+```
+User
+ │
+ │ *
+ ▼
+Role
+
+User
+ │
+ │ *
+ ▼
+MosqueMembership
+ │
+ ▼
+MosquePosition
+ │
+ ▼
+PositionPermission
+ │
+ ▼
+Permission
+ │
+ ▼
+PermissionGroup
+```
+
+كما يمكن للمستخدم امتلاك صلاحيات مباشرة:
+
+```
+User
+ │
+ ▼
+UserPermission
+ │
+ ▼
+Permission
+```
+
+---
+
+# التواصل بين الوحدات
+
+لا يُسمح لوحدة بالوصول مباشرة إلى Service في وحدة أخرى.
+
+بدلاً من ذلك يتم استخدام واجهات API داخلية.
+
+مثال:
+
+```
+Mosque Module
+        │
+        ▼
+MosqueApi
+        │
+        ▼
+Authorization Module
+```
+
+وأيضًا:
+
+```
+UsersApi
+```
+
+للوصول إلى بيانات المستخدمين دون ربط مباشر بين الخدمات.
+
+---
+
+# الاستثناءات
+
+يعتمد المشروع على استثناءات مخصصة.
+
+```
+BusinessException
+│
+├── ResourceNotFoundException
+├── DuplicateResourceException
+├── ValidationException
+└── Module Specific Exceptions
+```
+
+ويتم التعامل معها عبر:
+
+```
+GlobalExceptionHandler
+```
+
+---
+
+# توحيد الاستجابات
+
+جميع REST APIs تستخدم:
+
+```
+ApiResponse<T>
+```
+
+وعند استخدام الصفحات:
+
+```
+PageResponse<T>
+```
+
+مع:
+
+- ApiMessage
+- ApiResponseBuilder
+
+لضمان توحيد شكل جميع الاستجابات.
+
+---
+
+# إدارة البيانات الأولية (Seeders)
+
+يتم إنشاء البيانات الأساسية عند تشغيل التطبيق باستخدام:
+
+```
+CommandLineRunner
+```
+
+وترتيب التنفيذ بواسطة:
+
+```
+@Order
+```
+
+التسلسل الحالي:
+
+1. MosquePositionSeeder
+2. PermissionGroupSeeder
+3. PermissionSeeder
+4. PositionPermissionSeeder
+
+---
+
+# الاختبارات
+
+يعتمد المشروع على:
+
+- Unit Tests
+- Integration Tests
+
+وتركز اختبارات التكامل على السيناريوهات الواقعية التي تمر عبر عدة طبقات من النظام.
+
+---
+
+# التقنيات المستخدمة
+
+## Backend
+
+- Java 21
+- Spring Boot 4
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- PostgreSQL
+- Maven
+
+---
+
+## Frontend
+
+- Angular
+- Angular Material
+- TypeScript
+- SCSS
+
+---
+
+## إدارة الإصدارات
+
+- Git
+- GitHub
+
+---
+
+# التوسع المستقبلي
+
+تم تصميم النظام بحيث يمكن إضافة وحدات جديدة مثل:
+
+- Donations
+- Projects
+- Associations
+- Volunteers
+- Marketplace
+- Education
+- AI
+- Notifications
+
+دون الحاجة إلى تعديل البنية الأساسية أو نظام الصلاحيات.
+
+---
+
+# الحالة الحالية
+
+حتى نهاية اليوم السادس أصبحت المنصة تمتلك:
+
+- بنية معيارية مستقرة.
+- نظام مصادقة JWT.
+- إدارة المستخدمين.
+- إدارة المساجد.
+- إدارة المناصب والعضويات.
+- محرك صلاحيات ديناميكي.
+- تخزين مؤقت للصلاحيات.
+- بيانات أولية (Seeders).
+- اختبارات تكامل ناجحة.
+
+---
+
+# الخلاصة
+
+تعتمد منصة **محسنون** على معمارية معيارية حديثة تفصل بين الوحدات والطبقات بشكل واضح، وتوفر أساسًا قويًا لبناء منصة خيرية واسعة النطاق. وقد أصبح النظام جاهزًا للانتقال إلى تطوير وحدات الأعمال (Business Modules) مع الاستفادة الكاملة من البنية التحتية التي تم إنشاؤها خلال الأيام الستة الأولى.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 7 ✅

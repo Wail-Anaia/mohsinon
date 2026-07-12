@@ -1,0 +1,915 @@
+اعطني تقارير هذا اليوم بالكامل وليكن Markdown وبنفس تنسيق التقارير السابقة لنبدا بسم الله اعطني daily/DAY_04.md
+=============================================================================
+جيد لننتقل للخطوة التالية
+
+لننقل تحديثات المشروع الى GitHub اعطني اوامر git
+=============================================================================
+docs/
+│
+├── PROJECT_STATUS.md      # الحالة الحالية للمشروع (يتغير باستمرار)
+├── CHANGELOG.md           # سجل جميع الإنجازات
+├── ARCHITECTURE.md        # معمارية النظام
+├── ROADMAP.md             # الخطة المستقبلية
+├── VISION.md              # الرؤية
+├── REQUIREMENTS.md        # المتطلبات
+├── DECISIONS.md           # القرارات الهندسية المهمة
+│
+└── daily/DAY_03.md
+    ├── DAY_01.md
+    ├── DAY_02.md
+    ├── DAY_03.md
+    └── ...
+=============================================================================
+GET
+http://localhost:8080/api/mosques
+http://localhost:8080/api/test/0a8e0cd5-84c6-4cda-b645-60fe2c8eb1bd
+
+[
+    {
+        "id": "4243d871-8cbc-4c2b-a77f-0c3a768dd303",
+        "name": "مسجد النور",
+        "description": "أحد أكبر مساجد المدينة",
+        "country": "Morocco",
+        "city": "Meknes",
+        "district": "Hamria",
+        "address": "Rue Hassan II",
+        "latitude": 33.8935,
+        "longitude": -5.5473,
+        "phone": "+212600000000",
+        "email": "mosque@example.com",
+        "verified": false,
+        "active": true,
+        "createdAt": "2026-07-08T22:41:15.120882",
+        "updatedAt": "2026-07-08T22:41:15.120882"
+    },
+    {
+        "id": "0a8e0cd5-84c6-4cda-b645-60fe2c8eb1bd",
+        "name": "مسجد النصر",
+        "description": "أحد أهم مساجد المدينة",
+        "country": "Morocco",
+        "city": "Meknes",
+        "district": "Nasser",
+        "address": "Lot Nasser",
+        "latitude": 33.9955,
+        "longitude": -5.5573,
+        "phone": "+212610000000",
+        "email": "mosquenasser@example.com",
+        "verified": false,
+        "active": true,
+        "createdAt": "2026-07-08T23:15:45.419558",
+        "updatedAt": "2026-07-08T23:15:45.419558"
+    },
+    {
+        "id": "5b6d50e8-a114-4800-9315-6f8320029f71",
+        "name": "مسجد عمر بن الخطاب",
+        "description": "مسجد تجريبي",
+        "country": "Morocco",
+        "city": "Meknes",
+        "district": "Hamria",
+        "address": "Rue Hassan II",
+        "latitude": null,
+        "longitude": null,
+        "phone": "0600000000",
+        "email": "mosque@test.com",
+        "verified": false,
+        "active": true,
+        "createdAt": "2026-07-09T17:37:05.331899",
+        "updatedAt": "2026-07-09T17:37:05.331899"
+    }
+]
+=============================================================================
+
+وبدأت تظهر لدينا كائنات ستُستخدم في كل المشروع مثل:
+
+PermissionCodes
+PositionCodes
+PermissionGroupCodes
+ApiPaths
+ApiResponse
+PageResponse
+AuthorizationService
+PermissionResolver
+PermissionCache
+
+هذه أصبحت نواة المنصة (Platform Core).
+
+=============================================================================
+
+كن قبل أن نبدأ اليوم السابع، أنصح بشدة أن نخصص جلسة كاملة بعنوان:
+
+Architecture Refactoring Day
+
+ليس لإعادة كتابة المشروع، بل لتوحيد كل الأنماط التي ظهرت أثناء التطوير، مثل:
+
+توحيد الـ APIs بين الوحدات.
+توحيد الـ Services (interface / impl).
+توحيد الـ Mappers.
+مراجعة الـ Authorization.
+مراجعة الـ Cache.
+مراجعة الـ Package Structure.
+اعتماد قواعد ثابتة للتسمية.
+
+=============================================================================
+الاختبار
+
+في Postman:
+
+POST
+http://localhost:8080/api/auth/login
+
+Body:
+
+{
+    "email":"wail@example.com",
+    "password":"12345678"
+}
+=============================================================================
+POST
+http://localhost:8080/api/mosques
+
+Body:
+{
+  "name": "مسجد عمر بن الخطاب",
+  "description": "مسجد تجريبي",
+  "country": "Morocco",
+  "city": "Meknes",
+  "district": "Hamria",
+  "address": "Rue Hassan II",
+  "phone": "0600000000",
+  "email": "mosque@test.com"
+}
+=============================================================================
+POST
+http://localhost:8080/api/v1/users/99ad2f7c-5469-4121-82d4-d62458662658/permissions
+{
+    "permissionId": 7,
+    "granted": true
+}
+
+
+=============================================================================
+
+
+قاعدة محسنون (Mohsinon Backend Standard)
+
+كل Module سيكون له نفس الهيكل:
+
+module
+│
+├── api
+├── controller
+├── dto
+├── entity
+├── exception
+├── mapper
+├── repository
+├── service
+│      ├── interface
+│      └── impl
+└── validator (عند الحاجة)
+=============================================================================
+
+وبذلك سيكون كل Module متطابقًا في التنظيم.
+أريد أن نثبت قاعدة معمارية للمشروع:
+
+أي Module يحتاج إلى كيان من Module آخر، فإنه يتعامل فقط مع واجهة api الخاصة بذلك الـ Module، ولا يحق له استخدام Repository أو Service مباشرة.
+
+=============================================================================
+@RequestMapping(ApiConstants.API_V1 + "/permission-groups")
+@RequestMapping("/api/v1/positions")
+يسمح  بإنشاء المساجد
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+=============================================================================
+.common
+.modules.users
+.modules.mosques
+=============================================================================
+
+وأنا أقترح إضافة:
+
+private LocalDateTime createdAt;
+
+من الآن.
+
+قد تقول: لماذا؟
+
+بعد سنة قد يسألك مدير النظام:
+
+"متى مُنحت هذه الصلاحية لهذا المستخدم؟"
+
+وسيكون الجواب موجودًا في قاعدة البيانات.
+
+بل سأضيف شيئًا آخر
+
+منذ بداية المشروع ونحن نبني منصة كبيرة.
+
+لذلك أقترح أن يكون كل جدول علاقات (Relationship Table) يحتوي على:
+
+createdAt
+
+createdBy
+
+مثل:
+
+PositionPermission
+UserPermission
+Membership
+UserRole (إذا حولناه إلى Entity مستقبلًا)
+
+حتى نعرف:
+
+من منح الصلاحية؟
+ومتى منحها؟
+
+وهذا أساس جيد للتدقيق (Audit).
+
+=============================================================================
+مثلاً:
+
+authorization
+    PermissionNotFoundException
+    PermissionGroupNotFoundException
+
+mosques
+    MosqueNotFoundException
+    MosquePositionNotFoundException
+
+users
+    UserNotFoundException
+
+membership
+    MembershipNotFoundException
+
+كلها يجب أن ترث من:
+
+ResourceNotFoundException
+
+وليس من:
+
+RuntimeException
+
+ونفس الشيء بالنسبة لـ:
+
+DuplicateUserException
+
+DuplicatePermissionException
+
+DuplicateRoleException
+
+DuplicateMosqueException
+
+كلها ترث من:
+
+DuplicateResourceException
+
+وبذلك يصبح GlobalExceptionHandler يعالجها جميعًا تلقائيًا دون أي كود إضافي.
+
+بدلًا من:
+
+MosquePosition getPosition(Long positionId);
+
+أفضل:
+
+MosquePosition getPositionById(Long positionId);
+
+والسبب هو الوضوح؛ فعندما يكبر الـ API قد تضيف:
+
+MosquePosition getPositionByCode(String code);
+
+MosquePosition getPositionByName(String name);
+
+List<MosquePosition> getPositionsByMosque(Long mosqueId);
+=============================================================================
+مراجعة معمارية مهمة
+
+قبل أن نكتب PermissionController، أريد اقتراح تحسين سيستفيد منه المشروع كله.
+
+لاحظ أننا كررنا تقريبًا نفس الكود الموجود في PermissionGroupServiceImpl:
+
+findById(...)
+create(...)
+update(...)
+delete(...)
+
+ومع كل Module جديد (Projects، Campaigns، Associations...) سيتكرر هذا النمط.
+
+أقترح بعد الانتهاء من وحدة Permission أن 
+نبني BaseCrudService عام، بحيث تشترك جميع الوحدات في منطق CRUD الأساسي، ويقتصر كل Service على منطق الأعمال الخاص به فقط. هذا سيقلل التكرار ويحافظ على اتساق المشروع مع نموه. بعد نجاح هذه الطبقة، 
+ننتقل مباشرة إلى PermissionController و
+اختبار جميع واجهات Permission API.
+
+ممتاز، وهذا بالضبط ما كنت سأفعله لو كنا فريقًا يعمل على مشروع إنتاجي (Production).
+
+لكن هنا سأختلف قليلًا مع الخطة السابقة لأننا وصلنا إلى نقطة مهمة في المشروع.
+
+لا نبني BaseCrudService بعد
+
+قد يبدو غريبًا بعد أن اقترحته، لكن بعد مراجعة هيكل مشروع محسنون، أرى أن الآن ليس الوقت المناسب.
+
+السبب هو أننا لا نعرف بعد جميع الأنماط التي ستتكرر.
+
+انظر مثلاً:
+
+User لديه Password وJWT.
+Mosque لديه Latitude وLongitude وVerification.
+Permission لديه PermissionGroup.
+Membership لديه User وMosque وPosition.
+Campaign سيكون مختلفًا.
+Donation سيكون مختلفًا.
+
+إذا أنشأنا BaseCrudService الآن، فسنضطر إلى تعديله باستمرار مع ظهور حالات جديدة.
+
+في المشاريع الكبيرة، غالبًا ما يتم استخراج الطبقات المشتركة بعد وجود 5 أو 6 Modules كاملة، وليس بعد أول أو ثاني Module.
+
+لذلك أغيّر توصيتي السابقة:
+لن نبني BaseCrudService الآن، بل سنستمر في إنهاء نظام الصلاحيات بالكامل، ثم في نهاية مرحلة الـ Backend Core (حوالي اليوم 10 أو 11) سنقوم بعملية Refactoring ونستخرج كل ما أصبح مشتركًا فعلًا.
+
+
+=============================================================================
+خطة اليوم السادس
+
+سنقسم العمل إلى مراحل صغيرة، ولن ننتقل إلى المرحلة التالية حتى تنجح الحالية.
+
+إنشاء Permission Management Module
+إدارة Permission Groups
+إدارة Permissions
+إدارة Position Permissions
+إدارة User Permissions
+Permission Cache
+Permission Seeder
+الاختبارات
+
+الخطوة التالية (6.3)
+
+الآن نبدأ بناء Permission Management، وسننشيء:
+
+Permission
+
+ثم:
+
+PermissionRequest
+PermissionResponse
+PermissionRepository
+PermissionMapper
+PermissionService
+PermissionController
+
+وسنضيف الواجهات:
+
+GET /permissions
+GET /permissions/{id}
+GET /permissions/group/{groupCode}
+POST /permissions
+PUT /permissions/{id}
+DELETE /permissions/{id}
+
+بعد أن ترسل Permission.java
+
+سأعطيك دفعة واحدة:
+
+✅ PermissionRequest
+✅ PermissionResponse
+✅ PermissionMapper
+✅ PermissionRepository
+✅ PermissionService
+✅ PermissionServiceImpl
+✅ PermissionController
+✅ PermissionNotFoundException
+✅ DuplicatePermissionException
+=============================================================================
+cd C:\Projects\mohsinon
+
+git status
+
+git add .
+
+git commit -m "Day 4: implement authorization engine with permissions, position permissions and membership management"
+git commit -m "feat(day-04): implement authorization engine with permissions, position permissions and membership management"
+
+git push origin main
+
+=============================================================================
+
+
+AuthorizationProvider
+        │
+        ▼
+PermissionResolver
+        │
+        ▼
+PermissionCacheManager
+        │
+        ├───────────────┐
+        │               │
+   Cache Hit       Cache Miss
+        │               │
+        ▼               ▼
+     Return       Database
+                        │
+                        ▼
+                   Save to Cache
+                        │
+                        ▼
+                      Return
+
+User
+        │
+        ├──────────────┐
+        ▼              ▼
+Membership      UserPermission
+        │              │
+        ▼              ▼
+Position      Permission
+        │
+        ▼
+PositionPermission
+        │
+        ▼
+Permission
+
+AuthorizationAspect
+
+        │
+
+        ▼
+
+AuthorizationProvider
+
+        │
+
+        ▼
+
+PermissionResolver
+
+        │
+
+        ├────────────────────────────┐
+
+        ▼                                                          ▼
+
+PositionPermissionResolver                    UserPermissionResolver
+
+لماذا هذا أفضل؟
+
+اليوم لدينا:
+
+Position Permissions
+
+غدًا:
+
+User Permissions
+
+بعد أسبوع:
+
+Temporary Permissions
+
+بعد شهر:
+
+Delegated Permissions
+
+بعد سنة:
+
+Organization Permissions
+
+لن نحتاج إلى تعديل الـ Aspect أو الـ Provider إطلاقًا.
+
+سنضيف فقط Resolver جديدًا.
+
+Aspect
+      ↓
+AuthorizationService
+      ↓
+AuthorizationRegistry
+      ↓
+MosqueAuthorizationProvider
+
+modules
+└── mosques
+    ├── api
+    │     ├── MosqueApi.java
+    │     └── MosqueApiImpl.java
+والسبب أن كلمة API تعبر بدقة عن "الواجهة العامة" التي يقدمها الـ Module لبقية النظام، بينما كلمة Facade تشير إلى النمط التصميمي المستخدم في التنفيذ.
+
+كل Module يملك حزمة اسمها api، ولا يُسمح لأي Module آخر بالوصول مباشرة إلى Repository أو Service داخله، وإنما يتعامل فقط مع الـ api الخاصة به.
+
+modules
+└── authorization
+    ├── controller
+    │   └── PermissionController.java
+    │
+    ├── dto
+    │   ├── PermissionRequest.java
+    │   └── PermissionResponse.java
+    │
+    ├── mapper
+    │   └── PermissionMapper.java
+    │
+    ├── repository
+    │   └── PermissionRepository.java
+    │
+    ├── service
+    │   ├── PermissionService.java
+    │   └── impl
+    │       └── PermissionServiceImpl.java
+    │
+    └── exception
+        ├── PermissionNotFoundException.java
+        └── DuplicatePermissionException.java
+
+
+src/main/java
+└── com
+    └── mohsinon
+        └── modules
+            └── test
+                └── AuthorizationTestController.java 
+
+security
+└── authorization
+    ├── AuthorizationProvider
+    ├── AuthorizationRegistry
+    ├── AuthorizationService
+    └── PermissionAspect
+
+modules
+├── mosques
+│   └── MosqueAuthorizationProvider
+├── associations
+│   └── AssociationAuthorizationProvider
+├── projects
+│   └── ProjectAuthorizationProvider
+
+
+security
+│
+├── annotation
+│      ├── RequirePermission
+│      └── ResourceId
+│
+├── aspect
+│      └── PermissionAspect
+│
+├── authorization
+│      ├── AuthorizationProvider
+│      └── AuthorizationRegistry
+│
+└── current
+       └── CurrentUserService
+
+
+modules
+│
+├── authorization
+│      └── AuthorizationService
+│
+├── mosques
+├── users
+├── ...
+
+بعد نجاح هذه الخطوة
+
+سيصبح لدينا أربع عمليات رئيسية لإدارة العضويات:
+
+POST   /api/mosques/{mosqueId}/members
+
+إضافة عضو.
+
+GET    /api/mosques/{mosqueId}/members
+
+عرض الأعضاء الحاليين.
+
+POST   /api/mosques/{mosqueId}/imam
+
+تغيير الإمام.
+
+PATCH  /api/mosques/members/{membershipId}/deactivate
+
+إنهاء عضوية.
+
+=============================================================================
+
+في المستقبل
+
+يمكن إضافة:
+
+roles
+
+↓
+
+role_permissions
+
+فتصبح لدينا طبقتان من الصلاحيات:
+
+الصلاحيات العامة للنظام (Global Roles) مثل ADMIN وSUPER_ADMIN.
+الصلاحيات الخاصة بالكيانات (Entity Permissions) مثل إمام مسجد، رئيس جمعية، مدير مشروع.
+
+وهذا فصل مهم جدًا، لأن دور المستخدم في النظام ليس بالضرورة هو منصبه داخل مسجد أو جمعية.
+
+=============================================================================
+
+التصميم الجديد فهو عبارة عن نظام صلاحيات موحد (Unified Authorization System) يخدم المنصة كلها.
+
+سيصبح لدينا:
+
+permission_groups
+
+مثل:
+
+MOSQUE
+ASSOCIATION
+PROJECT
+DONATION
+VOLUNTEER
+ADMIN
+EVENT
+COURSE
+MARKETPLACE
+...
+
+ثم:
+
+permissions
+
+مثل:
+
+mosque.create
+mosque.update
+mosque.delete
+mosque.assign_imam
+mosque.add_member
+donation.create
+donation.approve
+project.create
+...
+
+ثم:
+
+positions_permissions
+
+ويربط:
+
+Mosque Position
+        │
+        ▼
+Permissions
+
+مثلاً
+
+IMAM
+    │
+    ├── mosque.update
+    ├── mosque.add_member
+    ├── mosque.create_initiative
+    └── donation.view
+
+ثم:
+
+user_permissions
+
+للصلاحيات الاستثنائية.
+
+مثلاً:
+
+المستخدم محمد
+
+ليس إماماً
+
+لكن أعطيناه
+
+mosque.assign_imam
+
+
+permission_groups
+        │
+        ▼
+permissions
+        │
+        ▼
+positions_permissions
+        │
+        ▼
+MosquePosition
+        │
+        ▼
+MosqueMembership
+        │
+        ▼
+User
+
+        +
+
+user_permissions
+=============================================================================
+
+common
+│
+├── api
+│   ├── ApiResponse.java
+│   ├── PageResponse.java
+│   └── ApiMessages.java
+│
+├── exception
+│   ├── BusinessException.java
+│   ├── ResourceNotFoundException.java
+│   ├── DuplicateResourceException.java
+│   ├── ValidationException.java
+│   └── GlobalExceptionHandler.java
+│
+├── audit
+│
+├── mapper
+│
+└── util
+
+modules
+│
+├── auth                ← Authentication (تسجيل الدخول و JWT)
+│
+├── authorization       ← Authorization (الصلاحيات)
+│   │
+│   ├── entity
+│   ├── repository
+│   ├── service
+│   ├── dto
+│   ├── mapper
+│   └── util
+│
+├── users
+│
+├── mosques
+│
+├── donations
+│
+├── projects
+│
+└── volunteers
+
+authorization/entity
+│
+├── PermissionGroup
+├── Permission
+├── PositionPermission
+└── UserPermission
+
+authorization/repository
+│
+├── PermissionGroupRepository
+├── PermissionRepository
+├── PositionPermissionRepository
+└── UserPermissionRepository
+
+authorization/service
+│
+├── AuthorizationService
+├── PermissionService
+└── AccessControlService
+
+authorization/util
+│
+└── PermissionChecker
+
+لماذا أفضل authorization؟
+
+لأننا مستقبلاً لن نقتصر على CRUD للصلاحيات، بل سنضيف:
+
+Permission Engine
+Access Control
+Permission Cache
+Permission Evaluator
+Dynamic Policies
+Ownership Rules
+Resource Permissions
+Delegation
+Super Admin Overrides
+
+كل هذا ينتمي إلى Authorization وليس إلى Permissions فقط.
+
+=============================================================================
+
+طلب تنفيذ عملية
+        │
+        ▼
+هل لدى المستخدم User Permission ؟
+        │
+   نعم ─────────► يسمح
+        │
+       لا
+        │
+        ▼
+هل لديه Membership نشطة في المسجد؟
+        │
+      لا ───────► AccessDenied
+        │
+      نعم
+        │
+        ▼
+اجلب Position
+        │
+        ▼
+اجلب PositionPermissions
+        │
+        ▼
+هل تحتوي على permission المطلوبة؟
+        │
+ نعم ─────────► يسمح
+ لا  ─────────► AccessDenied
+
+=============================================================================
+
+قواعد العمل التي سنفرضها
+
+هذه القواعد ليست تقنية، بل هي قواعد المنصة:
+
+القاعدة 1
+
+لا يمكن أن يكون للمسجد أكثر من:
+
+إمام نشط واحد.
+رئيس لجنة نشط واحد.
+القاعدة 2
+
+يمكن أن يوجد:
+
+أكثر من عضو لجنة.
+أكثر من متطوع.
+أكثر من مؤذن (إذا سمحت الدولة بذلك مستقبلًا).
+القاعدة 3
+
+إذا تغير الإمام:
+
+لا نحذف السجل القديم.
+
+بل:
+
+active = false
+
+endDate = اليوم
+
+ثم ننشئ عضوية جديدة.
+
+وهكذا نحافظ على التاريخ الكامل للمسجد.
+
+القاعدة 4
+
+إذا حاولنا إضافة نفس المستخدم مرتين بنفس العضوية النشطة:
+
+نرفض العملية.
+
+=============================================================================
+
+
+استقبال المسجد
+        │
+        ▼
+استقبال المستخدم
+        │
+        ▼
+التحقق أن المستخدم موجود
+        │
+        ▼
+التحقق أن المسجد موجود
+        │
+        ▼
+التحقق أنه لا يوجد رئيس لجنة نشط
+        │
+        ▼
+جلب المنصب COMMITTEE_PRESIDENT
+        │
+        ▼
+إنشاء MosqueMembership
+        │
+        ▼
+حفظ العضوية
+
+
+JWT
+   │
+   ▼
+Current User
+   │
+   ▼
+Create Mosque
+   │
+   ▼
+Save Mosque
+   │
+   ▼
+Assign COMMITTEE_PRESIDENT
+   │
+   ▼
+Save Membership
+   │
+   ▼
+Return Response
+
+=============================================================================
+
+IMAM ✅ فريد.
+COMMITTEE_PRESIDENT ✅ فريد.
+COMMITTEE_MEMBER ❌ ليس فريدًا.
+VOLUNTEER ❌ ليس فريدًا.

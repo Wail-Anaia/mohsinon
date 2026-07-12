@@ -1503,6 +1503,291 @@ spring-boot-starter-aop
 ### Day 6 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# CHANGELOG
+
+جميع التغييرات المهمة في مشروع **منصة محسنون (Mohsinon Platform)** سيتم توثيقها في هذا الملف.
+
+يعتمد هذا الملف على مبادئ **Keep a Changelog** مع اتباع **Semantic Versioning** مستقبلاً.
+
+---
+
+# [Unreleased]
+
+## Planned
+
+### Frontend
+- إنشاء واجهة Angular.
+- لوحة التحكم (Dashboard).
+- نظام تسجيل الدخول.
+- إدارة المستخدمين.
+- إدارة المساجد.
+- إدارة التبرعات.
+- إدارة المبادرات.
+- إدارة الجمعيات.
+
+### Backend
+- Donations Module.
+- Associations Module.
+- Projects Module.
+- Volunteer Module.
+- Marketplace Module.
+- Notification Module.
+- AI Module.
+
+---
+
+# [0.6.0] - 2026-07-12
+
+## Added
+
+### Authorization Engine
+
+تم إنشاء نظام صلاحيات ديناميكي متكامل.
+
+يشمل:
+
+- Permission Groups
+- Permissions
+- Position Permissions
+- User Permissions
+
+---
+
+### Permission Resolution Layer
+
+تم إنشاء:
+
+- PermissionResolver
+- DirectPermissionResolver
+- PositionPermissionResolver
+- CompositePermissionResolver
+
+لاستخراج جميع صلاحيات المستخدم من مصادر متعددة داخل طبقة موحدة.
+
+---
+
+### Authorization Layer
+
+تم تطوير:
+
+- AuthorizationProvider
+- AuthorizationRegistry
+- AuthorizationService
+
+لإدارة صلاحيات الوحدات المختلفة بطريقة قابلة للتوسع.
+
+---
+
+### Permission Cache
+
+تم إنشاء نظام Cache لتخزين الصلاحيات المحسوبة بهدف تحسين الأداء وتقليل الاستعلامات المتكررة.
+
+يشمل:
+
+- Cache Put
+- Cache Get
+- Cache Evict
+- Cache Clear
+
+---
+
+### REST APIs
+
+تم إنشاء واجهات REST كاملة لإدارة:
+
+#### Permission Groups
+
+- إنشاء
+- تعديل
+- حذف
+- عرض
+- البحث
+
+#### Permissions
+
+- إنشاء
+- تعديل
+- حذف
+- عرض
+
+#### Position Permissions
+
+- ربط صلاحية بمنصب
+- حذف الربط
+- عرض صلاحيات المنصب
+
+#### User Permissions
+
+- منح صلاحية مباشرة
+- حذف الصلاحية
+- عرض صلاحيات المستخدم
+
+---
+
+### Seeders
+
+تم إنشاء Seeders افتراضية تشمل:
+
+- MosquePositionSeeder
+- PermissionGroupSeeder
+- PermissionSeeder
+- PositionPermissionSeeder
+
+مع ترتيب التنفيذ باستخدام:
+
+```
+@Order
+```
+
+---
+
+### Constants
+
+تم إنشاء ثوابت مركزية لاستخدام الأكواد داخل المشروع:
+
+- MosquePositionCodes
+- PermissionGroupCodes
+- PermissionCodes
+
+---
+
+### Exceptions
+
+تم إضافة استثناءات مخصصة مثل:
+
+- PermissionNotFoundException
+- DuplicatePermissionException
+- DuplicatePermissionGroupException
+- DuplicatePositionPermissionException
+- DuplicateUserPermissionException
+- UserPermissionNotFoundException
+- PositionPermissionNotFoundException
+
+---
+
+### API Infrastructure
+
+تم اعتماد:
+
+- ApiResponse
+- PageResponse
+- ApiResponseBuilder
+- ApiMessage
+
+لتوحيد جميع استجابات واجهات REST.
+
+---
+
+### Integration Tests
+
+تم إنشاء اختبارات تكامل تغطي:
+
+- إنشاء Permission Group.
+- إنشاء Permission.
+- ربط Permission بمنصب.
+- إنشاء User.
+- إنشاء Mosque.
+- إنشاء Membership.
+- التحقق من Authorization الكامل.
+
+---
+
+## Changed
+
+- إعادة هيكلة طبقة Authorization لتصبح مبنية على Resolver Pattern.
+- فصل مسؤوليات AuthorizationProvider عن منطق استخراج الصلاحيات.
+- تحسين تصميم Permission Resolution باستخدام Composite Pattern.
+- تحسين تنظيم Seeders وترتيب تنفيذها.
+- استبدال القيم النصية المتكررة (Magic Strings) بثوابت مركزية (Constants).
+- ربط خدمات الصلاحيات بنظام Permission Cache لتحديث البيانات تلقائيًا عند الإضافة أو الحذف.
+
+---
+
+## Fixed
+
+- إصلاح مشكلة عدم حفظ حقل `code` في PermissionGroup.
+- إصلاح تحديث Permission Cache بعد تعديل صلاحيات المستخدم.
+- إصلاح تحديث Permission Cache بعد تعديل صلاحيات المناصب.
+- إصلاح مشاكل ربط PositionPermission أثناء الاختبارات.
+- إصلاح سيناريو Authorization Integration Test حتى يعمل بنجاح.
+- تحسين معالجة الأخطاء داخل طبقة Authorization.
+
+---
+
+# [0.5.0] - 2026-07-11
+
+## Added
+
+### Dynamic Authorization Foundation
+
+- إنشاء Permission Group Module.
+- إنشاء Permission Module.
+- إنشاء PositionPermission Module.
+- إنشاء UserPermission Module.
+- بناء الأساس الأول لمحرك Authorization.
+
+---
+
+# [0.4.0] - 2026-07-10
+
+## Added
+
+### Dynamic Permissions
+
+- إنشاء Permission Entity.
+- إنشاء PermissionGroup Entity.
+- إنشاء PositionPermission Entity.
+- إنشاء UserPermission Entity.
+- ربط الصلاحيات بالمناصب.
+
+---
+
+# [0.3.0] - 2026-07-09
+
+## Added
+
+### Mosques Module
+
+- Mosque CRUD.
+- Mosque Positions.
+- Mosque Memberships.
+- REST APIs.
+- Validation.
+- Global Exception Handling.
+
+---
+
+# [0.2.0] - 2026-07-08
+
+## Added
+
+### Users Module
+
+- User Entity.
+- Role Entity.
+- User Registration.
+- Login.
+- JWT Authentication.
+- Password Encryption.
+- Roles Management.
+
+---
+
+# [0.1.0] - 2026-07-07
+
+## Added
+
+### Project Foundation
+
+- إنشاء مستودع GitHub.
+- إعداد مشروع Spring Boot.
+- إعداد مشروع Angular.
+- إعداد PostgreSQL.
+- تنظيم هيكل المشروع.
+- إعداد Maven.
+- إعداد Git.
+- إنشاء مجلد الوثائق.
+- إنشاء البنية الأساسية للمشروع.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 7 ✅

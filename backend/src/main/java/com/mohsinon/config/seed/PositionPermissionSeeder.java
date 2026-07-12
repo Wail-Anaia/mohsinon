@@ -1,5 +1,7 @@
 package com.mohsinon.config.seed;
 
+import com.mohsinon.modules.authorization.constants.PermissionCodes;
+import com.mohsinon.modules.mosques.constants.MosquePositionCodes;
 import com.mohsinon.modules.authorization.entity.Permission;
 import com.mohsinon.modules.authorization.entity.PositionPermission;
 import com.mohsinon.modules.authorization.repository.PermissionRepository;
@@ -7,9 +9,11 @@ import com.mohsinon.modules.authorization.repository.PositionPermissionRepositor
 import com.mohsinon.modules.mosques.entity.MosquePosition;
 import com.mohsinon.modules.mosques.repository.MosquePositionRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(4)
 public class PositionPermissionSeeder implements CommandLineRunner {
 
     private final MosquePositionRepository positionRepository;
@@ -44,48 +48,49 @@ public class PositionPermissionSeeder implements CommandLineRunner {
 
     private void imamPermissions() {
 
-        grant("IMAM", "mosque.view");
-        grant("IMAM", "mosque.update");
-        grant("IMAM", "mosque.assign_imam");
-        grant("IMAM", "mosque.add_member");
-        grant("IMAM", "mosque.remove_member");
-        grant("IMAM", "mosque.manage_committee");
-        grant("IMAM", "mosque.manage_donations");
-        grant("IMAM", "mosque.manage_initiatives");
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_VIEW);
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_UPDATE);
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_ASSIGN_IMAM);
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_ADD_MEMBER);
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_REMOVE_MEMBER);
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_MANAGE_COMMITTEE);
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_MANAGE_DONATIONS);
+        grant(MosquePositionCodes.IMAM, PermissionCodes.MOSQUE_MANAGE_INITIATIVES);
     }
-
+    
+    
     private void committeePresidentPermissions() {
-
-        grant("COMMITTEE_PRESIDENT", "mosque.view");
-        grant("COMMITTEE_PRESIDENT", "mosque.update");
-        grant("COMMITTEE_PRESIDENT", "mosque.add_member");
-        grant("COMMITTEE_PRESIDENT", "mosque.remove_member");
-        grant("COMMITTEE_PRESIDENT", "mosque.manage_committee");
-        grant("COMMITTEE_PRESIDENT", "mosque.manage_donations");
-        grant("COMMITTEE_PRESIDENT", "mosque.manage_initiatives");
+    	
+    	grant(MosquePositionCodes.COMMITTEE_PRESIDENT, PermissionCodes.MOSQUE_VIEW);
+    	grant(MosquePositionCodes.COMMITTEE_PRESIDENT, PermissionCodes.MOSQUE_UPDATE);
+        grant(MosquePositionCodes.COMMITTEE_PRESIDENT, PermissionCodes.MOSQUE_ADD_MEMBER);
+        grant(MosquePositionCodes.COMMITTEE_PRESIDENT, PermissionCodes.MOSQUE_REMOVE_MEMBER);
+        grant(MosquePositionCodes.COMMITTEE_PRESIDENT, PermissionCodes.MOSQUE_MANAGE_COMMITTEE);
+        grant(MosquePositionCodes.COMMITTEE_PRESIDENT, PermissionCodes.MOSQUE_MANAGE_DONATIONS);
+        grant(MosquePositionCodes.COMMITTEE_PRESIDENT, PermissionCodes.MOSQUE_MANAGE_INITIATIVES);
     }
 
     private void committeeVicePresidentPermissions() {
-
-        grant("COMMITTEE_VICE_PRESIDENT", "mosque.view");
-        grant("COMMITTEE_VICE_PRESIDENT", "mosque.add_member");
-        grant("COMMITTEE_VICE_PRESIDENT", "mosque.manage_committee");
+    	
+    	grant(MosquePositionCodes.COMMITTEE_VICE_PRESIDENT, PermissionCodes.MOSQUE_VIEW);
+    	grant(MosquePositionCodes.COMMITTEE_VICE_PRESIDENT, PermissionCodes.MOSQUE_ADD_MEMBER);
+    	grant(MosquePositionCodes.COMMITTEE_VICE_PRESIDENT, PermissionCodes.MOSQUE_MANAGE_COMMITTEE);
     }
 
     private void secretaryPermissions() {
 
-        grant("COMMITTEE_SECRETARY", "mosque.view");
+        grant(MosquePositionCodes.COMMITTEE_SECRETARY, PermissionCodes.MOSQUE_VIEW);
     }
 
     private void treasurerPermissions() {
 
-        grant("COMMITTEE_TREASURER", "mosque.view");
-        grant("COMMITTEE_TREASURER", "mosque.manage_donations");
+        grant(MosquePositionCodes.COMMITTEE_TREASURER, PermissionCodes.MOSQUE_VIEW);
+        grant(MosquePositionCodes.COMMITTEE_TREASURER, PermissionCodes.MOSQUE_MANAGE_DONATIONS);
     }
 
     private void committeeMemberPermissions() {
 
-        grant("COMMITTEE_MEMBER", "mosque.view");
+        grant(MosquePositionCodes.COMMITTEE_MEMBER, PermissionCodes.MOSQUE_VIEW);
     }
 
     private void grant(String positionCode, String permissionCode) {

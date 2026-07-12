@@ -1,55 +1,50 @@
 package com.mohsinon.modules.authorization.entity;
 
-import com.mohsinon.modules.users.entity.User;
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
+import com.mohsinon.modules.users.entity.User;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 @Entity
-@Table(name = "user_permissions")
+@Table(
+    name = "user_permissions",
+    uniqueConstraints = {
+        @UniqueConstraint(
+            columnNames = {
+                "user_id",
+                "permission_id"
+            }
+        )
+    }
+)
 public class UserPermission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "permission_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "permission_id", nullable = false)
     private Permission permission;
-
+    
     @Column(nullable = false)
     private Boolean granted = true;
 
-    public UserPermission() {
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    public void onCreate() {
+        createdAt = LocalDateTime.now();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Permission getPermission() {
-        return permission;
-    }
-
-    public void setPermission(Permission permission) {
-        this.permission = permission;
-    }
-
-    public Boolean getGranted() {
-        return granted;
-    }
-
-    public void setGranted(Boolean granted) {
-        this.granted = granted;
-    }
 }

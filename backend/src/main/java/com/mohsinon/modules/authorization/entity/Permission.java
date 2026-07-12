@@ -1,7 +1,11 @@
 package com.mohsinon.modules.authorization.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "permissions")
 public class Permission {
@@ -19,61 +23,13 @@ public class Permission {
     @Column(length = 1000)
     private String description;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "group_id")
-    private PermissionGroup group;
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "group_id", nullable = false)
+    private PermissionGroup permissionGroup;
 
     @Column(nullable = false)
     private Boolean active = true;
 
     public Permission() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public PermissionGroup getGroup() {
-        return group;
-    }
-
-    public void setGroup(PermissionGroup group) {
-        this.group = group;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
     }
 }

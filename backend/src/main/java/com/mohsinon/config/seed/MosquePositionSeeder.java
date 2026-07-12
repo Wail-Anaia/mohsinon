@@ -1,11 +1,14 @@
 package com.mohsinon.config.seed;
 
+import com.mohsinon.modules.mosques.constants.MosquePositionCodes;
 import com.mohsinon.modules.mosques.entity.MosquePosition;
 import com.mohsinon.modules.mosques.repository.MosquePositionRepository;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Component
+@Order(1)
 public class MosquePositionSeeder implements CommandLineRunner {
 
     private final MosquePositionRepository repository;
@@ -18,42 +21,42 @@ public class MosquePositionSeeder implements CommandLineRunner {
     public void run(String... args) {
 
         createPosition(
-                "IMAM",
+        		MosquePositionCodes.IMAM,
                 "إمام",
                 "إمام المسجد",
                 true
         );
 
         createPosition(
-                "COMMITTEE_PRESIDENT",
+        		MosquePositionCodes.COMMITTEE_PRESIDENT,
                 "رئيس اللجنة",
                 "رئيس لجنة تسيير المسجد",
                 true
         );
 
         createPosition(
-                "COMMITTEE_VICE_PRESIDENT",
+        		MosquePositionCodes.COMMITTEE_VICE_PRESIDENT,
                 "نائب الرئيس",
                 "نائب رئيس اللجنة",
                 true
         );
 
         createPosition(
-                "COMMITTEE_SECRETARY",
+        		MosquePositionCodes.COMMITTEE_SECRETARY,
                 "الكاتب",
                 "كاتب اللجنة",
                 true
         );
 
         createPosition(
-                "COMMITTEE_TREASURER",
+        		MosquePositionCodes.COMMITTEE_TREASURER,
                 "أمين المال",
                 "مسؤول الشؤون المالية",
                 true
         );
 
         createPosition(
-                "COMMITTEE_MEMBER",
+        		MosquePositionCodes.COMMITTEE_MEMBER,
                 "عضو اللجنة",
                 "عضو في لجنة المسجد",
                 false
