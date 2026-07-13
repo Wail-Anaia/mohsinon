@@ -2456,6 +2456,299 @@ Volunteering & Initiatives
 ### Day 8 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# PROJECT_STATUS.md
+
+# منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-13
+**الإصدار الحالي:** Milestone 0.8
+
+---
+
+# نظرة عامة
+
+منصة **محسنون** هي منصة خيرية مجتمعية معيارية (Modular Platform) تهدف إلى تمكين المساجد والجمعيات والمتطوعين والمحسنين من إدارة المبادرات والأعمال الخيرية من خلال منصة موحدة تعتمد على بنية قابلة للتوسع.
+
+حتى نهاية **اليوم الثامن** أصبح المشروع يمتلك نواة قوية يمكن البناء عليها لإضافة وحدات أعمال جديدة دون إعادة تصميم البنية الأساسية.
+
+---
+
+# الحالة العامة للمشروع
+
+| المحور                       | الحالة    |
+| ---------------------------- | --------- |
+| Project Foundation           | ✅ مكتمل   |
+| Backend Architecture         | ✅ مكتمل   |
+| Security (JWT)               | ✅ مكتمل   |
+| Authentication               | ✅ مكتمل   |
+| Authorization Engine         | ✅ مكتمل   |
+| Permission Engine            | ✅ مكتمل   |
+| Audit Engine                 | ✅ مكتمل   |
+| Dashboard Engine             | ✅ مكتمل   |
+| Users Module                 | ✅ مكتمل   |
+| Mosques Module               | ✅ مكتمل   |
+| Membership Module            | ✅ مكتمل   |
+| Donation Module (Foundation) | ✅ مكتمل   |
+| Frontend                     | ⏳ لم يبدأ |
+| CI/CD                        | ⏳ لم يبدأ |
+| Docker                       | ⏳ لم يبدأ |
+| Kubernetes                   | ⏳ لم يبدأ |
+
+---
+
+# الوحدات المنجزة
+
+## Core Platform
+
+* ✅ Modular Architecture
+* ✅ Spring Boot 3.5
+* ✅ Java 21
+* ✅ PostgreSQL
+* ✅ Spring Security
+* ✅ JWT Authentication
+* ✅ Bean Validation
+* ✅ Global Exception Handling
+
+---
+
+## Users Module
+
+الحالة: **مكتمل**
+
+يتضمن:
+
+* إدارة المستخدمين
+* التسجيل
+* تسجيل الدخول
+* تشفير كلمات المرور
+* JWT
+* Roles
+* User Repository
+* User Service
+* User API
+
+---
+
+## Authorization Module
+
+الحالة: **مكتمل**
+
+يتضمن:
+
+* Permission Groups
+* Permissions
+* Position Permissions
+* User Permissions
+* Authorization Service
+* RequirePermission Annotation
+* Authorization Aspect
+
+---
+
+## Audit Module
+
+الحالة: **مكتمل**
+
+يتضمن:
+
+* Audit Entity
+* Audit Repository
+* Audit Providers
+* Registry
+* Audit Description Engine
+
+---
+
+## Dashboard Module
+
+الحالة: **مكتمل**
+
+يتضمن:
+
+* Provider Pattern
+* Dashboard Registry
+* Membership Statistics
+* Position Statistics
+* Donation Statistics
+
+---
+
+## Mosques Module
+
+الحالة: **مكتمل**
+
+يتضمن:
+
+* إدارة المساجد
+* CRUD
+* Memberships
+* Positions
+* Dashboard
+* Authorization
+* Audit Integration
+
+---
+
+## Membership Module
+
+الحالة: **مكتمل**
+
+يتضمن:
+
+* Assignment
+* Activation
+* Suspension
+* Termination
+* Lifecycle
+* Audit
+* Dashboard
+
+---
+
+## Donation Module
+
+الحالة: **مكتمل (Foundation)**
+
+يتضمن:
+
+* Donation Category
+* Donation
+* Donation Lifecycle
+* Repository
+* Service
+* Controller
+* DTOs
+* Mapper
+* Authorization
+* Dashboard Integration
+* Audit Integration
+
+---
+
+# البنية الحالية
+
+```text
+backend
+│
+├── common
+│
+├── config
+│
+├── security
+│
+├── modules
+│   │
+│   ├── users
+│   ├── auth
+│   ├── authorization
+│   ├── audit
+│   ├── mosques
+│   └── donations
+│
+└── shared
+```
+
+---
+
+# المحركات (Reusable Engines)
+
+تمتلك المنصة الآن مجموعة من المحركات القابلة لإعادة الاستخدام:
+
+* ✅ Authentication Engine
+* ✅ Authorization Engine
+* ✅ Permission Engine
+* ✅ Dashboard Engine
+* ✅ Audit Engine
+* ✅ Membership Lifecycle Engine
+
+وقد أثبتت وحدة **Donation** إمكانية إضافة وحدات جديدة دون تعديل هذه المحركات.
+
+---
+
+# قاعدة البيانات
+
+الجداول الرئيسية الحالية تشمل:
+
+* users
+* roles
+* mosques
+* mosque_positions
+* mosque_memberships
+* permission_groups
+* permissions
+* position_permissions
+* user_permissions
+* audit_logs
+* donation_categories
+* donations
+
+---
+
+# نسبة الإنجاز التقريبية
+
+| المرحلة                | الإنجاز |
+| ---------------------- | ------: |
+| Core Platform          |    100% |
+| Security               |    100% |
+| Users                  |    100% |
+| Mosques                |    100% |
+| Memberships            |    100% |
+| Authorization          |    100% |
+| Audit                  |    100% |
+| Dashboard              |    100% |
+| Donations (Foundation) |    100% |
+| Frontend               |      0% |
+| Volunteers             |      0% |
+| Initiatives            |      0% |
+| Inventory              |      0% |
+| Campaigns              |      0% |
+| Education              |      0% |
+
+**التقدم الكلي التقريبي للمشروع:** **35%**
+
+> تمثل هذه النسبة اكتمال **البنية الأساسية (Core Platform)**، بينما ما يزال الجزء الأكبر من وحدات الأعمال والتطبيق الأمامي والبنية التشغيلية في خطة التنفيذ.
+
+---
+
+# المخاطر الحالية
+
+لا توجد مخاطر معمارية مؤثرة.
+
+الملاحظات الحالية:
+
+* تأجيل اختبارات التكامل الشاملة إلى ما بعد استقرار الوحدات الأساسية.
+* الحاجة إلى تحسين بعض الاستعلامات باستخدام `countBy...` بدلاً من تحميل البيانات كاملة.
+* إمكانية إعادة تصميم Audit Providers لتقليل تكرار الملفات في المستقبل.
+
+---
+
+# الأولويات القادمة
+
+## Milestone 0.9
+
+* Refactoring Sprint
+* توحيد BaseEntity
+* توحيد Business Exceptions
+* مراجعة DTOs وMappers
+* تحسين الأداء
+* مراجعة الاتساق بين الوحدات
+
+---
+
+## Milestone 1.0
+
+* Volunteers Module
+* Inventory Module
+* Initiatives Module
+* Campaigns Module
+* بداية تطوير Frontend باستخدام Angular
+
+---
+
+# التقييم العام
+
+حتى نهاية **اليوم الثامن** أصبح مشروع **محسنون** يمتلك بنية مؤسسية قابلة للتوسع تعتمد على الوحدات المستقلة والمحركات المشتركة. وقد أثبت دمج وحدة **Donation Management** نجاح المعمارية الحالية، مما يجعل إضافة وحدات أعمال جديدة عملية مباشرة دون الحاجة إلى إعادة بناء البنية الأساسية. ويُعد المشروع الآن في مرحلة مناسبة للانتقال إلى تحسين الجودة الداخلية (Refactoring) قبل التوسع في بقية وحدات المنصة.
+
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 9 ✅
@@ -2463,4 +2756,8 @@ Volunteering & Initiatives
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 11 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

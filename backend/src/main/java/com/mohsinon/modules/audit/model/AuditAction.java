@@ -5,6 +5,14 @@ public enum AuditAction {
     CREATE,
 
     UPDATE,
+    
+    RECEIVE,
+    
+    ALLOCATE,
+    
+    DELIVER,
+    
+    CANCEL,
 
     DELETE,
 

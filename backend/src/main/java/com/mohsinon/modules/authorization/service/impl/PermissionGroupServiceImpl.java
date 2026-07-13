@@ -95,5 +95,16 @@ public class PermissionGroupServiceImpl implements PermissionGroupService {
 
         repository.delete(group);
     }
+    
+    @Override
+    public PermissionGroupResponse getByCode(String code) {
+
+        PermissionGroup group =
+                repository.findByCode(code)
+                        .orElseThrow(() ->
+                                new PermissionGroupNotFoundException());
+
+        return mapper.toResponse(group);
+    }
 
 }

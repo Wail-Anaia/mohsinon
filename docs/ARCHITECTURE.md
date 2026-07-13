@@ -3662,6 +3662,419 @@ First Production Ready Release
 ### Day 8 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ARCHITECTURE.md
+
+# معمارية منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-13
+**الإصدار:** Milestone 0.8
+
+---
+
+# الرؤية المعمارية
+
+تم تصميم منصة **محسنون** وفق معمارية معيارية (Modular Monolith Architecture) تسمح ببناء منصة كبيرة قابلة للتوسع دون تعقيد مبكر، مع إمكانية الانتقال مستقبلاً إلى Microservices عند الحاجة.
+
+الهدف الأساسي هو **فصل وحدات الأعمال (Business Modules)** عن البنية الأساسية (Core Platform)، بحيث يمكن إضافة أي وحدة جديدة دون تعديل المحركات المشتركة.
+
+---
+
+# المبادئ المعمارية
+
+تعتمد المنصة على المبادئ التالية:
+
+* Modular Monolith
+* Domain-Driven Design (DDD)
+* Rich Domain Model
+* Layered Architecture
+* SOLID Principles
+* Clean Code
+* Separation of Concerns
+* Reusable Engines
+* Convention over Configuration
+
+---
+
+# طبقات النظام
+
+```text
+┌──────────────────────────────┐
+│         REST Controllers      │
+├──────────────────────────────┤
+│           Services            │
+├──────────────────────────────┤
+│     Domain (Entities)         │
+├──────────────────────────────┤
+│        Repositories           │
+├──────────────────────────────┤
+│        PostgreSQL             │
+└──────────────────────────────┘
+```
+
+كل وحدة (Module) تتبع نفس الطبقات للحفاظ على الاتساق وسهولة الصيانة.
+
+---
+
+# الهيكل العام للمشروع
+
+```text
+backend
+│
+├── config
+├── security
+├── common
+├── shared
+│
+├── modules
+│   │
+│   ├── auth
+│   ├── users
+│   ├── authorization
+│   ├── audit
+│   ├── mosques
+│   └── donations
+│
+└── BackendApplication.java
+```
+
+---
+
+# هيكل الوحدة (Module Structure)
+
+كل وحدة أعمال تعتمد نفس الهيكل:
+
+```text
+module
+│
+├── controller
+├── service
+├── repository
+├── entity
+├── dto
+│   ├── request
+│   └── response
+├── mapper
+├── exception
+├── constants
+├── model
+├── validation
+├── dashboard
+└── audit
+```
+
+يسمح هذا النمط بإضافة أي وحدة جديدة بنفس القالب دون إعادة التفكير في البنية.
+
+---
+
+# الوحدات الحالية
+
+## Core
+
+* Security
+* Authentication
+* Authorization
+* Audit
+* Dashboard
+
+---
+
+## Business Modules
+
+* Users
+* Mosques
+* Memberships
+* Donations
+
+---
+
+# المحركات المشتركة (Reusable Engines)
+
+## Authentication Engine
+
+المسؤوليات:
+
+* Login
+* JWT Generation
+* JWT Validation
+* Authentication
+
+---
+
+## Authorization Engine
+
+المسؤوليات:
+
+* Permission Resolution
+* Permission Validation
+* Position Permissions
+* User Permissions
+* Authorization Aspect
+
+يعتمد على:
+
+```java
+@RequirePermission
+```
+
+---
+
+## Dashboard Engine
+
+يعتمد على **Provider Pattern**.
+
+كل وحدة يمكنها إضافة مزود جديد دون تعديل المحرك.
+
+```text
+Dashboard Engine
+        │
+        ├── MembershipStatisticsProvider
+        ├── PositionStatisticsProvider
+        └── DonationStatisticsProvider
+```
+
+---
+
+## Audit Engine
+
+يعتمد على:
+
+```text
+AuditDescriptionProvider
+```
+
+ويستخدم Registry لاكتشاف جميع المزودات تلقائياً.
+
+```text
+Audit Engine
+        │
+        ├── Membership Providers
+        └── Donation Providers
+```
+
+---
+
+# دورة الطلب (Request Flow)
+
+```text
+Client
+    │
+    ▼
+Controller
+    │
+    ▼
+Authorization
+    │
+    ▼
+Service
+    │
+    ▼
+Entity (Business Rules)
+    │
+    ▼
+Repository
+    │
+    ▼
+Database
+    │
+    ▼
+Audit
+    │
+    ▼
+Response
+```
+
+---
+
+# Rich Domain Model
+
+تم اعتماد نموذج غني بالسلوك، بحيث تكون الكيانات مسؤولة عن منطق الأعمال المرتبط بها.
+
+أمثلة:
+
+### Membership
+
+```text
+activate()
+
+suspend()
+
+terminate()
+```
+
+### Donation
+
+```text
+receive()
+
+allocate()
+
+deliver()
+
+cancel()
+```
+
+بدلاً من تعديل الحالة مباشرة من الطبقات الخارجية.
+
+---
+
+# قاعدة البيانات
+
+تعتمد المنصة على PostgreSQL.
+
+أبرز الجداول الحالية:
+
+```text
+users
+roles
+
+mosques
+mosque_positions
+mosque_memberships
+
+permission_groups
+permissions
+position_permissions
+user_permissions
+
+audit_logs
+
+donation_categories
+donations
+```
+
+---
+
+# أنماط التصميم المستخدمة
+
+## Layered Architecture
+
+لفصل المسؤوليات بين الطبقات.
+
+---
+
+## Repository Pattern
+
+لفصل منطق الوصول إلى البيانات.
+
+---
+
+## Provider Pattern
+
+مستخدم في:
+
+* Dashboard
+* Audit
+
+لتوسيع النظام دون تعديل المحركات.
+
+---
+
+## Registry Pattern
+
+مستخدم في:
+
+* Dashboard Registry
+* Audit Registry
+
+لاكتشاف جميع المزودات تلقائياً عبر Spring.
+
+---
+
+## Strategy Pattern
+
+يظهر في اختيار المزود المناسب بناءً على نوع الكيان أو الإحصائية المطلوبة.
+
+---
+
+## Dependency Injection
+
+يعتمد المشروع بالكامل على Spring Dependency Injection.
+
+---
+
+# الأمن
+
+يتكون النظام الأمني من:
+
+* Spring Security
+* JWT Authentication
+* BCrypt Password Encoding
+* Authorization Engine
+* Dynamic Permissions
+
+---
+
+# قابلية التوسع
+
+تم تصميم المشروع بحيث يمكن إضافة أي وحدة جديدة باتباع نفس القالب.
+
+مثال:
+
+```text
+Volunteer Module
+
+↓
+
+Inventory Module
+
+↓
+
+Campaign Module
+
+↓
+
+Education Module
+```
+
+دون الحاجة إلى تعديل:
+
+* Authorization Engine
+* Dashboard Engine
+* Audit Engine
+
+---
+
+# القرارات المعمارية
+
+## المعتمد حالياً
+
+* Modular Monolith.
+* فصل وحدات الأعمال عن المحركات المشتركة.
+* Provider Pattern للمؤشرات والتدقيق.
+* Rich Domain Model.
+* Layered Architecture.
+* UUID كمفتاح أساسي للكيانات الرئيسية.
+* Spring Boot 3.5 + Java 21.
+
+---
+
+# تحسينات مخططة
+
+## Milestone 0.9
+
+* إنشاء BaseEntity لتجميع الحقول المشتركة.
+* توحيد BusinessException كأساس للاستثناءات.
+* تحسين استعلامات Dashboard باستخدام `countBy...`.
+* تقليل تكرار Audit Providers.
+* مراجعة الاتساق بين الوحدات.
+
+---
+
+## Milestone 1.0
+
+* بدء تطوير واجهات Angular.
+* إضافة Volunteers Module.
+* إضافة Initiatives Module.
+* إضافة Inventory Module.
+* إضافة Campaigns Module.
+
+---
+
+# التقييم المعماري
+
+بعد نهاية **Milestone 0.8** أصبحت منصة **محسنون** تمتلك نواة معمارية مستقرة وقابلة للتوسع. وقد أثبت دمج وحدة **Donation Management** نجاح مفهوم **Reusable Engines**، حيث تم دمج وحدة أعمال جديدة مع محركات **Authorization** و**Dashboard** و**Audit** دون تعديل بنيتها الداخلية.
+
+هذا الإنجاز يؤكد أن المعمارية الحالية تحقق هدفها الأساسي: **إضافة وحدات أعمال جديدة بسرعة، مع الحفاظ على الاتساق، وتقليل التكرار، وضمان قابلية الصيانة والتوسع على المدى الطويل**.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 9 ✅
@@ -3669,4 +4082,8 @@ First Production Ready Release
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 11 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

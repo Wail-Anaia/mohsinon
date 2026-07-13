@@ -10,6 +10,8 @@ public interface PermissionGroupService {
     List<PermissionGroupResponse> findAll();
 
     PermissionGroupResponse findById(Long id);
+    
+    PermissionGroupResponse getByCode(String code);
 
     PermissionGroupResponse create(PermissionGroupRequest request);
 

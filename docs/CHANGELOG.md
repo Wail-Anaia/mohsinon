@@ -2043,6 +2043,325 @@ spring-boot-starter-aop
 ### Day 8 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# CHANGELOG.md
+
+جميع التغييرات المهمة في مشروع **منصة محسنون (Mohsinon Platform)** سيتم توثيقها في هذا الملف.
+
+يعتمد هذا السجل على مبادئ **Keep a Changelog** مع الالتزام بالإصدارات المرحلية (Milestones) الخاصة بالمشروع.
+
+---
+
+# [0.8.0] - 2026-07-13
+
+## 🎉 Milestone 0.8 — Donation Management Foundation
+
+تم إنشاء أول وحدة أعمال (Business Module) تعتمد بالكامل على النواة التي تم تطويرها خلال الأيام السابقة.
+
+---
+
+## Added
+
+### Donation Module
+
+* إنشاء وحدة **Donations**.
+* اعتماد Modular Architecture للوحدة.
+* إنشاء جميع الحزم القياسية:
+
+  * controller
+  * service
+  * repository
+  * entity
+  * dto
+  * mapper
+  * exception
+  * constants
+  * model
+  * dashboard
+  * audit
+  * validation
+
+---
+
+### Donation Category
+
+تم إنشاء:
+
+* DonationCategory Entity
+* DonationCategoryRepository
+* DonationCategoryService
+* DonationCategoryController
+
+إضافة DTOs:
+
+* CreateDonationCategoryRequest
+* UpdateDonationCategoryRequest
+* DonationCategoryResponse
+
+---
+
+### Donation
+
+تم إنشاء:
+
+* Donation Entity
+* DonationRepository
+* DonationService
+* DonationController
+
+إضافة DTOs:
+
+* CreateDonationRequest
+* DonationResponse
+
+---
+
+### Donation Lifecycle
+
+تم اعتماد دورة حياة واضحة للتبرع.
+
+الحالات:
+
+* PENDING
+* RECEIVED
+* ALLOCATED
+* DELIVERED
+* CANCELLED
+
+كما تمت إضافة العمليات:
+
+* receive()
+* allocate()
+* deliver()
+* cancel()
+
+---
+
+### Enums
+
+إضافة:
+
+* DonationType
+* DonationStatus
+
+---
+
+### Mapper
+
+تم إنشاء:
+
+* DonationMapper
+
+لدعم:
+
+* Entity ↔ DTO Mapping
+* Category Mapping
+* Update Mapping
+
+---
+
+### Exception Handling
+
+إضافة:
+
+* DonationNotFoundException
+* DonationCategoryNotFoundException
+* DonationCategoryAlreadyExistsException
+
+---
+
+### Authorization Integration
+
+تم دمج وحدة التبرعات مع:
+
+* Authorization Engine
+* Permission Engine
+
+وإضافة مجموعة صلاحيات خاصة بالتبرعات.
+
+---
+
+### Dashboard Integration
+
+إضافة:
+
+* DonationStatisticsProvider
+
+كما تم توسيع:
+
+* MosqueDashboardResponse
+
+ليدعم مؤشرات التبرعات.
+
+---
+
+### Audit Integration
+
+تم تجهيز وحدة التبرعات للعمل مع:
+
+* Audit Engine
+
+وإضافة أول Audit Provider خاص بالتبرعات.
+
+---
+
+## Changed
+
+### Architecture
+
+إثبات إمكانية إضافة وحدة أعمال جديدة دون تعديل:
+
+* Authorization Engine
+* Dashboard Engine
+* Audit Engine
+
+---
+
+### Domain Model
+
+تحويل Donation إلى كيان غني بالسلوك (Rich Domain Model) يعتمد على Domain Methods لإدارة دورة الحياة بدلاً من تحديث الحالة مباشرة.
+
+---
+
+### Dashboard
+
+اعتماد استمرار استخدام **Provider Pattern** لإضافة مؤشرات جديدة دون تعديل محرك لوحة المعلومات.
+
+---
+
+## Deferred
+
+تم تأجيل:
+
+* Integration Tests
+* تحسين استعلامات الإحصائيات باستخدام `countBy...`
+* إعادة تصميم Audit Providers لتقليل تكرار الملفات
+
+وسيتم تنفيذها ضمن Sprint إعادة الهيكلة القادم.
+
+---
+
+# [0.7.0] - 2026-07-12
+
+## Milestone 0.7 — Dashboard & Audit Engine
+
+### Added
+
+* Dashboard Engine
+* Provider Registry
+* Membership Statistics Provider
+* Position Statistics Provider
+* Audit Engine
+* Audit Providers
+* Audit Registry
+* Dynamic Dashboard Extension
+
+---
+
+# [0.6.0] - 2026-07-11
+
+## Milestone 0.6 — Authorization Engine
+
+### Added
+
+* Authorization Service
+* Permission Checking
+* Position Permissions
+* User Permissions
+* RequirePermission Annotation
+* Authorization Aspect
+
+---
+
+# [0.5.0] - 2026-07-10
+
+## Milestone 0.5 — Permission Engine
+
+### Added
+
+* Permission Groups
+* Permissions
+* Position Permission Management
+* Dynamic Permission Model
+
+---
+
+# [0.4.0] - 2026-07-09
+
+## Milestone 0.4 — Membership Lifecycle
+
+### Added
+
+* Mosque Membership Management
+* Membership Lifecycle
+* Activation
+* Suspension
+* Termination
+
+---
+
+# [0.3.0] - 2026-07-08
+
+## Milestone 0.3 — Mosques Module
+
+### Added
+
+* Mosque Entity
+* Mosque Repository
+* Mosque Service
+* Mosque Controller
+* CRUD APIs
+
+---
+
+# [0.2.0] - 2026-07-08
+
+## Milestone 0.2 — Users & Authentication
+
+### Added
+
+* User Entity
+* Role Entity
+* Registration
+* Login
+* JWT Authentication
+* BCrypt Password Encryption
+
+---
+
+# [0.1.0] - 2026-07-07
+
+## Milestone 0.1 — Project Foundation
+
+### Added
+
+* إنشاء مستودع GitHub
+* إعداد مشروع Spring Boot
+* إعداد Angular
+* إعداد PostgreSQL
+* اعتماد Modular Architecture
+* إنشاء الهيكل الأساسي للمشروع
+* إعداد بيئة التطوير
+
+---
+
+# Summary
+
+| Version | Milestone                      | Status |
+| ------- | ------------------------------ | ------ |
+| 0.1.0   | Project Foundation             | ✅      |
+| 0.2.0   | Users & Authentication         | ✅      |
+| 0.3.0   | Mosques Module                 | ✅      |
+| 0.4.0   | Membership Lifecycle           | ✅      |
+| 0.5.0   | Permission Engine              | ✅      |
+| 0.6.0   | Authorization Engine           | ✅      |
+| 0.7.0   | Dashboard & Audit Engine       | ✅      |
+| 0.8.0   | Donation Management Foundation | ✅      |
+
+---
+
+**Current Version:** **0.8.0**
+**Current Milestone:** **Donation Management Foundation**
+**Project Status:** 🟢 Active Development
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 9 ✅
@@ -2050,4 +2369,8 @@ spring-boot-starter-aop
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 11 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
