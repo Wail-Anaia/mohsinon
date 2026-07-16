@@ -2,14 +2,13 @@ package com.mohsinon.modules.donations.entity;
 
 import com.mohsinon.modules.mosques.entity.Mosque;
 import com.mohsinon.modules.users.entity.User;
+import com.mohsinon.shared.entity.LifecycleEntity;
 import com.mohsinon.modules.donations.model.DonationStatus;
 import com.mohsinon.modules.donations.model.DonationType;
 
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -18,11 +17,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "donations")
-public class Donation {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Donation extends LifecycleEntity{
 
     @ManyToOne(optional = false)
     private Mosque mosque;
@@ -52,23 +47,6 @@ public class Donation {
     private BigDecimal estimatedValue;
 
     private String currency;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     /*
      * Business Methods

@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import com.mohsinon.modules.authorization.dto.PermissionGroupRequest;
-import com.mohsinon.modules.authorization.dto.PermissionGroupResponse;
+import com.mohsinon.modules.authorization.dto.request.PermissionGroupRequest;
+import com.mohsinon.modules.authorization.dto.response.PermissionGroupResponse;
 import com.mohsinon.modules.authorization.entity.PermissionGroup;
 import com.mohsinon.modules.authorization.exception.DuplicatePermissionGroupException;
 import com.mohsinon.modules.authorization.exception.PermissionGroupNotFoundException;
@@ -102,7 +102,7 @@ public class PermissionGroupServiceImpl implements PermissionGroupService {
         PermissionGroup group =
                 repository.findByCode(code)
                         .orElseThrow(() ->
-                                new PermissionGroupNotFoundException());
+                                new PermissionGroupNotFoundException(code));
 
         return mapper.toResponse(group);
     }

@@ -4,6 +4,11 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class ChangeImamRequest {
 
     @NotNull
@@ -12,21 +17,5 @@ public class ChangeImamRequest {
     private String notes;
 
     public ChangeImamRequest() {
-    }
-
-    public UUID getUserId() {
-        return userId;
-    }
-
-    public void setUserId(UUID userId) {
-        this.userId = userId;
-    }
-
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
     }
 }

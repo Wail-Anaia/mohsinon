@@ -1,9 +1,10 @@
 package com.mohsinon.modules.mosques.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import com.mohsinon.shared.entity.LifecycleEntity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "mosques")
-public class Mosque {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class Mosque extends LifecycleEntity{
 
     @Column(nullable = false)
     private String name;
@@ -41,26 +38,6 @@ public class Mosque {
 
     @Column(nullable = false)
     private Boolean verified = false;
-
-    @Column(nullable = false)
-    private Boolean active = true;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     public Mosque() {
     }

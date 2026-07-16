@@ -4080,6 +4080,516 @@ Education Module
 ### Day 9 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ARCHITECTURE.md
+
+# معمارية منصة محسنون (Mohsinon Architecture)
+
+**آخر تحديث:** اليوم التاسع (DAY 09)
+
+---
+
+# الرؤية المعمارية
+
+تعتمد منصة **محسنون** على معمارية **Modular Monolith**، بحيث تكون كل وحدة مستقلة داخليًا، ويمكن لاحقًا فصلها إلى Microservice دون الحاجة إلى إعادة كتابة الكود.
+
+الهدف من هذه المعمارية هو:
+
+- سهولة التطوير
+- سهولة الاختبار
+- قابلية التوسع
+- إعادة استخدام المكونات
+- تقليل الترابط بين الوحدات (Low Coupling)
+- زيادة التماسك الداخلي (High Cohesion)
+
+---
+
+# الهيكل العام
+
+```
+backend
+│
+├── common
+│
+├── config
+│
+├── security
+│
+├── shared
+│
+├── modules
+│
+│   ├── auth
+│   ├── users
+│   ├── roles
+│   ├── mosques
+│   ├── donations
+│   ├── authorization
+│   └── ...
+│
+└── docs
+```
+
+---
+
+# الطبقات (Layers)
+
+كل وحدة تتبع نفس الهيكل القياسي.
+
+```
+module
+│
+├── controller
+├── service
+├── repository
+├── entity
+├── dto
+│   ├── request
+│   └── response
+├── mapper
+├── exception
+└── validation
+```
+
+---
+
+# طبقة Shared
+
+تعتبر Shared Layer القلب الحقيقي للمنصة، وتوفر جميع المكونات المشتركة.
+
+```
+shared
+│
+├── entity
+├── lifecycle
+├── query
+├── response
+├── exception
+├── mapper
+├── utils
+└── validation
+```
+
+---
+
+# BaseEntity
+
+جميع الكيانات ترث من:
+
+```
+BaseEntity
+```
+
+وتوفر:
+
+- UUID
+- createdAt
+- updatedAt
+
+---
+
+# AuditableEntity
+
+ترث من BaseEntity.
+
+وتضيف:
+
+- createdBy
+- updatedBy
+
+---
+
+# LifecycleEntity
+
+ترث من AuditableEntity.
+
+وتضيف دورة حياة كاملة للكيانات.
+
+```
+active
+
+archived
+
+archivedAt
+
+archivedBy
+
+deleted
+
+deletedAt
+
+deletedBy
+```
+
+---
+
+# Lifecycle Framework
+
+تم إنشاء إطار موحد لإدارة دورة حياة جميع الكيانات.
+
+يتكون من:
+
+```
+Activatable
+
+Archivable
+
+SoftDeletable
+
+LifecycleUtils
+
+LifecycleService
+
+LifecycleException
+```
+
+ويستخدم في جميع الوحدات.
+
+---
+
+# Soft Delete
+
+لا يتم حذف أي سجل من قاعدة البيانات.
+
+بدلاً من ذلك يتم:
+
+```
+deleted = true
+deletedAt = now
+deletedBy = currentUser
+```
+
+ويتم استبعاده تلقائياً من نتائج البحث.
+
+---
+
+# Archive
+
+يدعم النظام الأرشفة دون حذف البيانات.
+
+```
+archived = true
+
+archivedAt
+
+archivedBy
+```
+
+مع إمكانية الاستعادة.
+
+---
+
+# Activation
+
+أي كيان يمكن:
+
+```
+activate()
+
+deactivate()
+```
+
+---
+
+# Shared Query Layer
+
+تم بناء محرك استعلام موحد لجميع الوحدات.
+
+يتكون من:
+
+```
+SearchRequest
+
+FilterRequest
+
+SearchCriteria
+
+SearchOperation
+
+GenericSpecification
+
+SpecificationBuilder
+
+SearchSpecificationFactory
+
+PaginationUtils
+
+PageResponse
+```
+
+ويدعم:
+
+- Pagination
+- Sorting
+- Filtering
+- Dynamic Specifications
+- Multiple Filters
+- Comparison Operators
+
+---
+
+# محرك البحث
+
+يدعم العمليات التالية:
+
+```
+=
+
+!=
+
+>
+
+<
+
+>=
+
+<=
+
+~
+
+```
+
+مثال:
+
+```
+name=~محمد
+
+createdAt=>2026-01-01
+
+active=true
+```
+
+---
+
+# Pagination
+
+مدعومة بالكامل.
+
+```
+page
+
+size
+```
+
+---
+
+# Sorting
+
+مدعوم:
+
+```
+sortBy
+
+direction
+```
+
+---
+
+# Authorization Engine
+
+يعتمد النظام على محرك صلاحيات ديناميكي.
+
+يتكون من:
+
+```
+Permission
+
+PermissionGroup
+
+PositionPermission
+
+UserPermission
+
+PermissionResolver
+
+CompositePermissionResolver
+
+PermissionCache
+
+AuthorizationService
+
+PermissionAspect
+
+RequirePermission
+```
+
+---
+
+# Authentication
+
+يعتمد على:
+
+- JWT
+- Spring Security
+
+ويتم استخراج المستخدم الحالي بواسطة:
+
+```
+SecurityUtils
+```
+
+---
+
+# Mosque Module
+
+يتكون من:
+
+```
+Mosque
+
+MosqueMembership
+
+MosquePosition
+
+MosqueService
+
+MosqueRepository
+
+MosqueController
+```
+
+ويدعم:
+
+- إنشاء مسجد
+- تعديل
+- Soft Delete
+- Restore
+- Archive
+- Restore Archive
+- البحث الديناميكي
+- Pagination
+- Sorting
+
+---
+
+# Donation Module
+
+تم إنشاء البنية الأساسية للوحدة.
+
+وتشمل:
+
+- Donation
+- DonationCategory
+- Services
+- DTOs
+- Mapper
+- Repository
+
+وسيتم تطويرها خلال المراحل القادمة.
+
+---
+
+# Exception Handling
+
+يعتمد النظام على Global Exception Handler.
+
+وتوجد استثناءات متخصصة لكل وحدة.
+
+مثال:
+
+```
+BusinessException
+
+ValidationException
+
+ForbiddenException
+
+UnauthorizedException
+
+MosqueNotFoundException
+
+PermissionNotFoundException
+```
+
+---
+
+# Mapper Layer
+
+جميع التحويلات تتم عبر Mapper مستقل.
+
+```
+Entity
+
+↓
+
+Mapper
+
+↓
+
+DTO
+```
+
+ولا يتم إرسال Entity مباشرة إلى العميل.
+
+---
+
+# قاعدة البيانات
+
+يعتمد النظام على PostgreSQL.
+
+جميع الكيانات تستخدم UUID كمفتاح أساسي باستثناء بعض الجداول المرجعية.
+
+---
+
+# المعايير البرمجية
+
+يعتمد المشروع على المبادئ التالية:
+
+- SOLID
+- DRY
+- KISS
+- Clean Architecture
+- Layered Architecture
+- Modular Monolith
+- Domain Driven Design (جزئياً)
+
+---
+
+# ما تم إنجازه حتى اليوم التاسع
+
+✅ Authentication
+
+✅ JWT
+
+✅ Users
+
+✅ Roles
+
+✅ Mosques
+
+✅ Mosque Memberships
+
+✅ Mosque Positions
+
+✅ Authorization Engine
+
+✅ Permission Engine
+
+✅ Shared Query Layer
+
+✅ Dynamic Specifications
+
+✅ Pagination
+
+✅ Sorting
+
+✅ Filtering
+
+✅ Lifecycle Framework
+
+✅ Soft Delete
+
+✅ Archive
+
+✅ Restore
+
+✅ Auditing Infrastructure
+
+---
+
+# جاهزية المشروع
+
+أصبحت البنية الأساسية للمنصة مستقرة وقابلة لإعادة الاستخدام في جميع الوحدات القادمة، ولم يعد تطوير أي Module جديد يتطلب إعادة بناء البنية التحتية، بل يقتصر على إضافة منطق الأعمال (Business Logic) الخاص بذلك الـ Module.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

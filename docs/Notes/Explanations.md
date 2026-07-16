@@ -1,3 +1,18 @@
+سابعاً: Imports غير المستخدمة
+
+كل هذه:
+
+never used
+
+احذفها فقط.
+
+في Eclipse:
+
+Ctrl + Shift + O
+
+وسيتم تنظيفها.
+=============================================================================
+
 docs/
 └── DEVELOPMENT_GUIDE.md
 
@@ -101,15 +116,87 @@ Smart Reports
 
 أعتقد أن هذا الأسلوب هو الأنسب لمشروع بحجم محسنون، لأنه يحافظ على جودة المعمارية مع نمو المنصة، ويجعل التطوير منظمًا وقابلًا للاستمرار لسنوات.
 =============================================================================
+package com.mohsinon.modules.authorization.exception;
+
+import com.mohsinon.common.exception.ResourceNotFoundException;
+
+public class PermissionNotFoundException extends ResourceNotFoundException {
+
+    public PermissionNotFoundException(Long id) {
+        super("Permission with id '" + id + "' was not found.");
+    }
+
+    public PermissionNotFoundException(String code) {
+        super("Permission with code '" + code + "' was not found.");
+    }
+
+}
+=============================================================================
+public UserPermissionNotFoundException() {
+		super("User permission was not found.");
+	}
+=============================================================================
+احذف جميع الجداول:
+
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+=============================================================================
+BaseEntity.java
+هذا الكلاس يمثل الخصائص الأساسية المشتركة بين جميع الكيانات.
+هذه الحقول موجودة في كل كيان تقريبًا، سواء كان يحتاج إلى تتبع المستخدمين أم لا.
+
+AuditableEntity.java
+هذا الكلاس يضيف معلومات "من قام بالعملية" بالإضافة إلى الحذف المنطقي.
+
+لماذا لا أنقل createdAt وupdatedAt إلى AuditableEntity؟
+
+لأنهما لا يتعلقان بالتدقيق (Audit) من حيث من قام بالفعل، وإنما يتعلقان بعمر السجل نفسه.
+
+قد يكون لديك في المستقبل كيانات بسيطة أو جداول مساعدة (Lookup Tables) لا تحتاج إلى createdBy وupdatedBy، لكنها تحتاج بالتأكيد إلى createdAt وupdatedAt.
+
+مثلاً:
+
+Country
+Currency
+Language
+PermissionGroup
+Permission
+
+قد لا يهمك من أنشأها، لكن يهمك متى أُنشئت أو عُدلت.
+
+لو وضعت createdAt داخل AuditableEntity فستضطر كل كيان يريد التاريخ فقط أن يرث أيضًا createdBy وupdatedBy بلا حاجة.
+
+بهذا يكون:
+
+BaseEntity مسؤولًا عن هوية الكيان ودورة حياته الزمنية.
+AuditableEntity مسؤولًا عن التدقيق (من أنشأ، من عدّل، من حذف) والحذف المنطقي.
+جميع وحدات محسنون ترث من AuditableEntity لأنها تحتاج إلى هذه الإمكانيات.
 
 =============================================================================
+الحل الأول (أنصح به)
 
-=============================================================================
+غيّر جميع علاقات ManyToOne الخاصة بالتدقيق (Audit) إلى Lazy.
 
-=============================================================================
+بدلاً من:
 
-=============================================================================
+@ManyToOne
+@JoinColumn(name = "created_by")
+private User createdBy;
 
+اكتب:
+
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "created_by")
+private User createdBy;
+
+ونفس الشيء مع:
+
+updatedBy
+deletedBy
+archivedBy
+appointedBy
+
+أي جميع العلاقات التي تشير إلى User.
 =============================================================================
 
 =============================================================================

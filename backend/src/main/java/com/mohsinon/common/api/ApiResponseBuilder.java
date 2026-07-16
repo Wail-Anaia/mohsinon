@@ -24,14 +24,22 @@ public final class ApiResponseBuilder {
                 .message(message)
                 .build();
     }
-    
+
     public static ApiResponse<Void> deleted() {
 
-        return ApiResponse.<Void>builder()
-                .success(true)
-                .message(ApiMessage.DELETED)
-                .build();
+        return success(ApiMessage.DELETED);
 
+    }
+
+    public static ApiResponse<Void> error(
+            String message,
+            String errorCode) {
+
+        return ApiResponse.<Void>builder()
+                .success(false)
+                .message(message)
+                .errorCode(errorCode)
+                .build();
     }
 
 }

@@ -1,12 +1,28 @@
 package com.mohsinon.modules.authorization.exception;
 
-import com.mohsinon.common.exception.DuplicateResourceException;
+import java.util.UUID;
 
-public class DuplicateUserPermissionException
-        extends DuplicateResourceException {
+import com.mohsinon.common.exception.AlreadyExistsException;
+import com.mohsinon.common.exception.ErrorCodes;
 
-    public DuplicateUserPermissionException() {
-        super("Permission is already assigned to this user.");
+public class DuplicateUserPermissionException extends AlreadyExistsException {
+	
+	public DuplicateUserPermissionException() {
+
+        super(
+                ErrorCodes.USER_PERMISSION_ALREADY_EXISTS,
+                "Permission is already assigned to user.");
+    }
+
+    public DuplicateUserPermissionException(
+            UUID userId,
+            Long permissionId) {
+
+        super(
+                ErrorCodes.USER_PERMISSION_ALREADY_EXISTS,
+                "Permission '" + permissionId
+                        + "' is already assigned to user '"
+                        + userId + "'.");
     }
 
 }

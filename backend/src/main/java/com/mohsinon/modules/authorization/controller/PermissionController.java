@@ -10,8 +10,8 @@ import com.mohsinon.common.api.ApiMessage;
 import com.mohsinon.common.api.ApiResponse;
 import com.mohsinon.common.api.ApiConstants;
 import com.mohsinon.common.api.ApiResponseBuilder;
-import com.mohsinon.modules.authorization.dto.PermissionRequest;
-import com.mohsinon.modules.authorization.dto.PermissionResponse;
+import com.mohsinon.modules.authorization.dto.request.PermissionRequest;
+import com.mohsinon.modules.authorization.dto.response.PermissionResponse;
 import com.mohsinon.modules.authorization.service.PermissionService;
 
 import jakarta.validation.Valid;

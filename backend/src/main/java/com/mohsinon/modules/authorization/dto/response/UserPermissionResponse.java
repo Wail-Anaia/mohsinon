@@ -1,4 +1,4 @@
-package com.mohsinon.modules.authorization.dto;
+package com.mohsinon.modules.authorization.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;

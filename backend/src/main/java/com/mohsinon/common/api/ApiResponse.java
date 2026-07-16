@@ -16,6 +16,14 @@ public class ApiResponse<T> {
 
     private String message;
 
+    /**
+     * يستخدم فقط عند وجود أخطاء.
+     */
+    private String errorCode;
+
+    /**
+     * البيانات المرجعة.
+     */
     private T data;
 
 }

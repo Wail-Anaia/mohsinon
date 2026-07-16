@@ -1,8 +1,21 @@
 package com.mohsinon.modules.mosques.exception;
 
-public class MosquePositionAlreadyAssignedException extends RuntimeException {
+import com.mohsinon.common.exception.AlreadyExistsException;
+import com.mohsinon.common.exception.ErrorCodes;
 
-    public MosquePositionAlreadyAssignedException(String positionName) {
-        super(positionName + " is already assigned in this mosque.");
+public class MosquePositionAlreadyAssignedException extends AlreadyExistsException {
+
+    public MosquePositionAlreadyAssignedException() {
+
+        super(
+                ErrorCodes.MOSQUE_POSITION_ALREADY_ASSIGNED,
+                "The position is already assigned to another active member.");
     }
+    
+    public MosquePositionAlreadyAssignedException(String positionCode) {
+        super(
+                ErrorCodes.MOSQUE_POSITION_ALREADY_ASSIGNED,
+                "Position '" + positionCode + "' is already assigned.");
+    }
+
 }

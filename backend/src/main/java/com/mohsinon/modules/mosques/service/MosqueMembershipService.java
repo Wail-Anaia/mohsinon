@@ -11,7 +11,6 @@ import com.mohsinon.modules.mosques.repository.MosquePositionRepository;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
 import com.mohsinon.modules.audit.annotation.Audit;
 import com.mohsinon.modules.audit.model.*;
-import com.mohsinon.modules.authorization.service.AuthorizationService;
 import com.mohsinon.modules.mosques.constants.MosquePositionCodes;
 import com.mohsinon.modules.mosques.dto.response.MosqueMembershipResponse;
 import com.mohsinon.modules.mosques.mapper.MosqueMembershipMapper;
@@ -25,7 +24,6 @@ import com.mohsinon.security.annotation.RequirePermission;
 import com.mohsinon.security.annotation.ResourceId;
 import com.mohsinon.security.current.CurrentUserService;
 
-import java.time.LocalDate;
 import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,7 +38,6 @@ public class MosqueMembershipService {
     private final MosquePositionRepository positionRepository;
     private final MosqueRepository mosqueRepository;
     private final UserRepository userRepository;
-    private final AuthorizationService authorizationService;
     private final CurrentUserService currentUserService;
 
     public MosqueMembershipService(
@@ -48,14 +45,12 @@ public class MosqueMembershipService {
             MosqueMembershipRepository membershipRepository,
             MosquePositionRepository positionRepository,
             UserRepository userRepository,
-            AuthorizationService authorizationService,
             CurrentUserService currentUserService) {
 
         this.mosqueRepository = mosqueRepository;
         this.membershipRepository = membershipRepository;
         this.positionRepository = positionRepository;
         this.userRepository = userRepository;
-        this.authorizationService = authorizationService;
         this.currentUserService = currentUserService;
     }
     
@@ -80,14 +75,8 @@ public class MosqueMembershipService {
         return MosqueMembershipMapper.toResponse(membership);
     }
     
-    @Audit(
-            action = AuditAction.ASSIGN,
-            entity = AuditEntityType.MEMBERSHIP
-    )
-    @RequirePermission(
-            groupCode = "mosque",
-            permission = "add_member"
-    )
+    @Audit(action = AuditAction.ASSIGN, entity = AuditEntityType.MEMBERSHIP)
+    @RequirePermission(groupCode = "mosque", permission = "add_member")
     @Transactional
     public MosqueMembershipResponse assignPosition(
             @ResourceId UUID mosqueId,
@@ -196,10 +185,7 @@ public class MosqueMembershipService {
                 .collect(Collectors.toList());
     }
     
-    @RequirePermission(
-            groupCode = "mosque",
-            permission = "assign_imam"
-    )
+    @RequirePermission(groupCode = "mosque", permission = "assign_imam")
     @Transactional
     public MosqueMembershipResponse changeImam(
     		@ResourceId UUID mosqueId,
@@ -238,14 +224,8 @@ public class MosqueMembershipService {
         return MosqueMembershipMapper.toResponse(membership);
     }
     
-    @Audit(
-            action = AuditAction.REMOVE,
-            entity = AuditEntityType.MEMBERSHIP
-    )
-    @RequirePermission(
-            groupCode = "mosque",
-            permission = "remove_member"
-    )
+    @Audit(action = AuditAction.REMOVE, entity = AuditEntityType.MEMBERSHIP)
+    @RequirePermission(groupCode = "mosque", permission = "remove_member")
     @Transactional
     public MosqueMembershipResponse terminateMembership(UUID membershipId) {
  
@@ -305,5 +285,4 @@ public class MosqueMembershipService {
                 .map(MosqueMembershipMapper::toResponse)
                 .toList();
     }
-
 }

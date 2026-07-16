@@ -2367,6 +2367,369 @@ spring-boot-starter-aop
 ### Day 9 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# CHANGELOG
+
+جميع التغييرات المهمة في مشروع **منصة محسنون (Mohsinon Platform)** يتم توثيقها في هذا الملف.
+
+يعتمد المشروع على مبادئ **Semantic Versioning** مع توثيق الإنجازات اليومية.
+
+---
+
+# الإصدار 0.9.0
+**التاريخ:** 2026-07-16
+
+## 🎯 Milestone 0.9 — Core Infrastructure Hardening
+
+يُعد هذا الإصدار نقطة تحول كبيرة في البنية الداخلية للمشروع، حيث انتقل من مجرد وحدات مستقلة إلى بنية مشتركة قابلة لإعادة الاستخدام على مستوى جميع الوحدات.
+
+---
+
+# ✨ تمت الإضافة
+
+## Shared Lifecycle Framework
+
+إضافة طبقة مشتركة لإدارة دورة حياة الكيانات.
+
+تم إنشاء:
+
+- LifecycleEntity
+- LifecycleService
+- LifecycleUtils
+
+وواجهات:
+
+- Activatable
+- Archivable
+- SoftDeletable
+
+أصبحت جميع الوحدات المستقبلية قادرة على استخدام نفس السلوك دون إعادة كتابة المنطق.
+
+---
+
+## Soft Delete
+
+إضافة نظام حذف منطقي بدلاً من الحذف الفعلي.
+
+أصبح كل كيان يدعم:
+
+- deleted
+- deletedAt
+- deletedBy
+
+مع إمكانية:
+
+- Soft Delete
+- Restore
+
+بدون فقدان البيانات.
+
+---
+
+## Archive System
+
+إضافة نظام الأرشفة.
+
+يدعم:
+
+- archived
+- archivedAt
+- archivedBy
+
+مع:
+
+- Archive
+- Restore Archive
+
+---
+
+## Active / Inactive
+
+إضافة إدارة حالة التفعيل.
+
+يدعم:
+
+- Active
+- Inactive
+
+باستخدام:
+
+- activate()
+- deactivate()
+
+---
+
+## Auditing Improvements
+
+تحسين نظام التتبع.
+
+يدعم الآن:
+
+- createdAt
+- updatedAt
+- createdBy
+- updatedBy
+
+وأصبح جاهزاً للتكامل مع Spring Security Auditor لاحقاً.
+
+---
+
+## Shared Query Improvements
+
+تحسين طبقة البحث والاستعلام.
+
+تم دعم:
+
+- Pagination
+- Sorting
+- Dynamic Filtering
+- Multiple Filters
+- Greater Than
+- Less Than
+- Boolean Filters
+
+---
+
+## Search Specification
+
+تحسين SearchSpecificationFactory لتجاهل معاملات النظام مثل:
+
+- page
+- size
+- sortBy
+- direction
+
+حتى لا يتم تفسيرها كحقول داخل الكيان.
+
+---
+
+## Lifecycle Integration
+
+دمج دورة الحياة داخل وحدة المساجد.
+
+أصبحت تدعم:
+
+- Delete (Soft Delete)
+- Restore
+- Archive
+- Restore Archive
+- Activate
+- Deactivate
+
+---
+
+## Donation Module Compatibility
+
+تعديل وحدة التبرعات لتتوافق مع LifecycleEntity.
+
+أصبحت الكيانات تدعم:
+
+- Active
+- Deleted
+- Archived
+
+بشكل موحد.
+
+---
+
+# 🛠 تم التحسين
+
+## Mosque Module
+
+تحسين:
+
+- Update API
+- Delete API
+- Restore API
+- Archive API
+- Activation API
+
+---
+
+## Query Engine
+
+تحسين دعم:
+
+- Sorting
+- Pagination
+- Filters
+
+بشكل متوافق مع جميع الوحدات.
+
+---
+
+## Mapper Layer
+
+تحديث جميع الـ Mappers لاستخدام الخصائص الجديدة القادمة من LifecycleEntity.
+
+---
+
+## Entity Hierarchy
+
+إعادة تنظيم الوراثة لتصبح:
+
+```
+BaseEntity
+        │
+        ▼
+AuditableEntity
+        │
+        ▼
+LifecycleEntity
+        │
+        ▼
+Business Entities
+```
+
+---
+
+# 🐞 تم إصلاحه
+
+## Search Bugs
+
+إصلاح خطأ:
+
+```
+Could not resolve attribute 'sortBy'
+```
+
+---
+
+إصلاح خطأ:
+
+```
+Cannot compare LocalDateTime with String
+```
+
+---
+
+إصلاح:
+
+Greater Than Filters
+
+---
+
+إصلاح:
+
+Less Than Filters
+
+---
+
+إصلاح:
+
+Boolean Filters
+
+---
+
+إصلاح:
+
+Pagination + Sorting
+
+---
+
+إصلاح:
+
+Full Query Search
+
+---
+
+إصلاح:
+
+Specification Builder
+
+---
+
+إصلاح:
+
+DonationCategory isActive()
+
+---
+
+إصلاح مشاكل الوراثة الخاصة بـ LifecycleEntity.
+
+---
+
+إصلاح أخطاء التوافق بين:
+
+- AuditableEntity
+- LifecycleEntity
+
+---
+
+إصلاح Delete Endpoint
+
+بدلاً من:
+
+```
+DELETE FROM
+```
+
+أصبح:
+
+```
+UPDATE
+deleted = true
+```
+
+---
+
+# ✅ الاختبارات الناجحة
+
+تم اجتياز:
+
+- Register
+- Login
+- JWT
+- Create Mosque
+- Get Mosque
+- Update Mosque
+- Soft Delete
+- Restore
+- Archive
+- Restore Archive
+- Activate
+- Deactivate
+- Pagination
+- Sorting
+- Filtering
+- Greater Than
+- Less Than
+- Boolean Filter
+- Multiple Filters
+- Full Query
+- Dynamic Specifications
+
+---
+
+# 📊 حالة المشروع
+
+إجمالي الوحدات المكتملة:
+
+- Authentication
+- JWT
+- Authorization
+- Dynamic Permissions
+- Mosque Module
+- Membership Module
+- Query Infrastructure
+- Lifecycle Infrastructure
+- Donation Foundation
+
+---
+
+# 🚀 الإصدار القادم
+
+## الإصدار 1.0.0 (Day 10)
+
+سيبدأ العمل على:
+
+- Swagger / OpenAPI
+- API Documentation
+- Module Initializer
+- Database Initializers
+- تحسين تجربة المطور (Developer Experience)
+
+تمهيداً للانتقال إلى تعميم البنية التحتية على جميع وحدات منصة **محسنون**.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

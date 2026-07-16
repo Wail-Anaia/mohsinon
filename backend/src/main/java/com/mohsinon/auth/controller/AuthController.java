@@ -5,11 +5,12 @@ import com.mohsinon.auth.dto.RegisterResponse;
 import com.mohsinon.auth.dto.LoginRequest;
 import com.mohsinon.auth.dto.LoginResponse;
 import com.mohsinon.auth.service.AuthService;
+import com.mohsinon.common.api.ApiConstants;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(ApiConstants.API_V1 + "/auth")
 public class AuthController {
 
     private final AuthService authService;

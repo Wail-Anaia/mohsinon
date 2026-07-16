@@ -2,12 +2,12 @@ package com.mohsinon.modules.mosques.entity;
 
 import com.mohsinon.modules.mosques.membership.model.MembershipStatus;
 import com.mohsinon.modules.users.entity.User;
+import com.mohsinon.shared.entity.AuditableEntity;
+
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.UUID;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,21 +15,17 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "mosque_memberships")
-public class MosqueMembership {
+public class MosqueMembership extends AuditableEntity{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-
-    @ManyToOne(optional = false)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "mosque_id", nullable = false)
     private Mosque mosque;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "position_id", nullable = false)
     private MosquePosition position;
 
@@ -40,10 +36,9 @@ public class MosqueMembership {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    @Builder.Default
     private MembershipStatus status = MembershipStatus.PENDING;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "appointed_by")
     private User appointedBy;
 

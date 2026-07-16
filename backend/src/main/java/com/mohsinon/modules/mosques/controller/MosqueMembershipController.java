@@ -5,6 +5,7 @@ import com.mohsinon.modules.mosques.dto.request.ChangeImamRequest;
 import com.mohsinon.modules.mosques.dto.response.MosqueMembershipResponse;
 import com.mohsinon.modules.mosques.service.MosqueMembershipService;
 import com.mohsinon.modules.users.repository.UserRepository;
+import com.mohsinon.common.api.ApiConstants;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/mosques")
+@RequestMapping(ApiConstants.API_V1 + "/mosques")
 public class MosqueMembershipController {
 
     private final MosqueMembershipService membershipService;

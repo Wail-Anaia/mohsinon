@@ -2,7 +2,7 @@ package com.mohsinon.modules.authorization.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.mohsinon.modules.authorization.dto.PermissionResponse;
+import com.mohsinon.modules.authorization.dto.response.PermissionResponse;
 import com.mohsinon.modules.authorization.entity.Permission;
 
 @Component

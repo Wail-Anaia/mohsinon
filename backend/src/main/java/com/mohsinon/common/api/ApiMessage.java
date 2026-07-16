@@ -16,5 +16,14 @@ public final class ApiMessage {
 
     public static final String FETCHED =
             "Data retrieved successfully.";
+    
+    public static final String SUCCESS =
+            "Operation completed successfully.";
+
+    public static final String LOGIN_SUCCESS =
+            "Login successful.";
+
+    public static final String REGISTER_SUCCESS =
+            "Registration successful.";
 
 }

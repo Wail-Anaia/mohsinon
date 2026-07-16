@@ -7,8 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 
-import com.mohsinon.modules.authorization.dto.PermissionRequest;
-import com.mohsinon.modules.authorization.dto.PermissionResponse;
+import com.mohsinon.modules.authorization.dto.request.PermissionRequest;
+import com.mohsinon.modules.authorization.dto.response.PermissionResponse;
 import com.mohsinon.modules.authorization.entity.Permission;
 import com.mohsinon.modules.authorization.entity.PermissionGroup;
 import com.mohsinon.modules.authorization.exception.DuplicatePermissionException;

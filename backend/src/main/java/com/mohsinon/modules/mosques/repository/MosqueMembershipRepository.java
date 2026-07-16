@@ -6,12 +6,13 @@ import com.mohsinon.modules.mosques.entity.MosquePosition;
 import com.mohsinon.modules.mosques.membership.model.MembershipStatus;
 import com.mohsinon.modules.users.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface MosqueMembershipRepository extends JpaRepository<MosqueMembership, UUID> {
+public interface MosqueMembershipRepository extends JpaRepository<MosqueMembership, UUID>, JpaSpecificationExecutor<Mosque>{
 
     /**
      * جميع عضويات المسجد.

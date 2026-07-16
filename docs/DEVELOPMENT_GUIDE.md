@@ -551,6 +551,543 @@ docs/
 ### Day 9 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# دليل التطوير - منصة محسنون (Development Guide)
+
+> آخر تحديث: اليوم التاسع (Day 09)
+
+---
+
+# مقدمة
+
+هذا الدليل يوضح أسلوب التطوير الرسمي داخل مشروع **منصة محسنون**، ويهدف إلى توحيد طريقة كتابة الكود، وهيكل المشروع، وآلية إضافة الوحدات الجديدة، لضمان سهولة الصيانة والتوسع مستقبلاً.
+
+---
+
+# المبادئ الأساسية
+
+يعتمد المشروع على المبادئ التالية:
+
+- Clean Architecture
+- SOLID Principles
+- Domain Driven Design (DDD) (بشكل مبسط)
+- Modular Monolith
+- Feature Based Structure
+- Separation of Concerns
+- Reusable Shared Infrastructure
+
+---
+
+# هيكل المشروع
+
+```
+backend/
+│
+├── common/
+├── config/
+├── security/
+├── shared/
+│
+├── modules/
+│   ├── auth/
+│   ├── users/
+│   ├── mosques/
+│   ├── donations/
+│   ├── volunteers/
+│   ├── education/
+│   ├── marketplace/
+│   └── ...
+│
+└── MohsinonApplication.java
+```
+
+---
+
+# هيكل أي Module
+
+كل وحدة يجب أن تتبع نفس البنية.
+
+```
+module-name/
+
+├── controller
+├── service
+├── repository
+├── entity
+├── dto
+│   ├── request
+│   └── response
+├── mapper
+├── exception
+├── validation
+└── initializer
+```
+
+---
+
+# Entity
+
+كل Entity جديد يجب أن يرث من:
+
+```java
+LifecycleEntity
+```
+
+وليس:
+
+```java
+BaseEntity
+```
+
+ولا
+
+```java
+AuditableEntity
+```
+
+لأن LifecycleEntity يحتوي على:
+
+- UUID
+- createdAt
+- updatedAt
+- createdBy
+- updatedBy
+- active
+- archived
+- deleted
+- archivedAt
+- deletedAt
+- archivedBy
+- deletedBy
+
+---
+
+# إنشاء CRUD جديد
+
+كل وحدة جديدة يجب أن تحتوي على:
+
+- Entity
+- Repository
+- Service
+- Controller
+- Mapper
+- DTO Request
+- DTO Response
+- Exception
+
+---
+
+# إنشاء Service
+
+يفضل أن تكون جميع العمليات داخل Service.
+
+مثال:
+
+```java
+create()
+
+update()
+
+findById()
+
+search()
+
+delete()
+
+restore()
+
+archive()
+
+restoreArchive()
+
+activate()
+
+deactivate()
+```
+
+---
+
+# الحذف
+
+لا يستخدم المشروع:
+
+```java
+repository.delete()
+```
+
+نهائياً.
+
+بل يستخدم دائماً:
+
+```java
+LifecycleService.softDelete()
+```
+
+ثم
+
+```java
+repository.save()
+```
+
+---
+
+# الأرشفة
+
+الأرشفة تتم بواسطة:
+
+```java
+LifecycleService.archive()
+```
+
+واسترجاعها بواسطة:
+
+```java
+LifecycleService.restore()
+```
+
+---
+
+# التفعيل والإيقاف
+
+```java
+activate()
+
+deactivate()
+```
+
+بدلاً من حذف البيانات.
+
+---
+
+# البحث
+
+كل وحدة يجب أن تعتمد على:
+
+```
+SearchRequest
+```
+
+و
+
+```
+SpecificationBuilder
+```
+
+و
+
+```
+GenericSpecification
+```
+
+ولا يتم إنشاء Query مخصصة إلا عند الحاجة.
+
+---
+
+# Pagination
+
+يستخدم المشروع:
+
+```
+PaginationUtils
+```
+
+لإنشاء:
+
+```
+Pageable
+```
+
+ولإرجاع:
+
+```
+PageResponse
+```
+
+---
+
+# Sorting
+
+يتم تمرير:
+
+```
+sortBy
+
+direction
+```
+
+عن طريق:
+
+```
+SearchRequest
+```
+
+---
+
+# Filtering
+
+جميع الفلاتر تعتمد على:
+
+```
+Map<String,String>
+```
+
+ثم تحويلها إلى:
+
+```
+SearchCriteria
+```
+
+ثم
+
+```
+Specification
+```
+
+---
+
+# Mapper
+
+لا يتم إرجاع Entity مباشرة.
+
+بل دائماً:
+
+```
+Entity
+
+↓
+
+Mapper
+
+↓
+
+Response DTO
+```
+
+---
+
+# DTO
+
+أي API يجب أن يستخدم:
+
+```
+Request DTO
+```
+
+و
+
+```
+Response DTO
+```
+
+ولا يتم استخدام Entity داخل Controller.
+
+---
+
+# Exceptions
+
+كل Module يمتلك استثناءاته الخاصة.
+
+مثال:
+
+```
+MosqueNotFoundException
+
+DonationNotFoundException
+
+PermissionNotFoundException
+```
+
+وجميعها ترث من:
+
+```
+BusinessException
+```
+
+---
+
+# Security
+
+المصادقة تعتمد على:
+
+- JWT
+
+أما الصلاحيات فتعتمد على:
+
+- AuthorizationService
+- PermissionResolver
+- PermissionCache
+- RequirePermission
+
+---
+
+# Authorization
+
+أي Endpoint حساس يجب أن يحتوي على:
+
+```java
+@RequirePermission(
+    group = "...",
+    permission = "..."
+)
+```
+
+---
+
+# Cache
+
+صلاحيات المستخدم تحفظ داخل:
+
+```
+PermissionCache
+```
+
+ويتم تنظيفها عند:
+
+- إضافة صلاحية
+- حذف صلاحية
+- تعديل الصلاحيات
+
+---
+
+# Repository
+
+كل Repository يرث من:
+
+```java
+JpaRepository
+```
+
+و
+
+```java
+JpaSpecificationExecutor
+```
+
+عند الحاجة إلى البحث الديناميكي.
+
+---
+
+# Transactions
+
+أي عملية كتابة يجب أن تستخدم:
+
+```java
+@Transactional
+```
+
+مثل:
+
+- Create
+- Update
+- Delete
+- Restore
+- Archive
+- Activate
+
+---
+
+# Validation
+
+كل Request يستخدم:
+
+```java
+@Valid
+```
+
+مع:
+
+```
+Jakarta Validation
+```
+
+---
+
+# Logging
+
+يعتمد المشروع على Logging الخاص بـ Spring Boot و Hibernate أثناء التطوير، مع إمكانية إضافة SLF4J Logs للعمليات المهمة لاحقًا.
+
+---
+
+# التوثيق
+
+ابتداءً من اليوم العاشر سيتم اعتماد:
+
+- Swagger / OpenAPI
+
+ليصبح جميع الـ APIs موثقة تلقائياً.
+
+---
+
+# Git Workflow
+
+بعد نهاية كل يوم تطوير:
+
+1.
+
+```bash
+git status
+```
+
+2.
+
+```bash
+git add .
+```
+
+3.
+
+```bash
+git commit -m "Day XX - وصف مختصر"
+```
+
+4.
+
+```bash
+git push origin main
+```
+
+---
+
+# أسلوب كتابة الكود
+
+- أسماء الكلاسات باللغة الإنجليزية.
+- أسماء الحقول باللغة الإنجليزية.
+- أسماء الـ APIs واضحة ومعبرة.
+- تجنب تكرار الكود (DRY).
+- الاعتماد على Shared Infrastructure قبل إنشاء حلول خاصة.
+- فصل المسؤوليات بين الطبقات.
+- كتابة كود قابل لإعادة الاستخدام.
+
+---
+
+# ما تم اعتماده حتى اليوم التاسع
+
+تم اعتماد البنية الأساسية التالية:
+
+- نظام المستخدمين.
+- المصادقة باستخدام JWT.
+- نظام المساجد.
+- نظام المناصب والعضويات.
+- نظام الصلاحيات الديناميكي.
+- Authorization Framework.
+- Shared Query Layer.
+- Dynamic Specifications.
+- Pagination.
+- Sorting.
+- Filtering.
+- Lifecycle Framework.
+- Soft Delete.
+- Archive.
+- Restore.
+- Activate / Deactivate.
+- Shared Exceptions.
+- Modular Architecture.
+
+---
+
+# الهدف من هذا الدليل
+
+يُعد هذا الدليل المرجع الرسمي للمطورين المشاركين في مشروع **منصة محسنون**، ويضمن توحيد أسلوب التطوير، وتقليل التكرار، والحفاظ على جودة الكود مع نمو المشروع وإضافة وحدات جديدة.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

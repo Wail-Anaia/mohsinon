@@ -2,8 +2,8 @@ package com.mohsinon.modules.authorization.service;
 
 import java.util.List;
 
-import com.mohsinon.modules.authorization.dto.PermissionRequest;
-import com.mohsinon.modules.authorization.dto.PermissionResponse;
+import com.mohsinon.modules.authorization.dto.request.PermissionRequest;
+import com.mohsinon.modules.authorization.dto.response.PermissionResponse;
 
 public interface PermissionService {
 

@@ -1,12 +1,23 @@
 package com.mohsinon.modules.mosques.exception;
 
-import com.mohsinon.common.exception.ResourceNotFoundException;
+import java.util.UUID;
 
-public class MosqueMembershipNotFoundException
-        extends ResourceNotFoundException {
+import com.mohsinon.common.exception.ErrorCodes;
+import com.mohsinon.common.exception.NotFoundException;
 
-    public MosqueMembershipNotFoundException() {
-        super("Mosque membership not found.");
+public class MosqueMembershipNotFoundException extends NotFoundException {
+	
+	public MosqueMembershipNotFoundException() {
+        super(
+                ErrorCodes.MOSQUE_MEMBERSHIP_NOT_FOUND,
+                "Mosque membership not found.");
+    }
+
+    public MosqueMembershipNotFoundException(UUID id) {
+
+        super(
+                ErrorCodes.MOSQUE_MEMBERSHIP_NOT_FOUND,
+                "Mosque membership with id '" + id + "' was not found.");
     }
 
 }

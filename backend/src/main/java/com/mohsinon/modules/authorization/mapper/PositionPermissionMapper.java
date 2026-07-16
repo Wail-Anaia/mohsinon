@@ -2,7 +2,7 @@ package com.mohsinon.modules.authorization.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.mohsinon.modules.authorization.dto.PositionPermissionResponse;
+import com.mohsinon.modules.authorization.dto.response.PositionPermissionResponse;
 import com.mohsinon.modules.authorization.entity.PositionPermission;
 
 @Component

@@ -2754,6 +2754,331 @@ backend
 ### Day 9 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# حالة المشروع - منصة محسنون (PROJECT STATUS)
+
+**اسم المشروع:** منصة محسنون (Mohsinon Platform)
+
+**الإصدار الحالي:** Milestone 0.9
+
+**اليوم:** DAY 09
+
+**آخر تحديث:** 2026-07-16
+
+---
+
+# الرؤية العامة
+
+تهدف منصة محسنون إلى بناء منصة خيرية متكاملة لإدارة:
+
+- المساجد
+- المتبرعين
+- المتطوعين
+- الجمعيات
+- المشاريع الخيرية
+- التبرعات
+- التعليم
+- الأسواق الخيرية
+- الذكاء الاصطناعي
+
+وفق معمارية Modular Monolith قابلة للتحول مستقبلاً إلى Microservices.
+
+---
+
+# نسبة الإنجاز التقريبية
+
+| الوحدة | الحالة |
+|---------|---------|
+| البنية الأساسية للمشروع | ✅ مكتملة |
+| Spring Boot | ✅ |
+| PostgreSQL | ✅ |
+| JWT Authentication | ✅ |
+| إدارة المستخدمين | ✅ |
+| إدارة الأدوار | ✅ |
+| إدارة المساجد | ✅ |
+| إدارة العضويات | ✅ |
+| إدارة المناصب | ✅ |
+| نظام الصلاحيات الديناميكي | ✅ |
+| Authorization Engine | ✅ |
+| Permission Resolution | ✅ |
+| Shared Query Layer | ✅ |
+| Pagination | ✅ |
+| Dynamic Filtering | ✅ |
+| Dynamic Sorting | ✅ |
+| Dynamic Specifications | ✅ |
+| Lifecycle Infrastructure | ✅ |
+| Soft Delete | ✅ |
+| Archive | ✅ |
+| Restore | ✅ |
+| Active / Inactive | ✅ |
+| Donation Module | 🚧 قيد التطوير |
+| Swagger | ⏳ اليوم التالي |
+| Front-End Angular | ⏳ لم يبدأ بعد |
+
+---
+
+# ما تم إنجازه خلال اليوم التاسع
+
+## أولاً: تثبيت Shared Infrastructure
+
+تم الانتهاء من تحويل المشروع إلى بنية مشتركة قابلة لإعادة الاستخدام في جميع الوحدات.
+
+---
+
+## ثانياً: إنشاء Lifecycle Infrastructure
+
+أصبحت جميع الكيانات تستطيع الاستفادة من دورة حياة موحدة.
+
+تشمل:
+
+- Active
+- Archive
+- Soft Delete
+- Restore
+
+---
+
+## ثالثاً: إنشاء LifecycleEntity
+
+تم إنشاء الكيان الأساسي الذي ترث منه الكيانات الرئيسية.
+
+يشمل:
+
+- active
+- archived
+- archivedAt
+- archivedBy
+- deleted
+- deletedAt
+- deletedBy
+
+---
+
+## رابعاً: Lifecycle Interfaces
+
+تم إنشاء:
+
+- Activatable
+- Archivable
+- SoftDeletable
+
+---
+
+## خامساً: Lifecycle Utilities
+
+تم إنشاء أدوات عامة لتنفيذ:
+
+- activate()
+- deactivate()
+- archive()
+- restore()
+- softDelete()
+- restoreDeleted()
+
+---
+
+## سادساً: LifecycleService
+
+تم إنشاء خدمة مشتركة لإدارة دورة حياة جميع الكيانات.
+
+---
+
+## سابعاً: تحويل حذف المساجد إلى Soft Delete
+
+بدلاً من حذف السجل من قاعدة البيانات أصبح النظام يقوم بـ:
+
+- deleted = true
+- deletedAt
+- deletedBy
+
+بدون فقدان البيانات.
+
+---
+
+## ثامناً: إضافة Restore
+
+أصبح بالإمكان استرجاع السجل بعد حذفه.
+
+---
+
+## تاسعاً: إضافة Archive
+
+تم إنشاء أرشفة السجل دون حذفه.
+
+---
+
+## عاشراً: إضافة Unarchive
+
+تم دعم استعادة السجل من حالة الأرشفة.
+
+---
+
+## الحادي عشر: تحسين Shared Query Layer
+
+أصبحت الاستعلامات تستبعد تلقائياً السجلات المحذوفة من النتائج الافتراضية.
+
+---
+
+## الثاني عشر: إصلاح محرك البحث
+
+تم إصلاح:
+
+- المقارنة بين LocalDateTime و String
+- Sorting
+- Pagination
+- Dynamic Filters
+- SearchSpecification
+
+---
+
+## الثالث عشر: تحسين إدارة الحذف
+
+تم اعتماد سياسة جديدة:
+
+- لا يوجد حذف فعلي (Hard Delete)
+- جميع عمليات الحذف أصبحت Soft Delete
+
+وهو ما يحافظ على سلامة البيانات والعلاقات.
+
+---
+
+# الاختبارات التي نجحت
+
+## Authentication
+
+✅ Register
+
+✅ Login
+
+✅ JWT
+
+---
+
+## Mosque
+
+✅ Create Mosque
+
+✅ Find By Id
+
+✅ Update Mosque
+
+✅ Soft Delete
+
+✅ Restore
+
+✅ Archive
+
+✅ Restore Archive
+
+---
+
+## Query Layer
+
+✅ Pagination
+
+✅ Page Size
+
+✅ Second Page
+
+✅ Sorting ASC
+
+✅ Sorting DESC
+
+✅ Search by Name
+
+✅ Search by Country
+
+✅ Search by City
+
+✅ LIKE Search
+
+✅ Greater Than
+
+✅ Less Than
+
+✅ Boolean Filter
+
+✅ Multiple Filters
+
+✅ Pagination + Search
+
+✅ Pagination + Sort
+
+✅ Full Query Test
+
+---
+
+## Security
+
+✅ JWT Validation
+
+✅ Authorization
+
+---
+
+# البنية الحالية
+
+```
+Core
+│
+├── Authentication
+├── Authorization
+├── Permissions
+├── Shared Query
+├── Lifecycle
+├── Users
+├── Mosques
+├── Memberships
+├── Positions
+└── Donations
+```
+
+---
+
+# جودة المشروع الحالية
+
+| العنصر | الحالة |
+|---------|---------|
+| Modular Architecture | ✅ |
+| Clean Architecture | ✅ |
+| Shared Infrastructure | ✅ |
+| Reusable Components | ✅ |
+| Dynamic Query Engine | ✅ |
+| Lifecycle Management | ✅ |
+| Authorization | ✅ |
+| JWT | ✅ |
+
+---
+
+# الحالة الحالية للمشروع
+
+يمكن اعتبار البنية الأساسية (Core Infrastructure) مستقرة وجاهزة للبناء عليها.
+
+أصبحت جميع الوحدات الجديدة قادرة على الاستفادة مباشرة من:
+
+- Lifecycle Infrastructure
+- Shared Query Layer
+- Authorization Engine
+- Permission Engine
+- Pagination
+- Filtering
+- Sorting
+
+دون الحاجة إلى إعادة كتابة أي منطق مشترك.
+
+---
+
+# المرحلة القادمة (DAY 10)
+
+سيتم الانتقال إلى تحسين تجربة المطور من خلال:
+
+- دمج Swagger / OpenAPI
+- توثيق جميع واجهات REST API
+- دعم JWT داخل Swagger
+- تنظيم مجموعات الـ APIs
+- إنشاء توثيق احترافي يسهل اختبار المنصة وتطويرها
+
+وبعد ذلك سيتم استكمال تطوير الوحدات الوظيفية، وعلى رأسها وحدة التبرعات ثم تعميم البنية المشتركة على بقية وحدات منصة محسنون.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

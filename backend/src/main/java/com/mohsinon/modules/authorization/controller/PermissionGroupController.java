@@ -12,8 +12,8 @@ import com.mohsinon.common.api.ApiMessage;
 import com.mohsinon.common.api.ApiResponse;
 import com.mohsinon.common.api.ApiConstants;
 import com.mohsinon.common.api.ApiResponseBuilder;
-import com.mohsinon.modules.authorization.dto.PermissionGroupRequest;
-import com.mohsinon.modules.authorization.dto.PermissionGroupResponse;
+import com.mohsinon.modules.authorization.dto.request.PermissionGroupRequest;
+import com.mohsinon.modules.authorization.dto.response.PermissionGroupResponse;
 import com.mohsinon.modules.authorization.service.PermissionGroupService;
 
 @RestController

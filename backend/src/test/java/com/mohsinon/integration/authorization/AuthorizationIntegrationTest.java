@@ -7,21 +7,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.UUID;
-
-import com.mohsinon.modules.authorization.dto.PermissionGroupRequest;
-import com.mohsinon.modules.authorization.dto.PermissionGroupResponse;
-import com.mohsinon.modules.authorization.dto.PermissionRequest;
-import com.mohsinon.modules.authorization.dto.PermissionResponse;
-import com.mohsinon.modules.authorization.dto.PositionPermissionRequest;
+import com.mohsinon.modules.authorization.dto.request.PermissionGroupRequest;
+import com.mohsinon.modules.authorization.dto.response.PermissionGroupResponse;
+import com.mohsinon.modules.authorization.dto.request.PermissionRequest;
+import com.mohsinon.modules.authorization.dto.response.PermissionResponse;
+import com.mohsinon.modules.authorization.dto.request.PositionPermissionRequest;
 import com.mohsinon.modules.authorization.service.AuthorizationService;
 import com.mohsinon.modules.authorization.service.PermissionGroupService;
 import com.mohsinon.modules.authorization.service.PermissionService;
 import com.mohsinon.modules.authorization.service.PositionPermissionService;
-import com.mohsinon.modules.authorization.service.UserPermissionService;
 import com.mohsinon.modules.mosques.api.MosqueApi;
 import com.mohsinon.modules.mosques.constants.MosquePositionCodes;
 import com.mohsinon.modules.mosques.entity.Mosque;
@@ -30,7 +25,7 @@ import com.mohsinon.modules.mosques.entity.MosquePosition;
 import com.mohsinon.modules.mosques.repository.MosqueMembershipRepository;
 import com.mohsinon.modules.mosques.repository.MosquePositionRepository;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
-import com.mohsinon.modules.users.api.UserApi;
+//import com.mohsinon.modules.users.api.UserApi;
 import com.mohsinon.modules.users.entity.User;
 import com.mohsinon.modules.users.repository.UserRepository;
 
@@ -51,8 +46,8 @@ class AuthorizationIntegrationTest {
     @Autowired
     private MosqueApi mosqueApi;
 
-    @Autowired
-    private UserApi userApi;
+//    @Autowired
+//    private UserApi userApi;
 
     @Autowired
     private AuthorizationService authorizationService;
@@ -75,9 +70,9 @@ class AuthorizationIntegrationTest {
 
     private Long positionId;
 
-    private UUID userId;
-
-    private UUID mosqueId;
+//    private UUID userId;
+//
+//    private UUID mosqueId;
     
     @BeforeEach
     void setup() {

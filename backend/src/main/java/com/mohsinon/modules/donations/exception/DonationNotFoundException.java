@@ -2,14 +2,15 @@ package com.mohsinon.modules.donations.exception;
 
 import java.util.UUID;
 
-public class DonationNotFoundException extends RuntimeException {
+import com.mohsinon.common.exception.NotFoundException;
+import static com.mohsinon.common.exception.ErrorCodes.DONATION_NOT_FOUND;
+
+public class DonationNotFoundException extends NotFoundException {
 
     public DonationNotFoundException(UUID id) {
-        super("Donation not found with id: " + id);
-    }
-
-    public DonationNotFoundException() {
-        super("Donation not found.");
+        super(DONATION_NOT_FOUND,
+            "Donation with id '%s' was not found.".formatted(id)
+        );
     }
 
 }

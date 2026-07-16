@@ -1,5 +1,6 @@
 package com.mohsinon.security.config;
 
+import com.mohsinon.common.api.ApiConstants;
 import com.mohsinon.security.filter.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -32,7 +33,7 @@ public class SecurityConfig {
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(ApiConstants.API_V1 + "/auth/**").permitAll()
                         .anyRequest().authenticated())
 
                 .httpBasic(Customizer.withDefaults());

@@ -1,4 +1,4 @@
-package com.mohsinon.modules.authorization.dto;
+package com.mohsinon.modules.authorization.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;

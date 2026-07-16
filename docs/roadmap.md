@@ -3051,6 +3051,491 @@ Angular Front-End
 ### Day 9 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ROADMAP.md
+
+# خارطة طريق منصة محسنون (Mohsinon Roadmap)
+
+**آخر تحديث:** 2026-07-16  
+**الإصدار الحالي:** Milestone 0.9
+
+---
+
+# الرؤية العامة
+
+يتم تطوير منصة **محسنون** بطريقة تدريجية (Incremental Development)، بحيث تصبح كل مرحلة مستقرة وقابلة للاستخدام قبل الانتقال إلى المرحلة التالية.
+
+يعتمد المشروع على:
+
+- Modular Architecture
+- Clean Architecture
+- Domain Driven Design (DDD)
+- Shared Infrastructure
+- Security First
+- API First
+
+---
+
+# المرحلة الحالية
+
+## Milestone 0.9
+
+### البنية التحتية المشتركة (Shared Infrastructure)
+
+الحالة:
+
+✅ مكتملة
+
+تم إنجاز:
+
+- Authentication
+- JWT
+- Authorization Engine
+- Dynamic Permissions
+- Mosque Module
+- Shared Query Layer
+- Pagination
+- Dynamic Filtering
+- Dynamic Sorting
+- Generic Specifications
+- Lifecycle Framework
+- Soft Delete
+- Archive
+- Restore
+- Activate / Deactivate
+
+---
+
+# خارطة الطريق
+
+---
+
+# المرحلة 1
+
+## تأسيس المشروع
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+- Spring Boot
+- PostgreSQL
+- Maven
+- Git
+- GitHub
+- Angular Workspace
+- هيكلة المشروع
+
+---
+
+# المرحلة 2
+
+## نظام المستخدمين
+
+الحالة
+
+✅ مكتملة
+
+تشمل
+
+- Users
+- Roles
+- Authentication
+- Login
+- Register
+- Password Encryption
+- JWT
+
+---
+
+# المرحلة 3
+
+## نظام المساجد
+
+الحالة
+
+✅ مكتملة
+
+تشمل
+
+- Mosque CRUD
+- Founder Membership
+- Membership Engine
+- Positions
+
+---
+
+# المرحلة 4
+
+## نظام الصلاحيات
+
+الحالة
+
+✅ مكتملة
+
+تشمل
+
+- Permission Groups
+- Permissions
+- Position Permissions
+- User Permissions
+- Authorization Aspect
+- Authorization Providers
+- Permission Cache
+
+---
+
+# المرحلة 5
+
+## Shared Infrastructure
+
+الحالة
+
+✅ مكتملة
+
+تشمل
+
+### Shared Query
+
+- Pagination
+- Sorting
+- Dynamic Filtering
+- Generic Specification
+- Search Factory
+
+### Shared Lifecycle
+
+- LifecycleEntity
+- Activatable
+- Archivable
+- SoftDeletable
+- LifecycleService
+- LifecycleUtils
+
+### Soft Delete
+
+- Delete
+- Restore
+
+### Archive
+
+- Archive
+- Restore Archive
+
+### Active State
+
+- Activate
+- Deactivate
+
+---
+
+# المرحلة 6
+
+## توثيق الـ API
+
+الحالة
+
+🔜 التالية
+
+تشمل
+
+- Swagger UI
+- OpenAPI 3
+- JWT Integration
+- API Documentation
+- Examples
+- Response Models
+- Error Documentation
+
+الهدف:
+
+أن تصبح جميع واجهات المنصة موثقة وقابلة للاختبار مباشرة من المتصفح.
+
+---
+
+# المرحلة 7
+
+## تحسين Seeders و Module Initializers
+
+الحالة
+
+⏳ مخطط لها
+
+تشمل
+
+- Module Initializer
+- Permission Initializer
+- Position Initializer
+- Donation Initializer
+- Startup Validation
+
+---
+
+# المرحلة 8
+
+## تطوير وحدة التبرعات
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+### Donation Categories
+
+- CRUD
+- Archive
+- Restore
+
+### Donations
+
+- إنشاء تبرع
+- تحديث
+- إلغاء
+- استلام
+- تسليم
+- تخصيص
+- البحث المتقدم
+
+---
+
+# المرحلة 9
+
+## إدارة العضويات
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+- Invitation
+- Accept
+- Reject
+- Suspend
+- Terminate
+- Renew
+- Membership History
+
+---
+
+# المرحلة 10
+
+## إدارة المتطوعين
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+- Volunteer Profiles
+- Skills
+- Availability
+- Volunteer Requests
+- Matching Engine
+
+---
+
+# المرحلة 11
+
+## إدارة المشاريع الخيرية
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+- Charity Projects
+- Campaigns
+- Beneficiaries
+- Tasks
+- Teams
+- Progress Tracking
+
+---
+
+# المرحلة 12
+
+## إدارة التبرعات العينية
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+- Furniture
+- Clothes
+- Food
+- Electronics
+- Medical Equipment
+- Warehouse Management
+
+---
+
+# المرحلة 13
+
+## الإشعارات
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+- Email
+- SMS
+- Push Notifications
+- In-App Notifications
+
+---
+
+# المرحلة 14
+
+## التقارير ولوحات المعلومات
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+- Dashboards
+- Charts
+- Statistics
+- KPIs
+- Export PDF
+- Export Excel
+
+---
+
+# المرحلة 15
+
+## الذكاء الاصطناعي
+
+الحالة
+
+⏳ قيد التخطيط
+
+تشمل
+
+- اقتراح المتبرعين
+- اقتراح المتطوعين
+- تحليل الاحتياجات
+- توصيات ذكية
+- مساعد إداري ذكي
+
+---
+
+# المرحلة 16
+
+## الواجهة الأمامية
+
+الحالة
+
+⏳ لم تبدأ
+
+تشمل
+
+- Angular
+- Angular Material
+- Responsive Design
+- RTL Support
+- Dark Mode
+- Dashboard
+- Authentication
+- Mosque Management
+- Donation Management
+
+---
+
+# المرحلة 17
+
+## الاختبارات
+
+الحالة
+
+⏳ مستمرة
+
+تشمل
+
+### Unit Tests
+
+- Services
+- Mappers
+- Utilities
+
+### Integration Tests
+
+- REST APIs
+- Security
+- Authorization
+
+### End-to-End Tests
+
+- السيناريوهات الكاملة للمستخدم
+
+---
+
+# المرحلة 18
+
+## النشر
+
+الحالة
+
+⏳ مستقبلية
+
+تشمل
+
+- Docker
+- Docker Compose
+- Nginx
+- CI/CD
+- GitHub Actions
+- Monitoring
+- Production Deployment
+
+---
+
+# نسبة الإنجاز التقريبية
+
+| المرحلة | الحالة |
+|----------|---------|
+| تأسيس المشروع | ✅ 100% |
+| المستخدمون | ✅ 100% |
+| المساجد | ✅ 100% |
+| الصلاحيات | ✅ 100% |
+| Shared Infrastructure | ✅ 100% |
+| Swagger/OpenAPI | 🔜 |
+| Module Initializers | ⏳ |
+| التبرعات | ⏳ |
+| العضويات | ⏳ |
+| المتطوعون | ⏳ |
+| المشاريع | ⏳ |
+| الواجهة الأمامية | ⏳ |
+| الاختبارات الشاملة | ⏳ |
+| النشر | ⏳ |
+
+---
+
+# الهدف في اليوم العاشر
+
+سيتركز العمل على جعل المشروع أكثر احترافية من ناحية التوثيق وتجربة المطور، وذلك من خلال:
+
+- دمج Swagger/OpenAPI.
+- توثيق جميع واجهات REST API.
+- دعم JWT داخل Swagger.
+- إضافة أمثلة للطلبات والاستجابات.
+- توحيد وصف الأخطاء (Error Responses).
+- تجهيز المشروع ليكون سهل الاستخدام لأي مطور ينضم إلى الفريق مستقبلاً.
+
+---
+
+**الحالة الحالية للمشروع:** يسير المشروع وفق الخطة الموضوعة، مع اكتمال البنية الأساسية (Core Infrastructure)، وأصبح جاهزًا للانتقال إلى مرحلة التوثيق الاحترافي قبل استكمال الوحدات الوظيفية التالية.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

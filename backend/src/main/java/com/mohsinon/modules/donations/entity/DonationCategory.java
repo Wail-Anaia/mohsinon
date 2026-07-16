@@ -1,9 +1,10 @@
 package com.mohsinon.modules.donations.entity;
 
-import jakarta.persistence.*;
-import java.time.LocalDateTime;
-import java.util.UUID;
+import com.mohsinon.shared.entity.LifecycleEntity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,11 +12,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "donation_categories")
-public class DonationCategory {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class DonationCategory extends LifecycleEntity{
 
     @Column(nullable = false, unique = true)
     private String code;
@@ -27,26 +24,5 @@ public class DonationCategory {
     private String description;
 
     @Column(nullable = false)
-    private boolean active = true;
-
-    @Column(nullable = false)
     private Integer sortOrder = 0;
-
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(nullable = false)
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = createdAt;
-    }
-
-    @PreUpdate
-    void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
-
 }

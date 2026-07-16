@@ -1,12 +1,11 @@
 package com.mohsinon.modules.audit.entity;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 import com.mohsinon.modules.audit.model.AuditAction;
 import com.mohsinon.modules.audit.model.AuditEntityType;
 import com.mohsinon.modules.users.entity.User;
+import com.mohsinon.shared.entity.AuditableEntity;
 
+import java.util.UUID;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,11 +14,7 @@ import lombok.Setter;
 @Table(name = "audit_logs")
 @Getter
 @Setter
-public class AuditLog {
-
-    @Id
-    @GeneratedValue
-    private UUID id;
+public class AuditLog extends AuditableEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User actor;
@@ -37,11 +32,4 @@ public class AuditLog {
 
     @Column(length = 1000)
     private String description;
-
-    private LocalDateTime createdAt;
-
-    @PrePersist
-    public void prePersist() {
-        createdAt = LocalDateTime.now();
-    }
 }

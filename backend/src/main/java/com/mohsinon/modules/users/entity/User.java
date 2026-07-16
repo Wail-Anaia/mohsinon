@@ -1,11 +1,11 @@
 package com.mohsinon.modules.users.entity;
 
+import com.mohsinon.shared.entity.LifecycleEntity;
+
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,12 +14,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "users")
-public class User {
-
-	@Id
-	@GeneratedValue(strategy = GenerationType.UUID)
-	@Column(updatable = false, nullable = false)
-	private UUID id;
+public class User extends LifecycleEntity{
 
     @Column(nullable = false)
     private String firstName;
@@ -40,10 +35,6 @@ public class User {
 
     private boolean enabled = true;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -51,17 +42,6 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
-
-    @PrePersist
-    public void onCreate() {
-        createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        updatedAt = LocalDateTime.now();
-    }
 
     public User() {
     } 

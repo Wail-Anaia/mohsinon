@@ -1,8 +1,24 @@
 package com.mohsinon.modules.mosques.exception;
 
-public class MosqueMembershipAlreadyExistsException extends RuntimeException {
+import java.util.UUID;
 
-    public MosqueMembershipAlreadyExistsException() {
-        super("User already has an active membership in this mosque.");
+import com.mohsinon.common.exception.AlreadyExistsException;
+import com.mohsinon.common.exception.ErrorCodes;
+
+public class MosqueMembershipAlreadyExistsException extends AlreadyExistsException {
+	
+	public MosqueMembershipAlreadyExistsException() {
+
+        super(
+                ErrorCodes.MOSQUE_MEMBERSHIP_ALREADY_EXISTS,
+                "User already has an active membership in mosque.");
     }
+
+    public MosqueMembershipAlreadyExistsException(UUID userId, UUID mosqueId) {
+
+        super(
+                ErrorCodes.MOSQUE_MEMBERSHIP_ALREADY_EXISTS,
+                "User '" + userId + "' already has an active membership in mosque '" + mosqueId + "'.");
+    }
+
 }

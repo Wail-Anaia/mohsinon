@@ -6,8 +6,8 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mohsinon.modules.authorization.dto.UserPermissionRequest;
-import com.mohsinon.modules.authorization.dto.UserPermissionResponse;
+import com.mohsinon.modules.authorization.dto.request.UserPermissionRequest;
+import com.mohsinon.modules.authorization.dto.response.UserPermissionResponse;
 import com.mohsinon.modules.authorization.entity.Permission;
 import com.mohsinon.modules.authorization.entity.UserPermission;
 import com.mohsinon.modules.authorization.exception.DuplicateUserPermissionException;
