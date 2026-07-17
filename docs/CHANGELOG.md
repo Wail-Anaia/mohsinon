@@ -3154,5 +3154,353 @@ Status:
 **Milestone 1.0** يمثل اكتمال البنية الخلفية الأساسية لمنصة **محسنون**، مع جاهزية كاملة للانتقال إلى تطوير واجهة المستخدم باستخدام Angular وبناء الوحدات الوظيفية المستقبلية فوق بنية مستقرة وقابلة للتوسع.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
-### Day 11 ✅
+### Day 11 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+# CHANGELOG.md
+
+جميع التغييرات المهمة في مشروع **منصة محسنون (Mohsinon Platform)** سيتم توثيقها في هذا الملف.
+
+يعتمد هذا الملف على مبادئ **Keep a Changelog** مع اتباع **Semantic Versioning**.
+
+---
+
+# [Unreleased]
+
+## Planned
+
+### Frontend
+
+* Public Layout
+* Dashboard Layout
+* Admin Layout
+* Login UI
+* Dashboard UI
+* Mosque Management UI
+* Donation Management UI
+* Volunteer Management UI
+* User Profile
+* Notification Center
+* Reports
+* Analytics
+* Dark Mode
+* Internationalization (i18n)
+
+---
+
+# [0.11.0] - 2026-07-17
+
+## Added
+
+### Frontend Foundation
+
+* بدء تطوير واجهة منصة محسنون باستخدام Angular 21.
+* اعتماد Standalone Architecture.
+* اعتماد Feature-Based Architecture.
+* اعتماد Angular Material.
+* اعتماد SCSS كنظام التنسيق الأساسي.
+* إنشاء الهيكل العام لمشروع Frontend.
+
+### Core Layer
+
+* إنشاء مجلد `core`.
+* إنشاء مجلد `auth`.
+* إنشاء مجلد `guards`.
+* إنشاء مجلد `interceptors`.
+* إنشاء مجلد `config`.
+* إنشاء مجلد `services`.
+* إنشاء مجلد `state`.
+
+### Shared Layer
+
+* إنشاء مجلد `shared`.
+* إنشاء `components`.
+* إنشاء `constants`.
+* إنشاء `directives`.
+* إنشاء `enums`.
+* إنشاء `interfaces`.
+* إنشاء `models`.
+* إنشاء `pipes`.
+* إنشاء `types`.
+* إنشاء `utils`.
+* إنشاء `validators`.
+
+### Features
+
+* إنشاء Feature Modules الأساسية:
+
+  * Auth
+  * Dashboard
+  * Users
+  * Mosques
+  * Donations
+  * Volunteers
+  * Projects
+
+### Layouts
+
+* إنشاء:
+
+  * Public Layout
+  * Dashboard Layout
+  * Admin Layout
+
+### Styling
+
+* إنشاء مجلد `styles`.
+* تجهيز ملفات:
+
+  * Variables
+  * Colors
+  * Typography
+  * Spacing
+  * Breakpoints
+  * Mixins
+  * Theme
+  * Animations
+
+### Environment
+
+* إنشاء:
+
+  * environment.ts
+  * environment.development.ts
+
+### Configuration
+
+* إنشاء `ApiConfig`.
+* تجهيز Base URL.
+* تنظيم Endpoints الخاصة بالـ API.
+
+### Constants
+
+* إضافة Storage Constants.
+* إضافة Route Constants.
+
+### Interfaces
+
+* إنشاء Generic ApiResponse Interface.
+
+### HTTP Infrastructure
+
+* تفعيل HttpClient باستخدام `provideHttpClient()`.
+* اعتماد Functional HTTP Interceptors.
+* إنشاء Auth Interceptor لإرفاق JWT تلقائيًا.
+
+### Authentication
+
+* إنشاء TokenService.
+* إنشاء AuthService.
+* إنشاء CurrentUserService.
+* إنشاء LoginRequest Model.
+* إنشاء LoginResponse Model.
+* إنشاء CurrentUser Model.
+
+### Security
+
+* إنشاء AuthGuard.
+* تجهيز طبقة المصادقة للواجهة.
+
+### Routing
+
+* إعداد Routing الأساسي للتطبيق.
+
+### Documentation
+
+* توثيق بداية مرحلة Frontend.
+* تحديث Architecture Documentation.
+* تحديث Roadmap.
+* تحديث Project Status.
+
+---
+
+# [0.10.0] - 2026-07-16
+
+## Added
+
+### Backend Refactoring
+
+* إعادة تنظيم البنية المشتركة.
+* إنشاء BaseEntity.
+* إنشاء Generic Search Layer.
+* إنشاء QueryRequestResolver.
+* إنشاء SearchService.
+* تحسين Pagination.
+* تحسين Global Exception Handling.
+* تحسين طبقة Services.
+* تحديث Swagger Documentation.
+
+---
+
+# [0.9.0] - 2026-07-13
+
+## Added
+
+### Donation Module
+
+* إنشاء Donation Module.
+* إنشاء Donation Categories.
+* إدارة التبرعات.
+* إدارة صلاحيات التبرعات.
+* دعم البحث والصفحات.
+
+---
+
+# [0.8.0] - 2026-07-12
+
+## Added
+
+### Mosque Administration
+
+* إدارة مناصب المسجد.
+* إدارة العضويات.
+* إدارة المستخدمين داخل المسجد.
+* تحسين Authorization Integration.
+
+---
+
+# [0.7.0] - 2026-07-11
+
+## Added
+
+### Permission Resolution
+
+* إنشاء Permission Cache.
+* إنشاء Composite Permission Resolver.
+* إنشاء Direct Permission Resolver.
+* إنشاء Position Permission Resolver.
+* تحسين أداء Authorization.
+
+---
+
+# [0.6.0] - 2026-07-10
+
+## Added
+
+### Authorization Framework
+
+* إنشاء Authorization Engine.
+* إنشاء Permission Aspect.
+* إنشاء RequirePermission Annotation.
+* إنشاء Authorization Providers.
+* دمج Authorization مع Spring Security.
+
+---
+
+# [0.5.0] - 2026-07-09
+
+## Added
+
+### Mosque Module
+
+* إنشاء Mosque Entity.
+* إنشاء CRUD للمساجد.
+* إنشاء Repository.
+* إنشاء Services.
+* إنشاء Controllers.
+* إنشاء DTOs.
+* إنشاء Mappers.
+
+---
+
+# [0.4.0] - 2026-07-08
+
+## Added
+
+### Authentication
+
+* تسجيل المستخدم.
+* تسجيل الدخول.
+* JWT Authentication.
+* Password Encryption.
+* User Management.
+* Role Management.
+
+---
+
+# [0.3.0] - 2026-07-07
+
+## Added
+
+### Backend Foundation
+
+* إعداد Spring Boot.
+* إعداد PostgreSQL.
+* إعداد Maven.
+* إعداد بنية المشروع.
+* إنشاء أول REST APIs.
+
+---
+
+# [0.2.0] - 2026-07-07
+
+## Added
+
+### Project Initialization
+
+* إنشاء مشروع Backend.
+* إنشاء مشروع Frontend.
+* إعداد GitHub Repository.
+* إعداد هيكل مجلدات المشروع.
+* إعداد الوثائق الأساسية.
+
+---
+
+# [0.1.0] - 2026-07-07
+
+## Added
+
+### Vision
+
+* إطلاق مشروع منصة محسنون.
+* تحديد الرؤية والأهداف.
+* تحديد البنية العامة للمشروع.
+* اعتماد منهجية التطوير المرحلي.
+* بدء تنفيذ المشروع.
+
+---
+
+# الإصدار الحالي
+
+**Current Version:** **0.11.0**
+
+---
+
+# الحالة الحالية
+
+🟢 **Backend:** مستقر وجاهز للإنتاج التجريبي.
+
+🟢 **Frontend:** تم الانتهاء من بناء النواة الأساسية، والمرحلة التالية هي تطوير الواجهات وربطها بالـ Backend.
+
+---
+
+# الإصدار القادم
+
+## Version 0.12.0
+
+سيشمل:
+
+* Public Layout
+* Dashboard Layout
+* Design System
+* Shared UI Components
+* Login Page
+* Dashboard Page
+* JWT Integration مع الواجهة
+* أول تجربة استخدام متكاملة لمنصة محسنون
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 12 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 13 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 14 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 15 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

@@ -1718,5 +1718,582 @@ DEVELOPMENT_GUIDE.md
 الالتزام بهذا الدليل يساهم في الحفاظ على جودة الكود، وسهولة التطوير، واستقرار المنصة على المدى الطويل.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
-### Day 11 ✅
+### Day 11 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+# DEVELOPMENT_GUIDE.md
+
+# دليل تطوير منصة محسنون (Mohsinon Platform)
+
+**الإصدار:** 1.0
+**آخر تحديث:** 2026-07-17
+
+---
+
+# مقدمة
+
+يهدف هذا الدليل إلى توحيد أسلوب تطوير منصة **محسنون**، وتوضيح معايير كتابة الكود، وهيكل المشروع، وآلية إضافة الوحدات الجديدة، بما يضمن الحفاظ على جودة المعمارية وسهولة الصيانة مع نمو المشروع.
+
+---
+
+# التقنيات المعتمدة
+
+## Backend
+
+* Java 21
+* Spring Boot 3.5.x
+* Spring Security
+* Spring Data JPA
+* PostgreSQL
+* Maven
+* JWT
+* Swagger / OpenAPI
+
+---
+
+## Frontend
+
+* Angular 21
+* TypeScript 5.9
+* Angular Material
+* SCSS
+* Signals
+* RxJS
+* Standalone Components
+
+---
+
+# هيكل المشروع
+
+```text id="i5vw5t"
+mohsinon/
+
+backend/
+
+frontend/
+
+docs/
+```
+
+---
+
+# Backend Structure
+
+```text id="4p5n6h"
+modules/
+
+shared/
+
+security/
+
+config/
+
+infrastructure/
+```
+
+---
+
+# Frontend Structure
+
+```text id="j0m4b4"
+app/
+
+core/
+
+shared/
+
+features/
+
+layouts/
+
+routing/
+```
+
+---
+
+# قواعد عامة
+
+يجب أن يلتزم كل كود جديد بالمبادئ التالية:
+
+* لا تكرر الكود (DRY).
+* مسؤولية واحدة لكل صنف أو مكون (Single Responsibility).
+* استخدام أسماء واضحة ومعبرة.
+* فصل منطق الأعمال عن طبقة العرض.
+* عدم تجاوز حدود كل طبقة.
+
+---
+
+# معايير Backend
+
+## Controller
+
+المسؤوليات:
+
+* استقبال الطلبات.
+* التحقق الأولي.
+* استدعاء الخدمات.
+* إعادة الاستجابة.
+
+يمنع وضع منطق الأعمال داخل Controllers.
+
+---
+
+## Service
+
+المسؤوليات:
+
+* تنفيذ منطق الأعمال.
+* التحقق من القواعد.
+* استدعاء Repositories.
+* التعامل مع Exceptions.
+
+---
+
+## Repository
+
+المسؤوليات:
+
+* الوصول إلى قاعدة البيانات فقط.
+
+يمنع وضع منطق الأعمال داخل Repositories.
+
+---
+
+## DTO
+
+جميع عمليات الإدخال والإخراج يجب أن تستخدم DTOs.
+
+يمنع إعادة Entities مباشرة إلى الواجهة.
+
+---
+
+## Mapper
+
+أي تحويل بين Entity وDTO يجب أن يتم داخل Mapper مخصص.
+
+---
+
+# معايير Frontend
+
+## Core
+
+يحتوي على الخدمات الأساسية.
+
+مثل:
+
+```text id="8ykjlh"
+Auth
+
+Config
+
+Guards
+
+Interceptors
+
+State
+```
+
+---
+
+## Shared
+
+يحتوي على كل العناصر القابلة لإعادة الاستخدام.
+
+مثل:
+
+```text id="g5grrk"
+Components
+
+Pipes
+
+Enums
+
+Utils
+
+Validators
+
+Constants
+```
+
+---
+
+## Features
+
+كل وحدة أعمال مستقلة.
+
+مثال:
+
+```text id="qecdx7"
+features/
+
+auth/
+
+mosques/
+
+donations/
+```
+
+كل Feature تحتوي على:
+
+```text id="jol2x6"
+pages/
+
+components/
+
+services/
+
+models/
+
+routes/
+```
+
+---
+
+# التسمية (Naming)
+
+## Backend
+
+Classes
+
+```text id="1tvyc3"
+UserService
+
+DonationController
+
+MosqueRepository
+```
+
+DTO
+
+```text id="8t5xqy"
+CreateDonationRequest
+
+DonationResponse
+```
+
+Exceptions
+
+```text id="m80ucb"
+DonationNotFoundException
+```
+
+---
+
+## Frontend
+
+Components
+
+```text id="yhjcwp"
+login-page
+
+dashboard-page
+
+mosque-list
+```
+
+Services
+
+```text id="9fvl8w"
+auth.service.ts
+
+donation.service.ts
+```
+
+Models
+
+```text id="c3lwk6"
+login-request.model.ts
+
+current-user.model.ts
+```
+
+---
+
+# إضافة وحدة Backend جديدة
+
+يجب إنشاء:
+
+```text id="dczjqz"
+controller/
+
+service/
+
+repository/
+
+entity/
+
+dto/
+
+mapper/
+
+specification/
+```
+
+ثم:
+
+* إنشاء Migration عند الحاجة.
+* إنشاء Permissions.
+* تحديث Swagger.
+* إضافة اختبارات مستقبلًا.
+
+---
+
+# إضافة Feature جديدة في Frontend
+
+إنشاء:
+
+```text id="i8p4rk"
+pages/
+
+components/
+
+services/
+
+models/
+
+routes/
+```
+
+عدم وضع Components الخاصة بالوحدة داخل Shared إلا إذا كانت قابلة لإعادة الاستخدام في أكثر من Feature.
+
+---
+
+# إدارة الحالة
+
+## Backend
+
+الاعتماد على قاعدة البيانات والخدمات.
+
+---
+
+## Frontend
+
+* Signals للحالة المحلية.
+* Services للبيانات المشتركة.
+* تقييم الحاجة إلى مكتبة لإدارة الحالة (مثل NgRx) عند توسع التطبيق، وليس قبل ذلك.
+
+---
+
+# إدارة HTTP
+
+يجب أن تتم جميع الطلبات عبر:
+
+```text id="nwmwn2"
+HttpClient
+```
+
+مع:
+
+* Auth Interceptor.
+* Error Interceptor (سيضاف لاحقًا).
+
+يمنع إضافة JWT يدويًا داخل الخدمات.
+
+---
+
+# التعامل مع Local Storage
+
+يمنع استخدام:
+
+```typescript
+localStorage.getItem(...)
+```
+
+مباشرة داخل Components أو Services.
+
+يجب استخدام:
+
+```text id="n4z56x"
+TokenService
+```
+
+أو أي خدمة متخصصة أخرى.
+
+---
+
+# إدارة الأخطاء
+
+## Backend
+
+* BusinessException
+* ValidationException
+* ForbiddenException
+* UnauthorizedException
+* GlobalExceptionHandler
+
+---
+
+## Frontend
+
+إنشاء Error Interceptor لمعالجة:
+
+* 401 Unauthorized
+* 403 Forbidden
+* 404 Not Found
+* 500 Internal Server Error
+
+بدلًا من تكرار معالجة الأخطاء داخل كل صفحة.
+
+---
+
+# التصميم
+
+يعتمد المشروع على:
+
+* Angular Material.
+* Design System موحد.
+* SCSS.
+* Responsive Design.
+
+ويمنع كتابة CSS خاص بكل صفحة إذا كان النمط قابلًا لإعادة الاستخدام.
+
+---
+
+# التوثيق
+
+عند نهاية كل يوم تطوير يجب تحديث:
+
+* daily/DAY_XX.md
+* PROJECT_STATUS.md
+* CHANGELOG.md
+* ARCHITECTURE.md
+* ROADMAP.md
+* VISION.md
+* REQUIREMENTS.md
+* DECISIONS.md
+* DEVELOPMENT_GUIDE.md
+
+لضمان توافق الوثائق مع حالة المشروع.
+
+---
+
+# Git Workflow
+
+يُفضل اعتماد سير العمل التالي:
+
+```bash
+git status
+
+git add .
+
+git commit -m "feat(frontend): initialize authentication foundation"
+
+git push origin main
+```
+
+وعند إنهاء مرحلة مستقرة:
+
+```bash
+git tag -a v0.11.0 -m "Frontend Foundation"
+
+git push origin v0.11.0
+```
+
+---
+
+# معايير جودة الكود
+
+قبل اعتبار أي مهمة منتهية يجب التأكد من:
+
+* عدم وجود أخطاء تجميع (Compilation Errors).
+* نجاح البناء (Build).
+* نجاح الاختبارات عند توفرها.
+* الالتزام بمعايير التسمية.
+* عدم وجود كود مكرر.
+* مراجعة التوثيق.
+
+---
+
+# المبادئ الأساسية
+
+يلتزم المشروع بالمبادئ التالية:
+
+* Clean Architecture.
+* SOLID.
+* DRY.
+* KISS.
+* Separation of Concerns.
+* Feature-Based Architecture.
+* Reusability First.
+* Documentation First.
+* Security by Design.
+* Scalability by Default.
+
+---
+
+# خارطة التطوير الحالية
+
+## Backend
+
+الحالة:
+
+✅ مستقر
+
+الوحدات المنجزة:
+
+* Authentication
+* Authorization
+* Users
+* Roles
+* Permissions
+* Mosques
+* Donations
+* Search
+* Pagination
+
+---
+
+## Frontend
+
+الحالة:
+
+🚧 قيد التطوير
+
+المنجز:
+
+* Frontend Foundation.
+* Architecture.
+* HTTP Foundation.
+* Authentication Foundation.
+
+القادم:
+
+* Design System.
+* Shared Components.
+* Public Layout.
+* Login.
+* Dashboard.
+* Mosque UI.
+* Donation UI.
+
+---
+
+# ملاحظات للمطورين
+
+* لا تبدأ بكتابة صفحة جديدة قبل التأكد من وجود المكونات المشتركة المناسبة.
+* أي وظيفة يمكن إعادة استخدامها يجب نقلها إلى `shared` أو `core` حسب مسؤوليتها.
+* حافظ على توافق نماذج البيانات بين الواجهة والخلفية، مع استخدام View Models عند الحاجة لتحسين تجربة العرض.
+* قبل إضافة أي مكتبة خارجية، قيّم الحاجة الفعلية لها وتأثيرها على حجم المشروع وصيانته.
+* حدّث الوثائق بالتزامن مع التطوير، حتى تبقى مرجعًا دقيقًا لحالة المشروع.
+
+---
+
+# الخاتمة
+
+تمثل هذه الإرشادات المرجع العملي لتطوير منصة **محسنون**. الالتزام بها يساعد على الحفاظ على جودة الكود، وتوحيد أسلوب العمل، وضمان أن يبقى المشروع منظمًا وقابلًا للتوسع مع إضافة الوحدات والميزات الجديدة في المستقبل.
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 12 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 13 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 14 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 15 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

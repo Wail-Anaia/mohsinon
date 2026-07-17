@@ -3462,5 +3462,360 @@ Frontend Development
 يمثل **Milestone 1.0** نهاية مرحلة تأسيس البنية الأساسية، وبداية مرحلة تحويل هذه القدرات إلى تجربة استخدام متكاملة عبر واجهة Angular، تمهيدًا لتطوير الوحدات الوظيفية التي تحقق رؤية المنصة.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
-### Day 11 ✅
+### Day 11 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+# PROJECT_STATUS.md
+
+> **منصة محسنون (Mohsinon Platform)**
+> **آخر تحديث:** 2026-07-17
+> **الحالة الحالية:** 🟢 التطوير مستمر
+
+---
+
+# نظرة عامة
+
+منصة **محسنون** هي منصة رقمية متكاملة تهدف إلى تنظيم الأعمال الخيرية والتطوعية وإدارة المساجد والمشاريع المجتمعية ضمن بنية حديثة قابلة للتوسع.
+
+بعد أحد عشر يومًا من التطوير، أصبح المشروع يمتلك:
+
+* Backend متكامل وقابل للتوسع.
+* نظام صلاحيات ديناميكي.
+* نظام مصادقة باستخدام JWT.
+* واجهات REST API موثقة عبر Swagger.
+* بداية Frontend احترافية باستخدام Angular 21.
+
+---
+
+# نسبة الإنجاز العامة
+
+| المرحلة                   | الحالة | الإنجاز |
+| ------------------------- | ------ | ------: |
+| التخطيط والرؤية           | ✅      |    100% |
+| إعداد المشروع             | ✅      |    100% |
+| Backend Foundation        | ✅      |    100% |
+| Authentication            | ✅      |    100% |
+| Authorization             | ✅      |    100% |
+| Mosque Management         | ✅      |    100% |
+| Donation Module (Backend) | ✅      |    100% |
+| Core Refactoring          | ✅      |    100% |
+| API Infrastructure        | ✅      |    100% |
+| Frontend Foundation       | ✅      |    100% |
+| UI Development            | 🚧     |      0% |
+| Integration Testing       | ⏳      |     10% |
+| Deployment                | ⏳      |      0% |
+
+---
+
+# الحالة الحالية
+
+## Backend
+
+الحالة:
+
+> ✅ **مستقر**
+
+يشمل:
+
+* Authentication
+* JWT
+* Users
+* Roles
+* Permissions
+* Permission Groups
+* Authorization Engine
+* Mosque Management
+* Mosque Membership
+* Mosque Positions
+* Donation Categories
+* Donations
+* Pagination
+* Search
+* Global Exception Handling
+* Swagger / OpenAPI
+
+أصبح الـ Backend جاهزًا لاستقبال واجهات Frontend.
+
+---
+
+## Frontend
+
+الحالة:
+
+> 🚧 **تم تأسيس النواة**
+
+تم إنجاز:
+
+* Angular 21
+* Standalone Architecture
+* Angular Material
+* SCSS
+* Feature-Based Structure
+* Core Layer
+* Shared Layer
+* Layout Structure
+* Environment Configuration
+* API Configuration
+* HTTP Foundation
+* Authentication Foundation
+
+ولم يتم بعد بناء الشاشات الفعلية.
+
+---
+
+# الوحدات المنجزة
+
+## المستخدمون (Users)
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* التسجيل
+* تسجيل الدخول
+* إدارة المستخدمين
+* تشفير كلمات المرور
+* JWT
+
+---
+
+## الصلاحيات (Authorization)
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* Dynamic Permissions
+* Permission Groups
+* Direct Permissions
+* Position Permissions
+* Permission Resolution
+* Permission Cache
+* Authorization Aspect
+
+---
+
+## المساجد (Mosques)
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* CRUD
+* العضويات
+* المناصب
+* الصلاحيات
+* إدارة المسجد
+
+---
+
+## التبرعات (Donations)
+
+الحالة:
+
+✅ مكتملة (Backend)
+
+تشمل:
+
+* Donation Categories
+* Donations
+* Authorization
+
+---
+
+# الوحدات القادمة
+
+* Dashboard
+* Volunteers
+* Community Projects
+* Charity Campaigns
+* Marketplace
+* Educational Content
+* AI Services
+* Notifications
+* Reports
+* Analytics
+
+---
+
+# البنية المعمارية
+
+## Backend
+
+```text
+Client
+   │
+REST API
+   │
+Controllers
+   │
+Services
+   │
+Repositories
+   │
+PostgreSQL
+```
+
+---
+
+## Frontend
+
+```text
+Angular
+│
+├── Core
+├── Shared
+├── Layouts
+├── Features
+└── Routing
+```
+
+---
+
+# التقنيات المستخدمة
+
+## Backend
+
+* Java 21
+* Spring Boot 3.5.x
+* Spring Security
+* Spring Data JPA
+* PostgreSQL
+* Maven
+* Swagger / OpenAPI
+* JWT
+
+---
+
+## Frontend
+
+* Angular 21
+* TypeScript 5.9
+* Angular Material
+* SCSS
+* RxJS
+* Signals
+* Standalone Components
+
+---
+
+# جاهزية المشروع
+
+| العنصر             | الحالة |
+| ------------------ | ------ |
+| قاعدة البيانات     | ✅      |
+| REST API           | ✅      |
+| JWT                | ✅      |
+| Authorization      | ✅      |
+| Swagger            | ✅      |
+| Frontend Structure | ✅      |
+| UI Components      | ⏳      |
+| Login Screen       | ⏳      |
+| Dashboard          | ⏳      |
+
+---
+
+# عدد الوحدات الحالية
+
+| الوحدة              | الحالة |
+| ------------------- | ------ |
+| Authentication      | ✅      |
+| Users               | ✅      |
+| Roles               | ✅      |
+| Permissions         | ✅      |
+| Permission Groups   | ✅      |
+| Mosques             | ✅      |
+| Mosque Memberships  | ✅      |
+| Mosque Positions    | ✅      |
+| Donations           | ✅      |
+| Donation Categories | ✅      |
+| Search              | ✅      |
+| Pagination          | ✅      |
+| Frontend Core       | ✅      |
+
+---
+
+# الأولويات الحالية
+
+## المرحلة الحالية
+
+**Frontend Phase 1**
+
+التركيز على:
+
+* Design System
+* Shared Components
+* Layouts
+* Login
+* Dashboard
+
+---
+
+## المرحلة التالية
+
+**Frontend Phase 2**
+
+التركيز على:
+
+* Mosque UI
+* Donation UI
+* User Profile
+* Navigation
+
+---
+
+# المخاطر الحالية
+
+لا توجد مخاطر تقنية مؤثرة.
+
+النقاط التي ستحتاج متابعة:
+
+* توحيد شكل استجابات الـ API مع الواجهة.
+* إضافة Refresh Token مستقبلًا.
+* تحسين إدارة الحالة (State Management) مع توسع المشروع.
+* زيادة اختبارات التكامل بين الواجهة والخلفية.
+
+---
+
+# تقييم المشروع
+
+| الجانب              | التقييم |
+| ------------------- | ------: |
+| Architecture        |   ⭐⭐⭐⭐⭐ |
+| Backend             |   ⭐⭐⭐⭐⭐ |
+| Security            |   ⭐⭐⭐⭐⭐ |
+| Scalability         |   ⭐⭐⭐⭐⭐ |
+| Code Organization   |   ⭐⭐⭐⭐⭐ |
+| Documentation       |   ⭐⭐⭐⭐⭐ |
+| Frontend Foundation |   ⭐⭐⭐⭐⭐ |
+
+---
+
+# الحالة النهائية
+
+**منصة محسنون** تمتلك الآن بنية خلفية قوية ونواة أمامية حديثة، وأصبحت جاهزة للدخول في مرحلة تطوير واجهات المستخدم الفعلية وربطها مباشرةً بخدمات الـ Backend.
+
+المشروع يسير وفق الخطة الموضوعة، مع الحفاظ على جودة المعمارية وقابلية التوسع، وهو في وضع ممتاز لمواصلة تطوير الوحدات القادمة دون الحاجة إلى إعادة هيكلة أساسية.
+
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 12 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 13 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 14 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 15 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

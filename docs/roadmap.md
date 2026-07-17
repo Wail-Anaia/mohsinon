@@ -4027,5 +4027,516 @@ Angular Front-End
 أن تصبح **منصة محسنون** منصة رقمية متكاملة لإدارة العمل الخيري والتطوعي، تعتمد على بنية تقنية حديثة، قابلة للتوسع، وآمنة، وتوفر تجربة استخدام احترافية للمستخدمين والإداريين، مع قابلية التطور نحو تطبيقات الهاتف والذكاء الاصطناعي والخدمات السحابية في الإصدارات المستقبلية.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
-### Day 11 ✅
+### Day 11 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+# ROADMAP.md
+
+# خارطة طريق منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-17
+
+---
+
+# الرؤية
+
+بناء منصة رقمية متكاملة لإدارة الأعمال الخيرية والتطوعية وخدمة المساجد والمجتمع، تعتمد على أحدث التقنيات، وتتميز بقابلية التوسع وسهولة الصيانة وتجربة استخدام عصرية.
+
+---
+
+# الحالة الحالية
+
+**إصدار المشروع الحالي:** **v0.11.0**
+
+**الحالة:** 🟢 التطوير مستمر
+
+بعد أحد عشر يومًا من العمل أصبح المشروع يمتلك:
+
+* Backend متكامل ومستقر.
+* نظام مصادقة JWT.
+* نظام صلاحيات ديناميكي.
+* إدارة المساجد.
+* إدارة التبرعات.
+* بنية Frontend حديثة باستخدام Angular 21.
+
+---
+
+# المرحلة الأولى (مكتملة)
+
+## Foundation
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* إنشاء مستودع GitHub.
+* إعداد Backend.
+* إعداد Frontend.
+* إعداد PostgreSQL.
+* إعداد Spring Boot.
+* إعداد Angular.
+* إعداد الوثائق.
+
+---
+
+# المرحلة الثانية (مكتملة)
+
+## Authentication & Users
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* Register
+* Login
+* JWT
+* Password Encryption
+* User Management
+* Role Management
+
+---
+
+# المرحلة الثالثة (مكتملة)
+
+## Authorization Engine
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* Dynamic Permissions
+* Permission Groups
+* Authorization Aspect
+* Permission Cache
+* Permission Resolver
+* Spring Security Integration
+
+---
+
+# المرحلة الرابعة (مكتملة)
+
+## Mosque Management
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* Mosques CRUD
+* Mosque Memberships
+* Mosque Positions
+* Authorization Integration
+
+---
+
+# المرحلة الخامسة (مكتملة)
+
+## Donation Management
+
+الحالة:
+
+✅ مكتملة (Backend)
+
+تشمل:
+
+* Donation Categories
+* Donations
+* Donation Authorization
+* Search
+* Pagination
+
+---
+
+# المرحلة السادسة (مكتملة)
+
+## Backend Refinement
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* BaseEntity
+* Shared Layer
+* Generic Search
+* Query Resolver
+* Search Service
+* Pagination Improvements
+* Global Exception Handling
+* Swagger Improvements
+
+---
+
+# المرحلة السابعة (قيد التنفيذ)
+
+# Frontend Development
+
+الحالة:
+
+🟡 قيد التنفيذ
+
+---
+
+## Phase 1
+
+### Frontend Foundation
+
+الحالة:
+
+✅ مكتملة
+
+تشمل:
+
+* Angular 21
+* Angular Material
+* SCSS
+* Feature-Based Architecture
+* Core Layer
+* Shared Layer
+* Layout Structure
+* Environment Configuration
+* API Configuration
+* Authentication Foundation
+* HTTP Foundation
+
+---
+
+## Phase 2
+
+### Design System
+
+الحالة:
+
+🚧 التالي
+
+المهام:
+
+* تصميم هوية المنصة.
+* Theme System.
+* Typography.
+* Color Palette.
+* Shared Styles.
+* Utility Classes.
+
+---
+
+## Phase 3
+
+### Shared Components
+
+المهام:
+
+* App Button
+* App Card
+* App Dialog
+* App Table
+* App Search
+* App Loader
+* Empty State
+* Confirm Dialog
+* Notification Component
+
+---
+
+## Phase 4
+
+### Authentication UI
+
+المهام:
+
+* Public Layout
+* Login Page
+* Form Validation
+* JWT Integration
+* Redirect
+* Logout
+
+---
+
+## Phase 5
+
+### Dashboard
+
+المهام:
+
+* Dashboard Layout
+* Sidebar
+* Header
+* Navigation
+* User Menu
+* Current User
+* Permission-Based Navigation
+
+---
+
+## Phase 6
+
+### Mosque UI
+
+المهام:
+
+* Mosque List
+* Create Mosque
+* Update Mosque
+* Details
+* Membership Management
+* Position Management
+
+---
+
+## Phase 7
+
+### Donation UI
+
+المهام:
+
+* Donation List
+* Donation Categories
+* Create Donation
+* Donation Details
+* Filters
+* Search
+
+---
+
+## Phase 8
+
+### Volunteer Module
+
+المهام:
+
+* Volunteer Registration
+* Volunteer Skills
+* Volunteer Opportunities
+* Assignment Management
+
+---
+
+## Phase 9
+
+### Community Projects
+
+المهام:
+
+* Projects
+* Tasks
+* Teams
+* Progress Tracking
+
+---
+
+## Phase 10
+
+### Notifications
+
+المهام:
+
+* In-App Notifications
+* Email Notifications
+* Push Notifications
+
+---
+
+## Phase 11
+
+### Reports & Analytics
+
+المهام:
+
+* Dashboards
+* Statistics
+* Charts
+* Export PDF
+* Export Excel
+
+---
+
+## Phase 12
+
+### AI Services
+
+المهام:
+
+* Smart Search
+* Recommendations
+* Donation Suggestions
+* Volunteer Matching
+* AI Assistant
+
+---
+
+# المرحلة الثامنة
+
+## Mobile Application
+
+الحالة:
+
+⏳ مخطط لها
+
+تشمل:
+
+* Android
+* iOS
+* Offline Mode
+* Push Notifications
+
+---
+
+# المرحلة التاسعة
+
+## Deployment
+
+الحالة:
+
+⏳ مخطط لها
+
+تشمل:
+
+* Docker
+* CI/CD
+* Reverse Proxy
+* SSL
+* Monitoring
+* Backup
+
+---
+
+# المرحلة العاشرة
+
+## Production
+
+الحالة:
+
+⏳ مستقبلية
+
+تشمل:
+
+* Performance Tuning
+* Security Audit
+* Load Testing
+* User Acceptance Testing
+* Production Deployment
+
+---
+
+# الوحدات المستهدفة
+
+| الوحدة         | الحالة |
+| -------------- | ------ |
+| Authentication | ✅      |
+| Authorization  | ✅      |
+| Users          | ✅      |
+| Roles          | ✅      |
+| Permissions    | ✅      |
+| Mosques        | ✅      |
+| Donations      | ✅      |
+| Dashboard      | 🚧     |
+| Volunteers     | ⏳      |
+| Projects       | ⏳      |
+| Marketplace    | ⏳      |
+| Learning       | ⏳      |
+| Reports        | ⏳      |
+| Analytics      | ⏳      |
+| Notifications  | ⏳      |
+| AI             | ⏳      |
+| Mobile         | ⏳      |
+
+---
+
+# الأولويات الحالية
+
+## القصيرة المدى
+
+* إنهاء Design System.
+* بناء Shared Components.
+* إنشاء Public Layout.
+* إنشاء Dashboard Layout.
+* بناء صفحة Login.
+* ربط الواجهة بالـ Backend.
+* إنشاء Dashboard.
+
+---
+
+## المتوسطة المدى
+
+* واجهات إدارة المساجد.
+* واجهات إدارة التبرعات.
+* إدارة المستخدمين.
+* إدارة الصلاحيات.
+* تحسين تجربة المستخدم.
+
+---
+
+## طويلة المدى
+
+* تطبيق الهاتف.
+* الذكاء الاصطناعي.
+* الإشعارات.
+* التحليلات.
+* التقارير.
+* المنصة التعليمية.
+* السوق الخيري.
+* نظام الحملات.
+
+---
+
+# معايير النجاح
+
+بنهاية الإصدار الأول (Version 1.0.0) ستكون المنصة قادرة على:
+
+* تسجيل المستخدمين وإدارتهم.
+* إدارة المساجد وعضوياتها.
+* إدارة التبرعات وتصنيفاتها.
+* إدارة المتطوعين.
+* إدارة المشاريع المجتمعية.
+* تطبيق نظام صلاحيات مرن وديناميكي.
+* توفير لوحة تحكم متكاملة.
+* دعم الأجهزة المختلفة.
+* تقديم تجربة استخدام حديثة وسريعة.
+
+---
+
+# الإصدار القادم (v0.12.0)
+
+سيكون التركيز على أول تجربة استخدام فعلية للمنصة، ويشمل:
+
+* تصميم الهوية البصرية (Design System).
+* إنشاء المكونات المشتركة (Shared Components).
+* بناء Public Layout.
+* تطوير صفحة Login وربطها بالـ Backend.
+* حفظ وإدارة JWT.
+* إنشاء Dashboard Layout.
+* عرض بيانات المستخدم الحالي.
+* إنشاء التنقل الأساسي داخل التطبيق.
+
+---
+
+# الرؤية النهائية
+
+الهدف ليس بناء موقع ويب فقط، بل إنشاء **منصة رقمية متكاملة** تخدم العمل الخيري والتطوعي وإدارة المساجد والمبادرات المجتمعية، مع بنية تقنية حديثة تسمح بالنمو المستمر وإضافة خدمات جديدة دون الحاجة إلى إعادة تصميم النظام من الصفر.
+
+كل مرحلة في هذه الخارطة تمثل خطوة مدروسة نحو الوصول إلى **الإصدار 1.0.0**، مع الحفاظ على جودة المعمارية، وأمن النظام، وتجربة المستخدم، وقابلية التوسع.
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 12 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 13 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 14 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 15 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

@@ -5243,5 +5243,630 @@ routing/
 تمثل هذه البنية الأساس الذي ستُبنى عليه جميع الوحدات المستقبلية، كما أنها تتيح الانتقال لاحقًا إلى بنية Microservices عند الحاجة، مع الحفاظ على استقرار النظام وسهولة صيانته.
 
 #### ##### #### ##### #### ##### #### ##### #### ##### 
-### Day 11 ✅
+### Day 11 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+# ARCHITECTURE.md
+
+# معمارية منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-17
+
+---
+
+# نظرة عامة
+
+تعتمد منصة **محسنون** على معمارية حديثة تفصل بوضوح بين الواجهة الأمامية (Frontend) والخدمات الخلفية (Backend)، مع تصميم يركز على قابلية التوسع وسهولة الصيانة وإعادة الاستخدام.
+
+يعتمد المشروع على:
+
+* **Backend:** Spring Boot 3.5.x
+* **Frontend:** Angular 21 (Standalone)
+* **Database:** PostgreSQL
+* **Authentication:** JWT
+* **Authorization:** Dynamic Permission Engine
+* **Documentation:** OpenAPI / Swagger
+
+---
+
+# المعمارية العامة
+
+```text
+                        ┌──────────────────────────┐
+                        │        المستخدم          │
+                        └─────────────┬────────────┘
+                                      │
+                                      ▼
+                     ┌─────────────────────────────────┐
+                     │     Angular 21 Frontend         │
+                     │                                 │
+                     │  Layouts • Features • Shared    │
+                     └─────────────┬───────────────────┘
+                                   │
+                            HTTP / HTTPS
+                                   │
+                                   ▼
+                     ┌─────────────────────────────────┐
+                     │      Spring Boot Backend        │
+                     │                                 │
+                     │ REST API • JWT • Authorization  │
+                     └─────────────┬───────────────────┘
+                                   │
+                                   ▼
+                     ┌─────────────────────────────────┐
+                     │          PostgreSQL             │
+                     └─────────────────────────────────┘
+```
+
+---
+
+# Backend Architecture
+
+يعتمد Backend على معمارية طبقية (Layered Architecture) مع فصل المسؤوليات.
+
+```text
+Controller
+     │
+     ▼
+Service
+     │
+     ▼
+Repository
+     │
+     ▼
+Database
+```
+
+---
+
+## هيكل المشروع
+
+```text
+backend/
+└── src/main/java/com/mohsinon
+    │
+    ├── modules/
+    │
+    ├── shared/
+    │
+    ├── security/
+    │
+    ├── config/
+    │
+    └── infrastructure/
+```
+
+---
+
+# Modules
+
+كل وحدة أعمال مستقلة داخل مجلد `modules`.
+
+الوحدات الحالية:
+
+```text
+modules/
+
+auth/
+
+users/
+
+roles/
+
+permissions/
+
+mosques/
+
+donations/
+
+authorization/
+```
+
+كل وحدة تحتوي على:
+
+```text
+controller/
+
+service/
+
+repository/
+
+entity/
+
+dto/
+
+mapper/
+
+specification/
+```
+
+---
+
+# Shared Layer
+
+تحتوي على جميع العناصر المشتركة.
+
+```text
+shared/
+
+entity/
+
+exception/
+
+mapper/
+
+query/
+
+response/
+
+validation/
+
+utils/
+```
+
+تشمل:
+
+* BaseEntity
+* PageResponse
+* QueryRequest
+* SearchService
+* Generic Utilities
+
+---
+
+# Security Layer
+
+تعتمد على Spring Security.
+
+تشمل:
+
+* JWT Authentication
+* Security Filter
+* Authentication Entry Point
+* Password Encryption
+* User Details Service
+
+---
+
+# Authorization Layer
+
+تم تطوير محرك صلاحيات مستقل.
+
+المكونات:
+
+```text
+Authorization Engine
+
+↓
+
+Permission Providers
+
+↓
+
+Permission Resolver
+
+↓
+
+Permission Cache
+
+↓
+
+Authorization Aspect
+```
+
+ويدعم:
+
+* Direct Permissions
+* Position Permissions
+* Dynamic Resolution
+* Permission Groups
+
+---
+
+# Database
+
+قاعدة البيانات:
+
+```text
+PostgreSQL
+```
+
+وتشمل الجداول الأساسية:
+
+* Users
+* Roles
+* Permissions
+* Permission Groups
+* Mosques
+* Mosque Memberships
+* Mosque Positions
+* Donations
+* Donation Categories
+
+---
+
+# Frontend Architecture
+
+تم اعتماد **Feature-Based Architecture** مع **Standalone APIs** في Angular 21.
+
+```text
+src/
+│
+├── app/
+│
+├── assets/
+│
+├── environments/
+│
+└── styles/
+```
+
+---
+
+# App Structure
+
+```text
+app/
+
+core/
+
+shared/
+
+features/
+
+layouts/
+
+routing/
+```
+
+---
+
+# Core
+
+يحتوي على الخدمات الأساسية الخاصة بالنظام.
+
+```text
+core/
+
+auth/
+
+config/
+
+guards/
+
+interceptors/
+
+services/
+
+state/
+```
+
+### المسؤوليات
+
+* Authentication
+* Authorization
+* Configuration
+* HTTP
+* Global Services
+* Application State
+
+---
+
+# Shared
+
+يحتوي على كل العناصر المشتركة.
+
+```text
+shared/
+
+components/
+
+constants/
+
+directives/
+
+enums/
+
+interfaces/
+
+models/
+
+pipes/
+
+types/
+
+utils/
+
+validators/
+```
+
+---
+
+# Features
+
+كل وحدة أعمال مستقلة.
+
+```text
+features/
+
+auth/
+
+dashboard/
+
+users/
+
+mosques/
+
+donations/
+
+volunteers/
+
+projects/
+```
+
+كل Feature ستحتوي لاحقًا على:
+
+```text
+pages/
+
+components/
+
+services/
+
+models/
+
+routes/
+```
+
+---
+
+# Layouts
+
+لفصل الواجهات حسب نوع المستخدم.
+
+```text
+layouts/
+
+public/
+
+dashboard/
+
+admin/
+```
+
+---
+
+# Routing
+
+يعتمد المشروع على Lazy Loading للوحدات المستقبلية.
+
+```text
+App Routes
+
+↓
+
+Feature Routes
+
+↓
+
+Pages
+```
+
+---
+
+# HTTP Layer
+
+```text
+Component
+      │
+      ▼
+Service
+      │
+      ▼
+HttpClient
+      │
+      ▼
+Auth Interceptor
+      │
+      ▼
+Spring Boot API
+```
+
+---
+
+# Authentication Flow
+
+```text
+Login Page
+      │
+      ▼
+AuthService
+      │
+      ▼
+POST /api/auth/login
+      │
+      ▼
+JWT Token
+      │
+      ▼
+TokenService
+      │
+      ▼
+Local Storage
+      │
+      ▼
+HTTP Interceptor
+```
+
+---
+
+# Current User Flow
+
+```text
+Backend
+
+↓
+
+Current User API
+
+↓
+
+CurrentUserService
+
+↓
+
+Angular Signals
+
+↓
+
+Components
+```
+
+---
+
+# Design System
+
+تم تجهيز بنية نظام تصميم مستقل.
+
+```text
+styles/
+
+_variables.scss
+
+_colors.scss
+
+_typography.scss
+
+_spacing.scss
+
+_breakpoints.scss
+
+_mixins.scss
+
+_theme.scss
+
+_animations.scss
+```
+
+وسيتوسع لاحقًا ليشمل:
+
+```text
+base/
+
+components/
+
+utilities/
+```
+
+---
+
+# المبادئ المعمارية
+
+يعتمد المشروع على المبادئ التالية:
+
+## Backend
+
+* Clean Architecture
+* SOLID Principles
+* Layered Architecture
+* Dependency Injection
+* Repository Pattern
+* DTO Pattern
+* Mapper Pattern
+* Specification Pattern
+
+---
+
+## Frontend
+
+* Feature-Based Architecture
+* Standalone Components
+* Functional Providers
+* Signals
+* Lazy Loading
+* Reusable Components
+* Design System
+* Separation of Concerns
+
+---
+
+# التقنيات
+
+## Backend
+
+* Java 21
+* Spring Boot
+* Spring Security
+* Spring Data JPA
+* PostgreSQL
+* Maven
+* Swagger
+
+---
+
+## Frontend
+
+* Angular 21
+* TypeScript 5.9
+* Angular Material
+* SCSS
+* RxJS
+* Signals
+
+---
+
+# قابلية التوسع
+
+المعمارية الحالية تسمح بإضافة وحدات جديدة دون التأثير على الوحدات القائمة.
+
+الوحدات المخطط لها:
+
+* Volunteer Management
+* Community Projects
+* Charity Campaigns
+* Marketplace
+* Learning Platform
+* Notifications
+* Reports
+* Analytics
+* AI Services
+
+---
+
+# المبادئ الأساسية للمشروع
+
+* لا يوجد تكرار (DRY).
+* مسؤولية واحدة لكل مكون (Single Responsibility).
+* فصل واضح بين الطبقات.
+* الاعتماد على المكونات القابلة لإعادة الاستخدام.
+* تصميم يسمح بالنمو المستقبلي دون إعادة هيكلة.
+* توحيد نماذج البيانات بين الواجهة والخلفية.
+* بناء الوحدات بشكل مستقل مع الحفاظ على التكامل بينها.
+
+---
+
+# الحالة الحالية
+
+بعد انتهاء **اليوم الحادي عشر** أصبحت منصة **محسنون** تمتلك:
+
+* Backend مستقر ومتكامل.
+* نظام صلاحيات ديناميكي.
+* REST APIs جاهزة للاستخدام.
+* نواة Frontend حديثة مبنية على Angular 21.
+* بنية معمارية موحدة تسمح بتطوير الواجهة والخلفية بالتوازي مع الحفاظ على جودة الكود وقابلية التوسع.
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 12 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 13 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 14 ✅ Frontend
+#### ##### #### ##### #### ##### #### ##### #### #####
+
+#### ##### #### ##### #### ##### #### ##### #### ##### 
+### Day 15 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####
