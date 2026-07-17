@@ -4594,6 +4594,654 @@ DTO
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ARCHITECTURE
+
+**Project:** Mohsinon Platform (منصة محسنون)  
+**Version:** Milestone 1.0  
+**Last Update:** 2026-07-16
+
+---
+
+# مقدمة
+
+تعتمد منصة **محسنون** على معمارية **Modular Monolith** مبنية باستخدام **Spring Boot**، مع فصل واضح بين الوحدات (Modules) والطبقات (Layers)، بحيث يمكن مستقبلاً استخراج أي وحدة إلى Microservice دون الحاجة إلى إعادة كتابة النظام.
+
+تم تصميم المشروع وفق المبادئ التالية:
+
+- Clean Architecture
+- Separation of Concerns
+- SOLID Principles
+- Reusability
+- Scalability
+- Maintainability
+
+---
+
+# الرؤية المعمارية
+
+تعتمد المنصة على ثلاث طبقات رئيسية:
+
+```
+Presentation Layer
+
+↓
+
+Business Layer
+
+↓
+
+Persistence Layer
+```
+
+ويتم دعمها بطبقة مشتركة (Shared Infrastructure) تقدم الخدمات العامة لجميع الوحدات.
+
+---
+
+# الهيكل العام للمشروع
+
+```
+backend/
+
+├── common/
+├── config/
+├── security/
+├── modules/
+├── shared/
+└── MohsinonApplication.java
+```
+
+---
+
+# Common Layer
+
+```
+common/
+```
+
+تحتوي على المكونات العامة الخاصة بالتطبيق مثل:
+
+- API Constants
+- الثوابت العامة
+- إعدادات مشتركة
+
+---
+
+# Configuration Layer
+
+```
+config/
+```
+
+تشمل:
+
+- OpenApiConfig
+- SecurityConfig
+- Jackson Configuration
+- أي إعدادات مستقبلية
+
+---
+
+# Security Layer
+
+```
+security/
+```
+
+المسؤولة عن:
+
+- JWT
+- Authentication
+- Security Filter Chain
+- UserDetailsService
+- Password Encoding
+- استخراج المستخدم الحالي
+
+---
+
+# Modules Layer
+
+يمثل قلب النظام.
+
+كل وحدة مستقلة عن الأخرى.
+
+```
+modules/
+
+├── auth/
+├── users/
+├── mosques/
+├── memberships/
+├── positions/
+├── permissions/
+└── donations/
+```
+
+كل Module يتبع نفس الهيكل.
+
+---
+
+# هيكل الوحدة
+
+```
+module/
+
+controller/
+
+service/
+
+repository/
+
+entity/
+
+dto/
+
+mapper/
+
+exception/
+
+specification/
+```
+
+---
+
+## Controller Layer
+
+المسؤوليات:
+
+- استقبال الطلبات
+- Validation
+- استدعاء Services
+- إعادة Responses
+
+لا يحتوي على Business Logic.
+
+---
+
+## Service Layer
+
+المسؤوليات:
+
+- Business Logic
+- Transactions
+- Authorization
+- Validation
+- التعامل مع Repositories
+
+---
+
+## Repository Layer
+
+تعتمد على:
+
+```
+Spring Data JPA
+```
+
+ولا تحتوي على أي Business Logic.
+
+---
+
+## Entity Layer
+
+تمثل جداول قاعدة البيانات.
+
+جميع الكيانات ترث من:
+
+```
+BaseEntity
+```
+
+لتوحيد:
+
+- id
+- createdAt
+- updatedAt
+
+مع إمكانية التوسع مستقبلًا.
+
+---
+
+## DTO Layer
+
+تم فصل:
+
+```
+Request DTO
+
+Response DTO
+```
+
+لمنع تسريب الـ Entities إلى واجهات الـ API.
+
+---
+
+## Mapper Layer
+
+جميع عمليات التحويل بين:
+
+Entity ↔ DTO
+
+تمر عبر Mappers مخصصة.
+
+---
+
+## Exception Layer
+
+كل Module يحتوي على الاستثناءات الخاصة به.
+
+وجميعها ترث من:
+
+```
+BusinessException
+```
+
+---
+
+# Shared Layer
+
+```
+shared/
+```
+
+يمثل البنية المشتركة للنظام.
+
+---
+
+## api
+
+يحتوي على:
+
+- ApiErrorResponse
+- النماذج المشتركة للاستجابات
+
+---
+
+## documentation
+
+طبقة مستقلة خاصة بتوثيق Swagger.
+
+```
+documentation/
+
+ApiDocumentation
+
+SwaggerConstants
+
+SwaggerTags
+
+ApiExamples
+
+IdParameter
+```
+
+---
+
+## entity
+
+تحتوي على:
+
+```
+BaseEntity
+```
+
+---
+
+## exception
+
+تحتوي على:
+
+- BusinessException
+- ValidationException
+- ForbiddenException
+- UnauthorizedException
+- DuplicateResourceException
+- ResourceNotFoundException
+- وغيرها من الاستثناءات العامة
+
+---
+
+## mapper
+
+تحتوي على الأدوات المشتركة الخاصة بالتحويل.
+
+---
+
+## query
+
+تمثل طبقة البحث الموحدة.
+
+وتحتوي على:
+
+- SearchRequest
+- PageResponse
+- SearchService
+- QueryRequestResolver
+
+وتستخدمها جميع الوحدات.
+
+---
+
+# Security Architecture
+
+```
+HTTP Request
+
+↓
+
+JWT Filter
+
+↓
+
+Security Context
+
+↓
+
+Authorization Aspect
+
+↓
+
+Permission Resolver
+
+↓
+
+Service Layer
+```
+
+---
+
+# Authorization Architecture
+
+يعتمد النظام على:
+
+```
+AuthorizationService
+```
+
+والذي يستخدم:
+
+```
+Authorization Providers
+```
+
+كل Provider مسؤول عن نوع معين من الصلاحيات.
+
+مثال:
+
+```
+MosqueAuthorizationProvider
+```
+
+---
+
+# Permission Resolution
+
+يعتمد النظام على:
+
+```
+CompositePermissionResolver
+```
+
+ويجمع الصلاحيات من:
+
+```
+DirectPermissionResolver
+
++
+
+PositionPermissionResolver
+```
+
+ثم يستخدم:
+
+```
+PermissionCache
+```
+
+لتقليل عمليات الوصول إلى قاعدة البيانات.
+
+---
+
+# Query Architecture
+
+جميع عمليات البحث تستخدم نفس البنية.
+
+```
+HTTP Request
+
+↓
+
+SearchRequest
+
+↓
+
+QueryRequestResolver
+
+↓
+
+SearchService
+
+↓
+
+Specification
+
+↓
+
+Repository
+
+↓
+
+PageResponse
+```
+
+وبذلك أصبحت:
+
+- Pagination
+- Filtering
+- Sorting
+
+موحدة في جميع الوحدات.
+
+---
+
+# Lifecycle Architecture
+
+تعتمد جميع الكيانات على نفس دورة الحياة.
+
+```
+Create
+
+↓
+
+Update
+
+↓
+
+Deactivate
+
+↓
+
+Activate
+
+↓
+
+Archive
+
+↓
+
+Restore Archive
+
+↓
+
+Soft Delete
+
+↓
+
+Restore Deleted
+```
+
+وهذا يضمن توحيد السلوك بين الوحدات.
+
+---
+
+# Exception Handling
+
+جميع Exceptions تمر عبر:
+
+```
+GlobalExceptionHandler
+```
+
+الذي يعيد استجابة موحدة تحتوي على:
+
+- timestamp
+- status
+- error
+- message
+- path
+
+مما يسهل التعامل مع الأخطاء من قبل التطبيقات العميلة.
+
+---
+
+# API Documentation
+
+تم اعتماد:
+
+Swagger + OpenAPI
+
+لتوثيق جميع الخدمات.
+
+ويتضمن:
+
+- JWT Authentication
+- Controllers
+- DTOs
+- Responses
+- Error Responses
+- Examples
+- Tags
+
+---
+
+# Database Architecture
+
+```
+PostgreSQL
+
+↓
+
+Spring Data JPA
+
+↓
+
+Repositories
+
+↓
+
+Services
+
+↓
+
+Controllers
+```
+
+---
+
+# Frontend Architecture (Planned)
+
+سيعتمد Frontend على Angular مع تنظيم مشابه للـ Backend.
+
+```
+frontend/
+
+src/
+
+app/
+
+core/
+
+shared/
+
+features/
+
+layouts/
+
+pages/
+
+routing/
+```
+
+---
+
+# Design Principles
+
+يعتمد المشروع على المبادئ التالية:
+
+- Single Responsibility Principle
+- Open/Closed Principle
+- Dependency Injection
+- Composition over Inheritance
+- Convention over Configuration
+- Don't Repeat Yourself (DRY)
+- Keep It Simple (KISS)
+
+---
+
+# Scalability Strategy
+
+تم تصميم المشروع بحيث يسمح مستقبلاً بـ:
+
+- استخراج أي Module إلى Microservice.
+- إضافة وحدات جديدة دون التأثير على الوحدات الحالية.
+- استبدال أي Implementation بسهولة.
+- إعادة استخدام جميع المكونات المشتركة.
+
+---
+
+# Current Architecture Status
+
+| العنصر | الحالة |
+|---------|--------|
+| Modular Architecture | ✅ |
+| Layered Architecture | ✅ |
+| Clean Architecture | ✅ |
+| Shared Infrastructure | ✅ |
+| Security | ✅ |
+| Authorization | ✅ |
+| Query Layer | ✅ |
+| Documentation Layer | ✅ |
+| Lifecycle Management | ✅ |
+| Exception Handling | ✅ |
+
+---
+
+# Planned Modules
+
+بعد اكتمال البنية الأساسية سيتم تطوير:
+
+- Volunteers
+- Charity Organizations
+- Community Projects
+- Campaigns
+- Events
+- Education
+- Marketplace
+- Jobs
+- Notifications
+- Reports
+- AI Assistant
+- Mobile API Extensions
+
+وجميع هذه الوحدات ستعتمد مباشرة على البنية المشتركة الحالية دون الحاجة إلى إعادة تصميم النظام.
+
+---
+
+# الخلاصة
+
+وصلت منصة **محسنون** مع إصدار **Milestone 1.0** إلى معمارية مستقرة، مرنة، وقابلة للتوسع، تعتمد على فصل المسؤوليات، وإعادة الاستخدام، والتوثيق الموحد، ومحرك صلاحيات ديناميكي، وطبقة بحث مشتركة.
+
+تمثل هذه البنية الأساس الذي ستُبنى عليه جميع الوحدات المستقبلية، كما أنها تتيح الانتقال لاحقًا إلى بنية Microservices عند الحاجة، مع الحفاظ على استقرار النظام وسهولة صيانته.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 11 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

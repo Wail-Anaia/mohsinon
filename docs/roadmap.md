@@ -3540,6 +3540,492 @@ Angular Front-End
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ROADMAP
+
+**Project:** Mohsinon Platform (منصة محسنون)  
+**Current Version:** Milestone 1.0  
+**Last Update:** 2026-07-16
+
+---
+
+# الرؤية العامة
+
+تهدف منصة **محسنون** إلى أن تكون منصة رقمية متكاملة لخدمة العمل الخيري والمجتمعي، من خلال ربط الأفراد، والمساجد، والمتطوعين، والجمعيات، والجهات المانحة، والمشاريع المجتمعية في نظام واحد قابل للتوسع.
+
+تم تقسيم المشروع إلى مراحل (Milestones) بحيث يقدم كل إصدار قيمة عملية ويؤسس للمرحلة التالية.
+
+---
+
+# الحالة الحالية
+
+## Milestone 1.0
+
+**الحالة:** ✅ مكتمل
+
+### ما تم إنجازه
+
+- Project Foundation
+- Authentication
+- JWT Security
+- Authorization Engine
+- Permission Engine
+- User Management
+- Mosque Management
+- Membership Management
+- Position Management
+- Donation Foundation
+- Shared Query Layer
+- Pagination
+- Filtering
+- Sorting
+- Soft Delete
+- Archive / Restore
+- Global Exception Handling
+- Swagger / OpenAPI Documentation
+
+---
+
+# المرحلة القادمة
+
+# Phase 2
+
+## Frontend Foundation
+
+**الحالة:** 🚧 التالية مباشرة
+
+### الأهداف
+
+- إنشاء البنية المعمارية لـ Angular.
+- تنظيم المشروع إلى Core / Shared / Features.
+- إعداد Layout System.
+- إعداد Routing.
+- إعداد Authentication.
+- إعداد Guards.
+- إعداد HTTP Interceptors.
+- إنشاء Design System.
+- إنشاء Login UI.
+- إنشاء Dashboard الأساسي.
+
+### المخرجات
+
+- واجهة مستخدم متصلة بالـ Backend.
+- نظام تسجيل دخول كامل.
+- بداية لوحة التحكم.
+
+---
+
+# Milestone 1.1
+
+## Mosque Management UI
+
+### الأهداف
+
+- إدارة المساجد.
+- البحث.
+- Pagination.
+- Filtering.
+- Sorting.
+- Soft Delete.
+- Archive.
+- Restore.
+- Activate.
+- Deactivate.
+
+---
+
+# Milestone 1.2
+
+## User Management UI
+
+### الأهداف
+
+- إدارة المستخدمين.
+- عرض الحسابات.
+- تعديل البيانات.
+- إدارة الأدوار.
+- إدارة الصلاحيات.
+
+---
+
+# Milestone 1.3
+
+## Permission Management UI
+
+### الأهداف
+
+- إدارة Permission Groups.
+- إدارة Permissions.
+- إدارة Position Permissions.
+- إدارة User Permissions.
+- عرض الصلاحيات بطريقة مرئية.
+
+---
+
+# Phase 3
+
+## Volunteer Module
+
+**الأولوية:** عالية
+
+### Backend
+
+- Volunteer Entity
+- Skills
+- Availability
+- Volunteer Requests
+- Assignments
+- Status Management
+
+### Frontend
+
+- Volunteer Dashboard
+- Volunteer Profile
+- Registration
+- Search
+- Assignment
+
+---
+
+# Phase 4
+
+## Charity Organizations
+
+### Backend
+
+- Charity Entity
+- Registration
+- Verification
+- Membership
+- Permissions
+
+### Frontend
+
+- Charity Dashboard
+- Charity Profile
+- Members
+- Projects
+
+---
+
+# Phase 5
+
+## Community Projects
+
+### Backend
+
+- Projects
+- Tasks
+- Teams
+- Progress
+- Budget
+- Attachments
+
+### Frontend
+
+- Project Dashboard
+- Kanban View
+- Calendar
+- Task Management
+
+---
+
+# Phase 6
+
+## Donation System
+
+استكمال وحدة التبرعات.
+
+### Financial Donations
+
+- Cash
+- Bank Transfer
+- Online Payment
+
+### In-Kind Donations
+
+- Clothes
+- Furniture
+- Food
+- Books
+- Medical Equipment
+
+### Features
+
+- Donation Tracking
+- Distribution
+- Delivery
+- History
+- Receipts
+
+---
+
+# Phase 7
+
+## Campaigns
+
+### Features
+
+- Charity Campaigns
+- Seasonal Campaigns
+- Emergency Campaigns
+- Ramadan
+- Eid
+- Winter Campaigns
+
+---
+
+# Phase 8
+
+## Events
+
+### Features
+
+- Events
+- Conferences
+- Lectures
+- Workshops
+- Volunteer Days
+
+---
+
+# Phase 9
+
+## Education
+
+### Features
+
+- Courses
+- Lessons
+- Teachers
+- Students
+- Certificates
+
+---
+
+# Phase 10
+
+## Marketplace
+
+### Features
+
+- Charity Marketplace
+- Free Items
+- Exchange
+- Requests
+- Local Communities
+
+---
+
+# Phase 11
+
+## Jobs
+
+### Features
+
+- Volunteer Opportunities
+- Paid Jobs
+- Mosque Jobs
+- Charity Jobs
+
+---
+
+# Phase 12
+
+## Notifications
+
+### Features
+
+- Email
+- SMS
+- Push Notifications
+- In-App Notifications
+
+---
+
+# Phase 13
+
+## Reports & Analytics
+
+### Features
+
+- Dashboards
+- Statistics
+- Donations
+- Volunteers
+- Projects
+- Mosques
+- Users
+
+---
+
+# Phase 14
+
+## AI Assistant
+
+### Features
+
+- Smart Search
+- Recommendation Engine
+- Volunteer Matching
+- Donation Suggestions
+- Reporting Assistant
+- Administrative Assistant
+
+---
+
+# Phase 15
+
+## Mobile API
+
+### Features
+
+- Mobile Optimizations
+- Offline Support
+- Synchronization
+- Push Notifications
+
+---
+
+# Phase 16
+
+## Mobile Applications
+
+### Android
+
+- Volunteer App
+- Donor App
+- Mosque App
+
+### iOS
+
+- Volunteer App
+- Donor App
+- Mosque App
+
+---
+
+# Long-Term Vision
+
+## Community Platform
+
+إضافة:
+
+- الأسر المحتاجة
+- الكفلاء
+- الأيتام
+- المرضى
+- كبار السن
+- ذوي الاحتياجات الخاصة
+
+---
+
+## Smart Community
+
+ربط جميع الجهات داخل مجتمع واحد.
+
+يشمل:
+
+- المساجد
+- الجمعيات
+- المدارس
+- المتطوعين
+- المتبرعين
+- المشاريع
+- المبادرات
+
+---
+
+## AI Platform
+
+الاستفادة من الذكاء الاصطناعي في:
+
+- تحليل الاحتياجات.
+- اقتراح المتطوعين.
+- توزيع التبرعات.
+- تحليل البيانات.
+- التنبؤ بالاحتياجات المستقبلية.
+
+---
+
+# Technical Improvements
+
+سيتم تنفيذها تدريجياً:
+
+- Unit Testing
+- Integration Testing
+- End-to-End Testing
+- Docker
+- CI/CD
+- Monitoring
+- Logging
+- Performance Optimization
+- Caching
+- Search Optimization
+- API Versioning
+- Localization (Arabic / English / French)
+- Accessibility (WCAG)
+- Multi-Tenancy (عند الحاجة)
+
+---
+
+# الإصدار المستهدف
+
+## Version 1.0
+
+يشمل:
+
+- Backend مكتمل.
+- Frontend مكتمل.
+- إدارة المستخدمين.
+- إدارة المساجد.
+- إدارة الصلاحيات.
+- إدارة العضويات.
+- إدارة المتطوعين.
+- إدارة التبرعات.
+- التقارير الأساسية.
+
+---
+
+# الحالة الحالية
+
+| المرحلة | الحالة |
+|----------|--------|
+| Milestone 1.0 | ✅ مكتمل |
+| Frontend Foundation | 🚧 التالي |
+| Volunteer Module | ⏳ مخطط |
+| Charity Module | ⏳ مخطط |
+| Projects Module | ⏳ مخطط |
+| Donation Expansion | ⏳ مخطط |
+| Reports | ⏳ مخطط |
+| AI Assistant | ⏳ مخطط |
+| Mobile Applications | ⏳ مخطط |
+
+---
+
+# الأولويات الحالية
+
+## أولوية رقم 1
+
+✅ البدء في تطوير واجهة المستخدم باستخدام Angular.
+
+## أولوية رقم 2
+
+ربط الواجهة مع خدمات الـ Backend الحالية.
+
+## أولوية رقم 3
+
+إكمال وحدة المتطوعين (Volunteer Management).
+
+## أولوية رقم 4
+
+استكمال نظام التبرعات والمشاريع المجتمعية.
+
+---
+
+# الهدف النهائي
+
+أن تصبح **منصة محسنون** منصة رقمية متكاملة لإدارة العمل الخيري والتطوعي، تعتمد على بنية تقنية حديثة، قابلة للتوسع، وآمنة، وتوفر تجربة استخدام احترافية للمستخدمين والإداريين، مع قابلية التطور نحو تطبيقات الهاتف والذكاء الاصطناعي والخدمات السحابية في الإصدارات المستقبلية.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 11 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

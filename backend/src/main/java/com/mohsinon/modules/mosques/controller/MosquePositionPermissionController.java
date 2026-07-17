@@ -13,13 +13,22 @@ import com.mohsinon.common.api.ApiResponseBuilder;
 import com.mohsinon.modules.authorization.dto.request.PositionPermissionRequest;
 import com.mohsinon.modules.authorization.dto.response.PositionPermissionResponse;
 import com.mohsinon.modules.authorization.service.PositionPermissionService;
+import com.mohsinon.shared.documentation.SwaggerTags;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(ApiConstants.API_V1 + "/positions")
 @RequiredArgsConstructor
+@Tag(
+	    name = SwaggerTags.POSITIONS,
+	    description = "إدارة المناصب داخل المسجد"
+	)
+@SecurityRequirement(name = "Bearer Authentication")
 public class MosquePositionPermissionController {
 
     private final PositionPermissionService service;

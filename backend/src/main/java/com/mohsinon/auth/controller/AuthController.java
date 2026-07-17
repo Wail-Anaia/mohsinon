@@ -6,11 +6,19 @@ import com.mohsinon.auth.dto.LoginRequest;
 import com.mohsinon.auth.dto.LoginResponse;
 import com.mohsinon.auth.service.AuthService;
 import com.mohsinon.common.api.ApiConstants;
+import com.mohsinon.shared.documentation.SwaggerTags;
+
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(ApiConstants.API_V1 + "/auth")
+@Tag(
+	    name = SwaggerTags.AUTH,
+	    description = "تسجيل المستخدمين، تسجيل الدخول، وإدارة JWT"
+	)
 public class AuthController {
 
     private final AuthService authService;

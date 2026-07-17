@@ -22,6 +22,14 @@ public final class SearchSpecificationFactory {
     	        .with(filter)
     	        .build();
     }
+    
+    public static <T> Specification<T> build(
+            FilterRequest filter) {
+
+        return new SpecificationBuilder<T>()
+                .with(filter)
+                .build();
+    }
 
     private static boolean ignore(String key) {
 

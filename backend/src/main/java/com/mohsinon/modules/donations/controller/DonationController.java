@@ -5,15 +5,24 @@ import com.mohsinon.modules.donations.dto.response.DonationResponse;
 import com.mohsinon.modules.donations.service.DonationService;
 import com.mohsinon.common.api.ApiConstants;
 import com.mohsinon.security.annotation.RequirePermission;
+import com.mohsinon.shared.documentation.SwaggerTags;
+
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequestMapping(ApiConstants.API_V1 + "/donations")
+@Tag(
+	    name = SwaggerTags.DONATIONS,
+	    description = "إدارة التبرعات"
+	)
+@SecurityRequirement(name = "Bearer Authentication")
 public class DonationController {
 
     private final DonationService service;

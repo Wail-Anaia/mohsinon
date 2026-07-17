@@ -2734,6 +2734,425 @@ deleted = true
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# CHANGELOG
+
+جميع التغييرات المهمة في مشروع **منصة محسنون** سيتم توثيقها في هذا الملف.
+
+يعتمد هذا المشروع على مبادئ **Keep a Changelog** مع اتباع **Semantic Versioning**.
+
+---
+
+# [Milestone 1.0] - 2026-07-16
+
+يمثل هذا الإصدار اكتمال البنية الأساسية (Backend Foundation) لمنصة **محسنون**، والانتقال إلى مرحلة تطوير واجهة المستخدم (Frontend).
+
+---
+
+## ✨ Added
+
+### Swagger / OpenAPI
+
+- إضافة Swagger UI.
+- إضافة OpenAPI 3.
+- دعم JWT Authentication داخل Swagger.
+- إضافة زر Authorize.
+- توثيق جميع Controllers.
+- توثيق جميع Endpoints.
+- توثيق DTOs باستخدام `@Schema`.
+- توثيق جميع Request Bodies.
+- توثيق Path Parameters.
+- توثيق Responses.
+- توثيق Error Responses.
+- دعم أمثلة البيانات (Examples).
+- تنظيم الـ APIs داخل مجموعات (Tags).
+
+---
+
+### Documentation Layer
+
+إضافة طبقة توثيق مستقلة داخل المشروع.
+
+تم إنشاء:
+
+```
+shared/documentation/
+```
+
+ويحتوي على:
+
+- ApiDocumentation
+- SwaggerConstants
+- SwaggerTags
+- ApiExamples
+- IdParameter
+
+لتوحيد جميع مكونات Swagger داخل المشروع.
+
+---
+
+### OpenAPI Configuration
+
+إضافة:
+
+```
+OpenApiConfig
+```
+
+ويحتوي على:
+
+- اسم المشروع
+- الوصف
+- الإصدار
+- المطور
+- الرخصة
+- معلومات التواصل
+- إعدادات JWT Security
+
+---
+
+### API Error Documentation
+
+إضافة:
+
+```
+ApiErrorResponse
+```
+
+ليصبح النموذج الموحد لجميع أخطاء النظام داخل Swagger.
+
+---
+
+### Examples
+
+إضافة:
+
+```
+ApiExamples
+```
+
+لتوحيد الأمثلة المستخدمة داخل جميع DTOs.
+
+---
+
+## 🚀 Improved
+
+### MosqueController
+
+تم توثيق جميع العمليات:
+
+- Create
+- Search
+- Find By Id
+- Get All
+- Update
+- Delete
+- Restore Deleted
+- Archive
+- Restore Archive
+- Activate
+- Deactivate
+
+مع:
+
+- Summary
+- Description
+- Responses
+- Parameters
+
+---
+
+### DTO Documentation
+
+إضافة:
+
+```
+@Schema
+```
+
+إلى DTOs.
+
+وأصبح Swagger يعرض:
+
+- Description
+- Examples
+- Required Fields
+
+---
+
+### Reusability
+
+إزالة كمية كبيرة من التكرار داخل Controllers من خلال:
+
+```
+@ApiDocumentation
+```
+
+بدلاً من إعادة كتابة:
+
+```
+@ApiResponses
+```
+
+داخل كل Endpoint.
+
+---
+
+### Developer Experience
+
+تحسين تجربة المطورين من خلال:
+
+- توحيد الرسائل.
+- توحيد Tags.
+- توحيد الأمثلة.
+- توحيد Responses.
+- تحسين عرض Swagger.
+
+---
+
+## 🏗 Refactored
+
+إعادة تنظيم طبقة التوثيق بالكامل.
+
+بدلاً من:
+
+```
+Swagger داخل Controllers
+```
+
+أصبحت لدينا:
+
+```
+shared/documentation
+```
+
+كمصدر موحد لجميع عناصر Swagger.
+
+---
+
+### Shared Documentation Components
+
+تم اعتماد:
+
+- SwaggerConstants
+- SwaggerTags
+- ApiDocumentation
+- ApiExamples
+- IdParameter
+
+كمكونات قابلة لإعادة الاستخدام في جميع الوحدات الحالية والمستقبلية.
+
+---
+
+## 🛠 Fixed
+
+### Swagger Imports
+
+إصلاح مشاكل الاستيراد الخاصة بـ:
+
+```
+@ApiResponses
+```
+
+---
+
+### Controller Documentation
+
+تحسين طريقة توثيق Controllers وإزالة التكرار.
+
+---
+
+### Swagger Responses
+
+توحيد توثيق Responses داخل جميع Endpoints.
+
+---
+
+## 📚 Documentation
+
+إضافة وتحديث:
+
+- Swagger UI
+- OpenAPI Documentation
+- Controller Documentation
+- DTO Documentation
+- Error Documentation
+- API Examples
+
+---
+
+# Previous Milestones
+
+## Milestone 0.9
+
+### Core Refactoring
+
+- Shared BaseEntity
+- Shared Query Layer
+- SearchService
+- QueryRequestResolver
+- Generic Pagination
+- Filtering
+- Sorting
+- Shared Exceptions
+
+---
+
+## Milestone 0.8
+
+### Donations Foundation
+
+- Donation Module
+- Donation Categories
+- Donation Permissions
+- CRUD Foundation
+
+---
+
+## Milestone 0.7
+
+### Mosque Management
+
+- CRUD
+- Search
+- Pagination
+- Soft Delete
+- Archive
+- Restore
+- Activate
+- Deactivate
+
+---
+
+## Milestone 0.6
+
+### Authorization Engine
+
+- Authorization Service
+- Permission Resolver
+- Permission Cache
+- Authorization Providers
+- Spring AOP Integration
+
+---
+
+## Milestone 0.5
+
+### Permission Engine
+
+- Permission Groups
+- Permissions
+- User Permissions
+- Position Permissions
+
+---
+
+## Milestone 0.4
+
+### Membership Management
+
+- Memberships
+- Positions
+- Assignment
+- Lifecycle
+
+---
+
+## Milestone 0.3
+
+### Authentication
+
+- JWT
+- Register
+- Login
+- BCrypt
+- Security Configuration
+
+---
+
+## Milestone 0.2
+
+### User Management
+
+- User Entity
+- Role Entity
+- CRUD Foundation
+
+---
+
+## Milestone 0.1
+
+### Project Initialization
+
+- Spring Boot
+- Maven
+- PostgreSQL
+- GitHub Repository
+- Angular Workspace
+- Initial Project Structure
+
+---
+
+# Statistics
+
+## Backend
+
+- ✅ Authentication
+- ✅ Authorization
+- ✅ Permission Engine
+- ✅ Mosque Module
+- ✅ Membership Module
+- ✅ Position Module
+- ✅ Donation Foundation
+- ✅ Shared Query Layer
+- ✅ Swagger/OpenAPI
+
+---
+
+## Frontend
+
+Status:
+
+🚧 Ready to Start
+
+---
+
+# Next Version
+
+## Phase 2
+
+### Frontend Development
+
+سيبدأ العمل على:
+
+- Angular Architecture
+- Core Layer
+- Shared Layer
+- Layouts
+- Authentication UI
+- Dashboard
+- Mosque Management UI
+
+---
+
+# Milestone Summary
+
+| Milestone | الحالة |
+|-----------|--------|
+| 0.1 Project Setup | ✅ |
+| 0.2 Users | ✅ |
+| 0.3 Authentication | ✅ |
+| 0.4 Memberships | ✅ |
+| 0.5 Permissions | ✅ |
+| 0.6 Authorization | ✅ |
+| 0.7 Mosque Management | ✅ |
+| 0.8 Donation Foundation | ✅ |
+| 0.9 Core Refactoring | ✅ |
+| 1.0 Swagger / Documentation | ✅ |
+
+---
+
+**Milestone 1.0** يمثل اكتمال البنية الخلفية الأساسية لمنصة **محسنون**، مع جاهزية كاملة للانتقال إلى تطوير واجهة المستخدم باستخدام Angular وبناء الوحدات الوظيفية المستقبلية فوق بنية مستقرة وقابلة للتوسع.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 11 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

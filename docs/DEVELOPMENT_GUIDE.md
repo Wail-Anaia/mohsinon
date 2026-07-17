@@ -1092,6 +1092,631 @@ git push origin main
 ### Day 10 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# DEVELOPMENT_GUIDE
+
+**Project:** Mohsinon Platform (منصة محسنون)  
+**Version:** Milestone 1.0  
+**Last Update:** 2026-07-16
+
+---
+
+# مقدمة
+
+يهدف هذا الدليل إلى توحيد أسلوب تطوير منصة **محسنون**، بحيث يلتزم جميع المطورين بنفس المعايير في كتابة الكود، وتنظيم الملفات، وإدارة Git، وإضافة الوحدات الجديدة.
+
+هذا الدليل هو المرجع الأساسي للمساهمة في المشروع.
+
+---
+
+# المبادئ الأساسية
+
+يلتزم المشروع بالمبادئ التالية:
+
+- Clean Code
+- Clean Architecture
+- SOLID
+- DRY (Don't Repeat Yourself)
+- KISS (Keep It Simple)
+- Convention over Configuration
+- Separation of Concerns
+
+---
+
+# بيئة التطوير
+
+## Backend
+
+- Java 21
+- Spring Boot 3.5.x
+- Maven
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- JWT
+- Swagger / OpenAPI
+
+---
+
+## Frontend
+
+- Angular 21
+- TypeScript
+- Angular Material
+- SCSS
+- RxJS
+
+---
+
+## أدوات التطوير
+
+- Eclipse IDE
+- Visual Studio Code
+- Postman
+- Git
+- GitHub
+
+---
+
+# هيكل المشروع
+
+```
+backend/
+
+├── common/
+├── config/
+├── security/
+├── modules/
+├── shared/
+└── MohsinonApplication.java
+```
+
+---
+
+# إنشاء وحدة جديدة (Module)
+
+يجب أن تتبع كل وحدة نفس الهيكل:
+
+```
+modules/
+
+example/
+
+├── controller/
+├── service/
+├── repository/
+├── entity/
+├── dto/
+│   ├── request/
+│   └── response/
+├── mapper/
+├── specification/
+└── exception/
+```
+
+يمنع إنشاء بنية مختلفة إلا لسبب معماري واضح.
+
+---
+
+# قواعد الـ Controller
+
+يجب أن يحتوي الـ Controller فقط على:
+
+- استقبال الطلبات.
+- التحقق من صحة البيانات.
+- استدعاء Service.
+- إعادة Response.
+
+ويمنع وضع:
+
+- Business Logic.
+- استعلامات قاعدة البيانات.
+- عمليات التحويل المعقدة.
+
+---
+
+## مثال
+
+```java
+@PostMapping
+public ResponseEntity<UserResponse> create(
+        @Valid @RequestBody CreateUserRequest request) {
+
+    return ResponseEntity.status(HttpStatus.CREATED)
+            .body(userService.create(request));
+}
+```
+
+---
+
+# قواعد Service
+
+جميع منطق الأعمال (Business Logic) يجب أن يكون داخل Service.
+
+ويشمل:
+
+- Validation
+- Authorization
+- Transactions
+- استدعاء Repository
+- تطبيق قواعد العمل
+
+---
+
+# قواعد Repository
+
+يعتمد المشروع على Spring Data JPA.
+
+لا يجوز وضع Business Logic داخل Repository.
+
+---
+
+# قواعد Entity
+
+جميع الكيانات يجب أن ترث من:
+
+```
+BaseEntity
+```
+
+ويمنع تكرار الحقول التالية:
+
+- id
+- createdAt
+- updatedAt
+
+---
+
+# قواعد DTO
+
+يجب الفصل بين:
+
+```
+Request DTO
+```
+
+و
+
+```
+Response DTO
+```
+
+ولا يجوز استخدام Entity مباشرة داخل واجهات REST.
+
+---
+
+# قواعد Mapper
+
+كل وحدة تمتلك Mapper خاصًا بها.
+
+مثال:
+
+```
+UserMapper
+
+MosqueMapper
+
+DonationMapper
+```
+
+ويمنع تنفيذ التحويل داخل Controller.
+
+---
+
+# قواعد Exception
+
+جميع الاستثناءات الخاصة بالوحدة توضع داخل:
+
+```
+exception/
+```
+
+ويجب أن ترث من:
+
+```
+BusinessException
+```
+
+---
+
+# قواعد Swagger
+
+كل Controller يجب أن يحتوي على:
+
+```java
+@Tag
+```
+
+وكل Endpoint يجب أن يحتوي على:
+
+```java
+@Operation
+```
+
+مع استخدام:
+
+```java
+@ApiDocumentation
+```
+
+بدلاً من كتابة:
+
+```java
+@ApiResponses
+```
+
+في كل مرة.
+
+---
+
+# قواعد Validation
+
+جميع عمليات التحقق تتم باستخدام Jakarta Validation.
+
+مثال:
+
+```java
+@NotBlank
+
+@NotNull
+
+@Email
+
+@Size
+```
+
+ويمنع تنفيذ التحقق اليدوي إذا كان بالإمكان استخدام Annotation مناسبة.
+
+---
+
+# قواعد البحث
+
+جميع عمليات البحث يجب أن تعتمد على الطبقة المشتركة.
+
+```
+SearchRequest
+
+↓
+
+QueryRequestResolver
+
+↓
+
+SearchService
+
+↓
+
+Specification
+```
+
+ولا يجوز تنفيذ Pagination أو Filtering أو Sorting يدويًا داخل الوحدات.
+
+---
+
+# دورة حياة الكيانات
+
+جميع الوحدات التي تدعم إدارة الكيانات يجب أن تستخدم دورة الحياة التالية:
+
+```
+Create
+
+↓
+
+Update
+
+↓
+
+Deactivate
+
+↓
+
+Activate
+
+↓
+
+Archive
+
+↓
+
+Restore Archive
+
+↓
+
+Soft Delete
+
+↓
+
+Restore Deleted
+```
+
+---
+
+# التوثيق
+
+أي API جديد يجب أن يتضمن:
+
+- @Tag
+- @Operation
+- @Schema
+- @ApiDocumentation
+
+ولا يُقبل دمج واجهات جديدة بدون توثيق Swagger.
+
+---
+
+# التسمية (Naming Convention)
+
+## الأصناف
+
+```
+UserService
+
+MosqueController
+
+DonationRepository
+```
+
+---
+
+## DTO
+
+```
+CreateUserRequest
+
+UpdateUserRequest
+
+UserResponse
+```
+
+---
+
+## Exceptions
+
+```
+UserNotFoundException
+
+DuplicateEmailException
+
+PermissionDeniedException
+```
+
+---
+
+## Services
+
+```
+UserService
+
+UserServiceImpl
+```
+
+---
+
+# REST API Convention
+
+```
+GET
+
+POST
+
+PUT
+
+PATCH
+
+DELETE
+```
+
+ويجب أن تكون المسارات واضحة.
+
+مثال:
+
+```
+GET /users
+
+GET /users/{id}
+
+POST /users
+
+PUT /users/{id}
+
+DELETE /users/{id}
+
+PATCH /users/{id}/activate
+```
+
+---
+
+# Git Workflow
+
+قبل بدء أي تطوير:
+
+```
+git pull origin main
+```
+
+بعد الانتهاء:
+
+```
+git status
+
+git add .
+
+git commit -m "feat: description"
+
+git push origin main
+```
+
+---
+
+# أسلوب رسائل Commit
+
+يعتمد المشروع الصيغة التالية:
+
+```
+feat:
+
+fix:
+
+refactor:
+
+docs:
+
+test:
+
+style:
+
+perf:
+
+build:
+
+chore:
+```
+
+### أمثلة
+
+```
+feat: add mosque management
+
+fix: resolve jwt validation issue
+
+docs: update architecture
+
+refactor: simplify authorization layer
+```
+
+---
+
+# إضافة ميزة جديدة
+
+قبل كتابة أي كود:
+
+1. تحديد المتطلبات.
+2. تصميم قاعدة البيانات.
+3. إنشاء Entity.
+4. إنشاء Repository.
+5. إنشاء Service.
+6. إنشاء DTO.
+7. إنشاء Mapper.
+8. إنشاء Controller.
+9. توثيق Swagger.
+10. اختبار الميزة.
+
+---
+
+# معايير الجودة
+
+قبل اعتماد أي كود يجب التأكد من:
+
+- عدم وجود أخطاء Compilation.
+- عدم وجود تحذيرات مهمة.
+- نجاح تشغيل المشروع.
+- نجاح اختبار الـ API.
+- توثيق Swagger.
+- الالتزام بالمعمارية.
+
+---
+
+# اختبار المزايا
+
+قبل إنهاء أي وحدة يجب اختبار:
+
+- Create
+- Read
+- Update
+- Delete
+- Search
+- Pagination
+- Filtering
+- Sorting
+- Authorization
+- Validation
+- Error Handling
+
+---
+
+# إدارة التوثيق
+
+في نهاية كل يوم عمل يجب تحديث الملفات التالية:
+
+```
+docs/
+
+daily/
+    DAY_XX.md
+
+PROJECT_STATUS.md
+
+CHANGELOG.md
+
+ARCHITECTURE.md
+
+ROADMAP.md
+
+VISION.md
+
+REQUIREMENTS.md
+
+DECISIONS.md
+
+DEVELOPMENT_GUIDE.md
+```
+
+---
+
+# قواعد مراجعة الكود
+
+قبل دمج أي تغيير تأكد من:
+
+- عدم تكرار الكود.
+- استخدام المكونات المشتركة.
+- الالتزام بالتسمية.
+- عدم كسر الوحدات الأخرى.
+- تحديث التوثيق.
+- المحافظة على قابلية التوسع.
+
+---
+
+# خارطة التطوير
+
+## المرحلة الحالية
+
+✅ Milestone 1.0 (Backend Foundation)
+
+---
+
+## المرحلة التالية
+
+🚧 Frontend Foundation (Angular)
+
+وتشمل:
+
+- Core
+- Shared
+- Layouts
+- Authentication
+- Dashboard
+- Routing
+- Guards
+- Interceptors
+- Design System
+
+---
+
+# فلسفة المشروع
+
+يعتمد مشروع **محسنون** على مبدأ بسيط:
+
+> **ابنِ مرة واحدة، وأعد الاستخدام دائمًا.**
+
+لذلك تُفضَّل دائمًا الحلول العامة والقابلة لإعادة الاستخدام على الحلول الخاصة أو المكررة، مع الحفاظ على وضوح الكود وقابليته للصيانة والتوسع.
+
+---
+
+# الخلاصة
+
+يهدف هذا الدليل إلى ضمان أن ينمو المشروع بطريقة منظمة ومتسقة، بحيث تبدو جميع الوحدات وكأنها كُتبت بواسطة فريق واحد، حتى مع توسع المنصة وإضافة مطورين جدد.
+
+الالتزام بهذا الدليل يساهم في الحفاظ على جودة الكود، وسهولة التطوير، واستقرار المنصة على المدى الطويل.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 11 ✅
 #### ##### #### ##### #### ##### #### ##### #### #####

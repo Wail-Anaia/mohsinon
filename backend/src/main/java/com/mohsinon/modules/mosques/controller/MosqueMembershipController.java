@@ -5,6 +5,11 @@ import com.mohsinon.modules.mosques.dto.request.ChangeImamRequest;
 import com.mohsinon.modules.mosques.dto.response.MosqueMembershipResponse;
 import com.mohsinon.modules.mosques.service.MosqueMembershipService;
 import com.mohsinon.modules.users.repository.UserRepository;
+import com.mohsinon.shared.documentation.SwaggerTags;
+
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.mohsinon.common.api.ApiConstants;
 
 import jakarta.validation.Valid;
@@ -16,6 +21,11 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(ApiConstants.API_V1 + "/mosques")
+@Tag(
+	    name = SwaggerTags.MEMBERSHIPS,
+	    description = "إدارة عضويات المساجد"
+	)
+@SecurityRequirement(name = "Bearer Authentication")
 public class MosqueMembershipController {
 
     private final MosqueMembershipService membershipService;

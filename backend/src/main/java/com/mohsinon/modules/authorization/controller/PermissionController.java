@@ -13,13 +13,21 @@ import com.mohsinon.common.api.ApiResponseBuilder;
 import com.mohsinon.modules.authorization.dto.request.PermissionRequest;
 import com.mohsinon.modules.authorization.dto.response.PermissionResponse;
 import com.mohsinon.modules.authorization.service.PermissionService;
+import com.mohsinon.shared.documentation.SwaggerTags;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping(ApiConstants.API_V1 + "/permissions")
 @RequiredArgsConstructor
+@Tag(
+	    name = SwaggerTags.PERMISSIONS,
+	    description = "إدارة الصلاحيات"
+	)
+@SecurityRequirement(name = "Bearer Authentication")
 public class PermissionController {
 
     private final PermissionService permissionService;

@@ -7,9 +7,10 @@ import com.mohsinon.modules.mosques.mapper.MosqueMapper;
 import com.mohsinon.modules.mosques.repository.MosqueRepository;
 import com.mohsinon.modules.mosques.exception.MosqueNotFoundException;
 import com.mohsinon.shared.query.response.PageResponse;
+import com.mohsinon.shared.query.service.SearchService;
 import com.mohsinon.shared.query.utils.PaginationUtils;
+import com.mohsinon.shared.query.request.FilterRequest;
 import com.mohsinon.shared.query.request.SearchRequest;
-import com.mohsinon.shared.query.specification.SearchSpecificationFactory;
 import com.mohsinon.shared.lifecycle.LifecycleService;
 import com.mohsinon.security.utils.SecurityUtils;
 import com.mohsinon.modules.users.entity.User;
@@ -21,7 +22,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -31,17 +31,25 @@ public class MosqueService {
 	private final UserRepository userRepository;
 	private final MosqueMembershipService mosqueMembershipService;
 	private final LifecycleService lifecycleService;
+	private final SearchService searchService;
 
 	public MosqueService(
+
 	        MosqueRepository mosqueRepository,
+
 	        UserRepository userRepository,
+
 	        MosqueMembershipService mosqueMembershipService,
-	        LifecycleService lifecycleService) {
+
+	        LifecycleService lifecycleService,
+
+	        SearchService searchService){
 
 	    this.mosqueRepository = mosqueRepository;
 	    this.userRepository = userRepository;
 	    this.mosqueMembershipService = mosqueMembershipService;
 	    this.lifecycleService = lifecycleService;
+	    this.searchService = searchService;
 	}
 
 	@Transactional
@@ -68,13 +76,13 @@ public class MosqueService {
 
 	        SearchRequest request,
 
-	        Map<String,String> filters) {
+	        FilterRequest filter){
 
 	    Pageable pageable =
-	            PaginationUtils.pageable(request);
+	            searchService.pageable(request);
 
 	    Specification<Mosque> specification =
-	            SearchSpecificationFactory.build(filters);
+	            searchService.specification(filter);
 
 	    Page<Mosque> page =
 	            mosqueRepository.findAll(
@@ -83,6 +91,7 @@ public class MosqueService {
 
 	    return PaginationUtils.response(
 	            page.map(MosqueMapper::toResponse));
+
 	}
 
 	public MosqueResponse findById(UUID id) {
