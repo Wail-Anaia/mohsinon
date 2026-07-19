@@ -1,0 +1,14 @@
+<div
+    class="loader-container"
+    [class.fullscreen]="fullscreen">
+
+    <mat-spinner
+        [diameter]="size"
+        [strokeWidth]="strokeWidth">
+    </mat-spinner>
+
+    <p *ngIf="message">
+        {{ message }}
+    </p>
+
+</div>

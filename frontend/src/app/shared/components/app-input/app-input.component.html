@@ -1,0 +1,49 @@
+<div class="input-wrapper">
+
+    <mat-form-field
+        appearance="outline"
+        class="full-width">
+
+        <mat-label>
+
+            {{ label }}
+
+        </mat-label>
+
+        <mat-icon
+            matPrefix
+            *ngIf="icon">
+
+            {{ icon }}
+
+        </mat-icon>
+
+        <input
+            matInput
+            [formControl]="control"
+            [type]="isPassword && hidePassword ? 'password' : 'text'">
+
+        <button
+            *ngIf="isPassword"
+            mat-icon-button
+            matSuffix
+            type="button"
+            (click)="togglePasswordVisibility()">
+
+            <mat-icon>
+
+                {{ hidePassword ? 'visibility_off' : 'visibility' }}
+
+            </mat-icon>
+
+        </button>
+
+        <mat-error *ngIf="control.invalid && control.touched">
+
+            {{ getErrorMessage() }}
+
+        </mat-error>
+
+    </mat-form-field>
+
+</div>

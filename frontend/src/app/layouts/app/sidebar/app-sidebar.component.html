@@ -1,0 +1,18 @@
+<aside>
+
+    <nav>
+
+        <a
+            *ngFor="let item of items"
+            [routerLink]="item.route"
+            routerLinkActive="active">
+
+            <span>{{ item.icon }}</span>
+
+            {{ item.title }}
+
+        </a>
+
+    </nav>
+
+</aside>

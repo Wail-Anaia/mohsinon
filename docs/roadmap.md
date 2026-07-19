@@ -4529,6 +4529,440 @@ Angular Front-End
 ### Day 12 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ROADMAP
+
+> آخر تحديث: 2026-07-19 (نهاية اليوم 12)
+
+---
+
+# خارطة الطريق
+
+منصة **محسنون** تُبنى بطريقة **Incremental Architecture**، حيث يتم إنهاء كل طبقة بالكامل قبل الانتقال إلى التي تليها.
+
+---
+
+# Phase 1 — Core Foundation ✅ مكتملة
+
+## اليوم 1
+- إعداد المشروع
+- Backend
+- Frontend
+- PostgreSQL
+- GitHub
+- هيكلة المشروع
+
+الحالة:
+> ✅ مكتمل
+
+---
+
+# Phase 2 — Identity & Security ✅ مكتملة
+
+## اليوم 2
+- Users
+- Roles
+- JWT Authentication
+- Registration
+- Login
+
+الحالة:
+
+> ✅ مكتمل
+
+---
+
+## اليوم 3
+
+Mosques Module
+
+يشمل:
+
+- Mosque CRUD
+- Services
+- Validation
+- Exception Handling
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 4
+
+Memberships & Positions
+
+يشمل:
+
+- Positions
+- Memberships
+- Relations
+- Core Business Logic
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 5
+
+Permission Engine
+
+يشمل:
+
+- Dynamic Permissions
+- Permission Groups
+- Annotation
+- AOP
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 6
+
+Authorization Engine
+
+يشمل:
+
+- User Permissions
+- Position Permissions
+- Resolver Engine
+- Permission Cache
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 7
+
+Mosque Administration
+
+يشمل:
+
+- Position APIs
+- Membership APIs
+- Permission APIs
+- Seeder
+- Integration Tests
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 8
+
+Donation Module (Foundation)
+
+يشمل:
+
+- Donations
+- Categories
+- Services
+- Controllers
+- CRUD
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 9
+
+Core Refactoring
+
+يشمل:
+
+- BaseEntity
+- UUID
+- Audit Fields
+- Pagination
+- Search
+- Query Layer
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 10
+
+Developer Experience
+
+يشمل:
+
+- Swagger
+- OpenAPI
+- JWT داخل Swagger
+- API Documentation
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+# Phase 3 — Frontend Foundation 🚀
+
+## اليوم 11 ✅
+
+Frontend Architecture
+
+يشمل:
+
+- Angular Structure
+- Design System
+- Shared Components
+- Routing
+- Core Layer
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+## اليوم 12 ✅
+
+Authentication UI
+
+يشمل:
+
+- Login Page
+- Dashboard Layout
+- Sidebar
+- Header
+- Responsive Design
+- Hero Background
+- Reusable Components
+- API Integration
+- JWT Storage
+- Auth State باستخدام Signals
+- Error Handling
+- تحسين تجربة المستخدم (UX)
+
+الحالة
+
+> ✅ مكتمل
+
+---
+
+# Phase 4 — Dashboard & Layout 🚧
+
+## اليوم 13
+
+Dashboard الحقيقي
+
+سيشمل:
+
+- Dashboard Home
+- Statistics Cards
+- Quick Actions
+- Recent Activity
+- Responsive Dashboard
+- Skeleton Loading
+- Empty States
+
+الحالة
+
+> ⏳ التالي
+
+---
+
+## اليوم 14
+
+Navigation System
+
+يشمل:
+
+- Dynamic Sidebar
+- Breadcrumb
+- Active Routes
+- Permissions Navigation
+- User Menu
+
+---
+
+# Phase 5 — Users Management
+
+سيشمل:
+
+- Users List
+- Create User
+- Edit User
+- Delete User
+- Search
+- Pagination
+- Filters
+
+---
+
+# Phase 6 — Mosques UI
+
+سيشمل:
+
+- Mosque Dashboard
+- Mosque Details
+- Mosque Members
+- Mosque Positions
+- Mosque Permissions
+
+---
+
+# Phase 7 — Donations UI
+
+سيشمل:
+
+- Donation Dashboard
+- Donation Cards
+- Donation Details
+- Categories
+- Donation Statistics
+
+---
+
+# Phase 8 — Volunteers
+
+سيشمل:
+
+- Volunteer Profiles
+- Volunteer Requests
+- Skills
+- Assignment
+- Activity
+
+---
+
+# Phase 9 — Community Projects
+
+سيشمل:
+
+- Projects
+- Campaigns
+- Initiatives
+- Events
+- Community Actions
+
+---
+
+# Phase 10 — Marketplace
+
+سيشمل:
+
+- نشر الأغراض
+- البحث
+- التصنيفات
+- الصور
+- التواصل بين المستخدمين
+
+---
+
+# Phase 11 — Notifications
+
+سيشمل:
+
+- In-App Notifications
+- Email
+- Push Notifications
+- Notification Center
+
+---
+
+# Phase 12 — Analytics
+
+سيشمل:
+
+- Dashboards
+- Reports
+- Charts
+- KPIs
+- Monitoring
+
+---
+
+# Phase 13 — AI Layer
+
+سيشمل:
+
+- اقتراح المتبرعين
+- اقتراح المتطوعين
+- تحليل المشاريع
+- توصيات ذكية
+- مساعد محسنون
+
+---
+
+# Phase 14 — Mobile Ready
+
+سيشمل:
+
+- Responsive Improvements
+- PWA
+- Mobile Optimization
+
+---
+
+# Phase 15 — Production
+
+سيشمل:
+
+- Docker
+- CI/CD
+- Monitoring
+- Logging
+- Backup
+- Deployment
+
+---
+
+# نسبة الإنجاز التقريبية
+
+| المرحلة | الحالة |
+|----------|--------|
+| Core Foundation | ✅ 100% |
+| Backend APIs | ✅ 100% |
+| Security | ✅ 100% |
+| Permission Engine | ✅ 100% |
+| Documentation | ✅ 100% |
+| Frontend Foundation | ✅ 100% |
+| Authentication UI | ✅ 100% |
+| Dashboard الحقيقي | ⏳ 0% |
+| إدارة المستخدمين | ⏳ 0% |
+| إدارة المساجد | ⏳ 0% |
+| التبرعات | ⏳ 0% |
+| المتطوعون | ⏳ 0% |
+| المشاريع | ⏳ 0% |
+| Marketplace | ⏳ 0% |
+| AI | ⏳ 0% |
+| Production | ⏳ 0% |
+
+---
+
+# التقييم العام
+
+بعد نهاية **اليوم الثاني عشر** أصبح المشروع يمتلك:
+
+- ✅ Backend احترافي ومستقر
+- ✅ نظام JWT متكامل
+- ✅ نظام صلاحيات ديناميكي
+- ✅ Swagger/OpenAPI
+- ✅ بنية Angular حديثة (Standalone + Signals)
+- ✅ Design System قابل لإعادة الاستخدام
+- ✅ صفحة تسجيل دخول احترافية مرتبطة بالخادم
+- ✅ تخزين وإدارة حالة المصادقة
+- ✅ Dashboard Layout جاهز للتوسع
+
+المشروع الآن انتقل من مرحلة **التأسيس** إلى مرحلة **بناء التطبيق الفعلي**، حيث ستتركز الأيام القادمة على تطوير الوحدات الوظيفية ولوحات التحكم التي سيتعامل معها المستخدم النهائي.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 13 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

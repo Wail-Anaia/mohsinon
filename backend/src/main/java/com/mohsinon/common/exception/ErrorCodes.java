@@ -13,6 +13,8 @@ public final class ErrorCodes {
     public static final String RESOURCE_NOT_FOUND = "RESOURCE_NOT_FOUND";
     public static final String ACCESS_DENIED = "ACCESS_DENIED";
     public static final String UNAUTHORIZED = "UNAUTHORIZED";
+    
+    public static final String AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED";
 
     /*
      * Users

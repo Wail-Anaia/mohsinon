@@ -5859,6 +5859,672 @@ utilities/
 ### Day 12 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# ARCHITECTURE
+
+**المشروع:** منصة محسنون (Mohsinon Platform)
+
+**آخر تحديث:** 2026-07-19
+
+**الإصدار:** Milestone 1.2
+
+---
+
+# الرؤية المعمارية
+
+تم تصميم منصة **محسنون** وفق معمارية حديثة (Modern Modular Architecture) تعتمد على الفصل الكامل بين الطبقات (Separation of Concerns)، مع التركيز على قابلية التوسع، وسهولة الصيانة، وإمكانية إضافة وحدات جديدة دون التأثير على النظام القائم.
+
+يعتمد المشروع على بنية **Backend + Frontend** مستقلة، تتواصل عبر واجهات REST API مؤمنة باستخدام JWT.
+
+---
+
+# البنية العامة
+
+```text
+                     ┌───────────────────────────┐
+                     │      Angular Frontend     │
+                     │         (Angular 21)      │
+                     └─────────────┬─────────────┘
+                                   │
+                           HTTP / REST API
+                                   │
+                     ┌─────────────▼─────────────┐
+                     │     Spring Boot API       │
+                     │        Java 21            │
+                     └─────────────┬─────────────┘
+                                   │
+                    ┌──────────────┴──────────────┐
+                    │                             │
+             Business Layer               Security Layer
+                    │                             │
+                    └──────────────┬──────────────┘
+                                   │
+                           PostgreSQL Database
+```
+
+---
+
+# Backend Architecture
+
+يعتمد الـ Backend على Layered Architecture مع تقسيم المشروع إلى وحدات مستقلة (Modules).
+
+```text
+backend/
+
+├── auth/
+├── common/
+├── security/
+├── shared/
+├── modules/
+│
+├── users/
+├── mosques/
+├── positions/
+├── memberships/
+├── permissions/
+├── donations/
+└── ...
+```
+
+---
+
+# طبقات Backend
+
+```text
+Controller
+      │
+      ▼
+Service
+      │
+      ▼
+Repository
+      │
+      ▼
+Database
+```
+
+كل طبقة لها مسؤولية واحدة فقط.
+
+---
+
+## Controller Layer
+
+المسؤوليات:
+
+- استقبال الطلبات
+- التحقق من صحة البيانات
+- استدعاء الخدمات
+- إرجاع الاستجابات
+
+لا يحتوي على منطق الأعمال.
+
+---
+
+## Service Layer
+
+يمثل قلب النظام.
+
+يتولى:
+
+- Business Logic
+- Validation
+- Transactions
+- Authorization
+- Integration بين الوحدات
+
+---
+
+## Repository Layer
+
+يعتمد على Spring Data JPA.
+
+مسؤول عن:
+
+- CRUD
+- Pagination
+- Search
+- Database Queries
+
+---
+
+## Entity Layer
+
+تمثل جداول قاعدة البيانات.
+
+تعتمد على:
+
+- UUID
+- BaseEntity
+- Auditing
+
+---
+
+# الوحدات (Modules)
+
+حتى نهاية اليوم 12 أصبحت الوحدات بالشكل التالي:
+
+```text
+Modules
+
+├── Authentication
+├── Users
+├── Roles
+├── Permissions
+├── Permission Groups
+├── Positions
+├── Memberships
+├── Mosques
+├── Donations
+├── Search
+├── Audit
+└── Swagger
+```
+
+كل وحدة مستقلة قدر الإمكان.
+
+---
+
+# Security Architecture
+
+يعتمد النظام على JWT Stateless Authentication.
+
+```text
+Login
+
+↓
+
+JWT Generation
+
+↓
+
+Angular
+
+↓
+
+Authorization Header
+
+↓
+
+JWT Filter
+
+↓
+
+Security Context
+
+↓
+
+Controller
+```
+
+---
+
+## Authorization
+
+تم تطوير محرك صلاحيات ديناميكي.
+
+```text
+User
+
+↓
+
+Position
+
+↓
+
+Permission Groups
+
+↓
+
+Permissions
+
+↓
+
+Permission Resolver
+
+↓
+
+Authorization Service
+
+↓
+
+@RequirePermission
+```
+
+لا يعتمد النظام على Roles فقط، بل على Permissions دقيقة وقابلة للتخصيص.
+
+---
+
+# Frontend Architecture
+
+تم اعتماد Feature-Based Architecture.
+
+```text
+src/app
+
+core/
+
+features/
+
+layout/
+
+shared/
+```
+
+---
+
+# Core
+
+يحتوي على البنية الأساسية.
+
+```text
+core/
+
+api/
+
+auth/
+
+config/
+
+guards/
+
+interceptors/
+
+navigation/
+
+services/
+
+state/
+```
+
+---
+
+## API
+
+```text
+ApiClient
+
+↓
+
+AuthApiService
+
+↓
+
+Features APIs
+```
+
+كل عمليات HTTP تمر عبر ApiClient.
+
+---
+
+## State
+
+يعتمد المشروع على Angular Signals.
+
+```text
+AuthState
+
+token
+
+currentUser
+
+authenticated
+```
+
+بدون مكتبات إدارة حالة خارجية.
+
+---
+
+## Interceptors
+
+حالياً:
+
+```
+authInterceptor
+```
+
+يقوم بإضافة JWT تلقائياً.
+
+---
+
+## Guards
+
+حالياً:
+
+```
+authGuard
+```
+
+لحماية الصفحات.
+
+---
+
+# Features
+
+كل وحدة مستقلة.
+
+```text
+features/
+
+auth/
+
+dashboard/
+
+mosques/
+
+donations/
+
+users/
+```
+
+كل Feature تحتوي على:
+
+```text
+components/
+
+pages/
+
+services/
+
+facade/
+
+models/
+
+routes
+```
+
+---
+
+# Shared
+
+يحتوي على العناصر المشتركة.
+
+```text
+shared/
+
+components/
+
+models/
+
+pipes/
+
+directives/
+
+utils/
+```
+
+---
+
+## Design System
+
+حتى الآن تم إنشاء:
+
+```text
+AppButton
+
+AppInput
+
+AppCard
+
+AppLoader
+
+AppLogo
+```
+
+وسيتم توسعته تدريجياً.
+
+---
+
+# Layout
+
+حالياً يوجد:
+
+```text
+Dashboard Layout
+```
+
+وسيحتوي لاحقاً على:
+
+- Sidebar
+- Header
+- Footer
+- Breadcrumb
+- User Menu
+
+---
+
+# Authentication Flow
+
+```text
+Login Page
+
+↓
+
+AuthFacade
+
+↓
+
+AuthService
+
+↓
+
+AuthApiService
+
+↓
+
+Backend
+
+↓
+
+JWT
+
+↓
+
+TokenService
+
+↓
+
+AuthState
+
+↓
+
+Dashboard
+```
+
+---
+
+# إدارة الحالة (State Management)
+
+يعتمد المشروع بالكامل على Signals.
+
+```text
+Signal
+
+↓
+
+Computed
+
+↓
+
+Readonly
+
+↓
+
+Components
+```
+
+بدون RxJS State Management أو NgRx.
+
+---
+
+# Design Patterns المستخدمة
+
+## Backend
+
+- Layered Architecture
+- Repository Pattern
+- Service Pattern
+- DTO Pattern
+- Builder Pattern
+- Factory (Spring)
+- Dependency Injection
+- Strategy Pattern (Resolvers)
+- AOP
+- Cache Pattern
+
+---
+
+## Frontend
+
+- Feature-Based Architecture
+- Facade Pattern
+- State Pattern
+- Singleton Services
+- Dependency Injection
+- Standalone Components
+- Reusable Components
+
+---
+
+# التقنيات المستخدمة
+
+## Backend
+
+- Java 21
+- Spring Boot 3.5
+- Spring Security
+- Spring Data JPA
+- Hibernate
+- PostgreSQL
+- JWT
+- Swagger / OpenAPI
+- Maven
+
+---
+
+## Frontend
+
+- Angular 21
+- Angular Signals
+- Angular Router
+- Angular Material
+- RxJS
+- SCSS
+- TypeScript
+
+---
+
+# قاعدة البيانات
+
+تعتمد على PostgreSQL.
+
+الكيانات الرئيسية:
+
+```text
+Users
+
+Roles
+
+Permissions
+
+PermissionGroups
+
+UserPermissions
+
+PositionPermissions
+
+Mosques
+
+Memberships
+
+Positions
+
+Donations
+```
+
+---
+
+# مبادئ التصميم
+
+يعتمد المشروع على:
+
+- SOLID
+- DRY
+- KISS
+- Separation of Concerns
+- Single Responsibility
+- Dependency Injection
+- Clean Code
+
+---
+
+# ما تم إنجازه معمارياً
+
+## Backend
+
+✅ بنية مستقرة وقابلة للتوسع.
+
+---
+
+## Security
+
+✅ Authentication
+
+✅ Authorization
+
+✅ Permission Engine
+
+---
+
+## API
+
+✅ RESTful APIs
+
+✅ Swagger
+
+---
+
+## Frontend
+
+✅ Frontend Foundation
+
+✅ Feature Architecture
+
+✅ Design System
+
+✅ Signals State Management
+
+✅ JWT Integration
+
+---
+
+# المرحلة القادمة
+
+ابتداءً من اليوم 13 سيتم الانتقال من مرحلة **Foundation** إلى مرحلة **Application Development**، حيث سيتم بناء لوحة التحكم الاحترافية وربطها ببيانات النظام الفعلية، ثم تطوير الوحدات الوظيفية مثل إدارة المساجد، المستخدمين، التبرعات، والمتطوعين.
+
+---
+
+# تقييم المعمارية
+
+| العنصر | الحالة |
+|---------|---------|
+| Modular Architecture | ✅ |
+| Layered Architecture | ✅ |
+| Feature-Based Frontend | ✅ |
+| JWT Authentication | ✅ |
+| Dynamic Authorization | ✅ |
+| REST API | ✅ |
+| Swagger Documentation | ✅ |
+| Signals State | ✅ |
+| Design System | ✅ |
+| Scalability | ✅ |
+| Maintainability | ✅ |
+| Clean Architecture Principles | ✅ |
+
+---
+
+# الخلاصة
+
+وصلت منصة **محسنون** بنهاية اليوم الثاني عشر إلى معمارية متكاملة تجمع بين Backend قوي وFrontend حديث، مع فصل واضح للمسؤوليات واعتماد أنماط تصميم قابلة للتوسع. أصبحت جميع الأساسات التقنية جاهزة، ويمكن بدء بناء الوظائف التجارية (Business Features) دون الحاجة إلى إعادة هيكلة المشروع مستقبلاً.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 13 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

@@ -1,0 +1,53 @@
+aside {
+
+    width: 260px;
+
+    background: white;
+
+    border-left: 1px solid var(--color-border);
+
+    padding: 1rem;
+
+}
+
+nav {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: .5rem;
+
+}
+
+a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: .75rem;
+
+    padding: .9rem 1rem;
+
+    border-radius: var(--radius-md);
+
+    color: var(--color-text);
+
+    transition: .2s;
+
+}
+
+a:hover {
+
+    background: #EEF5EF;
+
+}
+
+.active {
+
+    background: var(--color-primary);
+
+    color: white;
+
+}

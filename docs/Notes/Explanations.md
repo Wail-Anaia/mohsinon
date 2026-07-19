@@ -504,6 +504,234 @@ Swagger UI
 =============================================================================
 في مشروع محسنون الذي يتجه ليصبح كبيرًا، أنصح باستخدام ثوابت (Constants) لأسماء المجموعات والمسارات والأوصاف المتكررة منذ الآن. هذا يقلل التكرار ويجعل تغيير الأسماء لاحقًا يتم من مكان واحد فقط، وهو أسلوب شائع في المشاريع المؤسسية.
 =============================================================================
+هذا الملف كان من أهم الملفات التي أضفناها في اليوم 12، وربما لأنه يعمل "في الخلفية" لم يظهر أثره بشكل مباشر.
+
+## لماذا احتجنا CorsConfig؟
+
+عندما كان التطبيق يعمل:
+
+* Frontend
+
+```
+http://localhost:4200
+```
+
+و Backend
+
+```
+http://localhost:8080
+```
+
+فهما يعتبران **Origin مختلفين** لأن المنفذ (Port) مختلف.
+
+ولهذا فإن المتصفح يمنع Angular من استدعاء Spring Boot إلا إذا وافق السيرفر على ذلك.
+
+ولهذا ظهرت لك الرسالة الشهيرة:
+
+```
+Access to XMLHttpRequest has been blocked by CORS policy
+```
+
+ثم
+
+```
+No 'Access-Control-Allow-Origin' header is present
+```
+
+---
+
+## ماذا يفعل CorsConfig؟
+
+كان يحتوي تقريبًا على شيء كهذا:
+
+```java
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(
+                List.of("http://localhost:4200"));
+
+        configuration.setAllowedMethods(
+                List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+
+        configuration.setAllowedHeaders(List.of("*"));
+
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source =
+                new UrlBasedCorsConfigurationSource();
+
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+}
+```
+
+---
+
+## وكيف استُعمل؟
+
+داخل `SecurityConfig` قمنا بإضافة:
+
+```java
+http
+    .cors(Customizer.withDefaults())
+```
+
+أي:
+
+```java
+http
+    .cors(Customizer.withDefaults())
+    .csrf(csrf -> csrf.disable())
+    ...
+```
+
+هذه السطر يجعل Spring Security يبحث تلقائيًا عن:
+
+```java
+CorsConfigurationSource
+```
+
+الذي أنشأناه في:
+
+```
+CorsConfig
+```
+
+ويطبقه على جميع الطلبات.
+
+---
+
+## ماذا يحدث بدون هذا الملف؟
+
+عندما يرسل Angular:
+
+```
+POST /api/v1/auth/login
+```
+
+فالمتصفح لا يرسل POST مباشرة.
+
+بل يرسل أولاً:
+
+```
+OPTIONS /api/v1/auth/login
+```
+
+وهذا يسمى
+
+**Preflight Request**
+
+إذا لم يرد Spring بـ
+
+```
+Access-Control-Allow-Origin
+```
+
+فالمتصفح يمنع الطلب قبل أن يصل إلى Controller.
+
+ولهذا كنا نرى:
+
+```
+401
+```
+
+ثم
+
+```
+403
+```
+
+ثم
+
+```
+CORS policy
+```
+
+ولم يكن `AuthController` يُنفذ أصلاً.
+
+---
+
+## وبعد إضافة CorsConfig؟
+
+أصبح Spring يجيب على طلب OPTIONS هكذا:
+
+```
+HTTP 200
+Access-Control-Allow-Origin: http://localhost:4200
+Access-Control-Allow-Methods: POST, GET, PUT...
+Access-Control-Allow-Headers: *
+```
+
+فيقول المتصفح:
+
+> حسنًا، السيرفر سمح لي.
+
+ثم يرسل:
+
+```
+POST /api/v1/auth/login
+```
+
+وهنا يصل الطلب إلى:
+
+```
+AuthController
+      ↓
+AuthService
+      ↓
+JWT
+```
+
+---
+
+# هل سنحتفظ بهذا الملف؟
+
+**نعم، بالتأكيد.**
+
+بل عندما ننشر المشروع لاحقًا سنغيّر فقط:
+
+```java
+configuration.setAllowedOrigins(
+    List.of(
+        "http://localhost:4200"
+    )
+);
+```
+
+إلى:
+
+```java
+configuration.setAllowedOrigins(
+    List.of(
+        "https://mohsinon.org"
+    )
+);
+```
+
+أو إذا كان لدينا أكثر من واجهة:
+
+```java
+configuration.setAllowedOrigins(
+    List.of(
+        "https://mohsinon.org",
+        "https://admin.mohsinon.org"
+    )
+);
+```
+
+---
+
+### تقييمي لهذا الملف
+
+رغم أن عدد أسطره قليل، فهو ملف **أساسي** في أي تطبيق يفصل بين Frontend وBackend. بدونه لن تتمكن واجهة Angular من التواصل مع Spring Boot عبر المتصفح. لذلك من الجيد أن يبقى ضمن بنية المشروع منذ الآن، وسيخدمك في بيئة التطوير ثم يمكن تعديل إعداداته بسهولة عند الانتقال إلى بيئة الإنتاج.
 
 =============================================================================
 

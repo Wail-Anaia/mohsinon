@@ -1,35 +1,34 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { tap } from 'rxjs';
 
-import { HttpClient } from '@angular/common/http';
+import { AuthApiService } from '../../../core/api/auth/auth-api.service';
+import { TokenService } from '../../../core/auth/token.service';
+import { AuthState } from '../../../core/state/auth/auth.state';
 
 import { LoginRequest } from '../models/login-request.model';
-import { LoginResponse } from '../models/login-response.model';
-
-import { ApiConfig } from '../../../core/config/api.config';
-import { TokenService } from '../../../core/auth/token.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly http = inject(HttpClient);
+  private readonly api = inject(AuthApiService);
 
-  private readonly tokenService = inject(TokenService);
+  private readonly token = inject(TokenService);
 
-  login(request: LoginRequest): Observable<LoginResponse> {
+  private readonly authState = inject(AuthState);
 
-    return this.http.post<LoginResponse>(
-      ApiConfig.baseUrl + ApiConfig.endpoints.auth + '/login',
-      request
-    ).pipe(
+  login(request: LoginRequest) {
+
+    return this.api.login(request).pipe(
 
       tap(response => {
 
-        this.tokenService.set(response.token);
+          this.token.set(response.token);
 
-      })
+          this.authState.setToken(response.token);
+
+      }),
 
     );
 
@@ -37,13 +36,15 @@ export class AuthService {
 
   logout(): void {
 
-    this.tokenService.clear();
+    this.token.clear();
 
-  }
+    this.authState.clear();
+
+}
 
   isAuthenticated(): boolean {
 
-    return this.tokenService.exists();
+    return this.token.exists();
 
   }
 

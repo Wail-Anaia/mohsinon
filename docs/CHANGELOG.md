@@ -3493,6 +3493,400 @@ Status:
 ### Day 12 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# CHANGELOG
+
+جميع التغييرات المهمة في مشروع **منصة محسنون (Mohsinon Platform)** سيتم توثيقها في هذا الملف.
+
+يعتمد المشروع على أسلوب **Keep a Changelog** مع الالتزام بالمراجعة اليومية (Daily Development Log).
+
+---
+
+# [1.2.0] - 2026-07-19
+
+## 🎉 Milestone 1.2 — Frontend Foundation & Authentication UI
+
+يمثل هذا الإصدار نقطة التحول من مشروع Backend فقط إلى منصة Full Stack متكاملة، حيث تم بناء الأساس الحقيقي للواجهة الأمامية وربطها بالكامل مع نظام المصادقة في الـ Backend.
+
+---
+
+## ✨ Added
+
+### Frontend Architecture
+
+- إنشاء هيكلية Frontend احترافية.
+- اعتماد Standalone Components.
+- تنظيم المشروع إلى:
+  - core
+  - shared
+  - features
+  - layout
+
+---
+
+### Design System
+
+إضافة أول إصدار من نظام التصميم.
+
+المكونات الجديدة:
+
+- AppButton
+- AppInput
+- AppCard
+- AppLoader
+- AppLogo
+
+---
+
+### Authentication
+
+إضافة:
+
+- Login Page
+- AuthService
+- AuthFacade
+- AuthApiService
+- AuthState
+- Http Interceptor
+- Token Management
+
+---
+
+### Angular Signals
+
+اعتماد Signals في إدارة الحالة.
+
+إضافة:
+
+- token signal
+- authenticated signal
+- currentUser signal
+- loading signal
+- errorMessage signal
+
+---
+
+### API Layer
+
+إنشاء:
+
+- ApiClient
+
+يدعم:
+
+- GET
+- POST
+- PUT
+- DELETE
+
+---
+
+### Dashboard Foundation
+
+إنشاء الهيكل الأولي للوحة التحكم.
+
+---
+
+## 🎨 UI / UX
+
+تحسينات كبيرة على واجهة المستخدم.
+
+### Login Screen
+
+إضافة:
+
+- Hero Background
+- Glass Card
+- Responsive Layout
+- Modern Typography
+- Floating Labels
+- Animated Inputs
+- Modern Button
+- Loading State
+- Error Messages
+
+---
+
+### Design
+
+تحسين:
+
+- الألوان
+- المسافات
+- الحواف
+- الظلال
+- الخطوط
+- تجربة الاستخدام
+
+---
+
+## 🔒 Security
+
+تحسين نظام المصادقة.
+
+إضافة:
+
+- JWT Interceptor
+- Token Storage
+- Authentication Flow
+- Redirect after Login
+
+---
+
+## 🔗 Integration
+
+ربط Angular مع Spring Boot.
+
+أصبح تسجيل الدخول يعمل بالكامل.
+
+```
+Angular
+
+↓
+
+Spring Boot
+
+↓
+
+JWT
+
+↓
+
+Dashboard
+```
+
+---
+
+## 🛠 Fixed
+
+إصلاح عدد كبير من المشاكل.
+
+### Authentication
+
+- إصلاح Login Flow
+- إصلاح Unauthorized Response
+- إصلاح AuthenticationException
+- إصلاح LoginRequest Mapping
+
+---
+
+### Security
+
+- إصلاح CORS
+- إصلاح OPTIONS Request
+- إصلاح 403 Forbidden
+- إصلاح 401 Unauthorized
+
+---
+
+### Angular
+
+إصلاح:
+
+- Password Toggle
+- Floating Labels
+- Placeholder
+- Material Input Outline
+- Hero Image Loading
+- Asset Path
+- Chrome Compatibility
+- Edge Compatibility
+- Login Loading State
+
+---
+
+### Backend
+
+تحسين:
+
+- Error Handling
+- Authentication Response
+- GlobalExceptionHandler
+- Security Configuration
+
+---
+
+## ♻ Refactored
+
+إعادة تنظيم أجزاء من المشروع.
+
+### Authentication
+
+تم اعتماد:
+
+- Facade Pattern
+- State Management
+- Signals
+
+---
+
+### Shared Components
+
+تم تحويل العناصر المشتركة إلى مكونات مستقلة قابلة لإعادة الاستخدام.
+
+---
+
+## 📈 Improved
+
+تحسين:
+
+- تجربة المستخدم
+- بنية المشروع
+- قابلية الصيانة
+- قابلية التوسع
+- تنظيم الأكواد
+- الفصل بين الطبقات
+- إعادة استخدام المكونات
+
+---
+
+# [1.1.0] - 2026-07-17
+
+## 🎉 Milestone 1.1 — Developer Experience
+
+### Added
+
+- Swagger UI
+- OpenAPI Documentation
+- JWT داخل Swagger
+- توثيق REST APIs
+- ApiDocumentation Annotation
+
+---
+
+# [1.0.0] - 2026-07-16
+
+## 🎉 Milestone 1.0 — Backend Stable
+
+### Added
+
+- Search Engine
+- Pagination
+- BaseEntity
+- Query Engine
+- Audit Improvements
+- Project Refactoring
+
+---
+
+# [0.9.0] - 2026-07-13
+
+## Added
+
+- Donation Module Foundation
+- Donation Categories
+- Donation Services
+- Donation Repository
+
+---
+
+# [0.8.0] - 2026-07-12
+
+## Added
+
+- Authorization Integration
+- User Permissions
+- Position Permissions
+- Permission Resolver
+- Permission Cache
+- Integration Tests
+
+---
+
+# [0.7.0] - 2026-07-11
+
+## Added
+
+- Authorization Engine
+- AOP Security
+- Dynamic Permissions
+
+---
+
+# [0.6.0] - 2026-07-10
+
+## Added
+
+- Permission Framework
+- Permission Groups
+- Permission Annotation
+
+---
+
+# [0.5.0] - 2026-07-09
+
+## Added
+
+- Membership Module
+- Position Module
+- Mosque Administration
+
+---
+
+# [0.4.0] - 2026-07-08
+
+## Added
+
+- Mosque Module
+- CRUD APIs
+- Global Exception Handler
+
+---
+
+# [0.3.0] - 2026-07-07
+
+## Added
+
+- JWT Authentication
+- Login API
+- Register API
+- Roles
+- Users
+
+---
+
+# [0.2.0] - 2026-07-07
+
+## Added
+
+- Spring Boot Project
+- PostgreSQL
+- Maven
+- Angular Project
+- Git Repository
+
+---
+
+# [0.1.0] - 2026-07-07
+
+## 🎉 Initial Release
+
+### Added
+
+- إنشاء مشروع منصة محسنون.
+- إعداد GitHub Repository.
+- إعداد Backend.
+- إعداد Frontend.
+- إنشاء بنية المشروع الأساسية.
+
+---
+
+# Summary
+
+| الإصدار | الحالة | الوصف |
+|----------|---------|--------|
+| 1.2.0 | ✅ الحالي | Frontend Foundation + Authentication UI |
+| 1.1.0 | ✅ | Swagger & Developer Experience |
+| 1.0.0 | ✅ | Backend Stable |
+| 0.9.0 | ✅ | Donation Foundation |
+| 0.8.0 | ✅ | Authorization Integration |
+| 0.7.0 | ✅ | Authorization Engine |
+| 0.6.0 | ✅ | Permission Framework |
+| 0.5.0 | ✅ | Membership & Positions |
+| 0.4.0 | ✅ | Mosque Module |
+| 0.3.0 | ✅ | Authentication |
+| 0.2.0 | ✅ | Project Setup |
+| 0.1.0 | ✅ | Initial Commit |
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 13 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

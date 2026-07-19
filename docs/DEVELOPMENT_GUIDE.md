@@ -2286,6 +2286,650 @@ git push origin v0.11.0
 ### Day 12 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####
 
+# DEVELOPMENT_GUIDE
+
+> آخر تحديث: 2026-07-19 (نهاية اليوم 12)
+
+---
+
+# دليل التطوير
+
+هذا الملف يوضح طريقة العمل داخل مشروع **محسنون**، والمعايير البرمجية المتبعة، وهيكل المشروع، وآلية إضافة الميزات الجديدة.
+
+---
+
+# نظرة عامة
+
+يتكون المشروع من ثلاثة أجزاء رئيسية:
+
+```
+mohsinon/
+
+├── backend/
+├── frontend/
+└── docs/
+```
+
+---
+
+# Backend
+
+يعتمد على:
+
+- Java 21
+- Spring Boot 3.5.x
+- Spring Security
+- Spring Data JPA
+- PostgreSQL
+- JWT
+- Swagger/OpenAPI
+- Maven
+
+---
+
+## هيكل المشروع
+
+```
+backend/
+
+src/main/java/com/mohsinon/
+
+├── auth/
+├── common/
+├── config/
+├── modules/
+├── security/
+├── shared/
+└── MohsinonApplication.java
+```
+
+---
+
+## تنظيم كل Module
+
+كل وحدة يجب أن تكون مستقلة قدر الإمكان.
+
+مثال:
+
+```
+modules/
+
+users/
+
+├── controller
+├── dto
+│   ├── request
+│   └── response
+├── entity
+├── mapper
+├── repository
+├── service
+├── specification
+└── exception
+```
+
+---
+
+## Controllers
+
+يجب أن تحتوي على:
+
+- استقبال الطلب
+- Validation
+- استدعاء Service فقط
+
+ويمنع وضع منطق الأعمال داخل Controller.
+
+---
+
+## Services
+
+تحتوي على:
+
+- Business Logic
+- Validation
+- Transactions
+- التعامل مع Repository
+
+---
+
+## Repositories
+
+يمنع وضع أي منطق أعمال داخل Repository.
+
+وظيفتها:
+
+- الوصول إلى قاعدة البيانات فقط.
+
+---
+
+## DTO
+
+يجب عدم إعادة Entities مباشرة.
+
+دائماً:
+
+```
+Entity
+
+↓
+
+Mapper
+
+↓
+
+DTO
+
+↓
+
+Response
+```
+
+---
+
+## Validation
+
+يجب استخدام Jakarta Validation.
+
+مثال:
+
+```java
+@NotBlank
+@Email
+@Size(max = 255)
+```
+
+ولا يتم التحقق يدوياً داخل Service إلا للحالات الخاصة.
+
+---
+
+## Exceptions
+
+يجب إنشاء Exception مخصص لكل حالة أعمال.
+
+مثال:
+
+```
+UserAlreadyExistsException
+
+RoleNotFoundException
+
+AuthenticationException
+```
+
+وجميعها تمر عبر:
+
+```
+GlobalExceptionHandler
+```
+
+---
+
+## Security
+
+يعتمد المشروع على:
+
+- JWT
+- Spring Security
+- Authorization Engine
+- @RequirePermission
+
+ويمنع استخدام:
+
+```
+if(user.isAdmin())
+```
+
+داخل الخدمات أو Controllers.
+
+---
+
+## قاعدة البيانات
+
+- UUID كمفتاح أساسي.
+- BaseEntity لجميع الكيانات.
+- عدم تكرار الحقول المشتركة.
+
+---
+
+# Frontend
+
+يعتمد على:
+
+- Angular 21
+- Standalone Components
+- Angular Signals
+- Angular Material
+- SCSS
+
+---
+
+## هيكل المشروع
+
+```
+src/app/
+
+core/
+features/
+layout/
+shared/
+```
+
+---
+
+## Core
+
+يحتوي على:
+
+```
+api/
+
+auth/
+
+config/
+
+guards/
+
+interceptors/
+
+navigation/
+
+services/
+
+state/
+```
+
+ولا يحتوي على مكونات واجهة المستخدم.
+
+---
+
+## Features
+
+كل وحدة مستقلة.
+
+مثال:
+
+```
+features/
+
+auth/
+
+dashboard/
+
+users/
+
+mosques/
+
+donations/
+```
+
+---
+
+## Shared
+
+يحتوي على المكونات القابلة لإعادة الاستخدام فقط.
+
+مثل:
+
+```
+AppButton
+
+AppInput
+
+AppCard
+
+AppLogo
+
+Loader
+
+Badge
+
+Avatar
+
+Dialog
+```
+
+---
+
+## Layout
+
+يحتوي على:
+
+```
+Sidebar
+
+Topbar
+
+Footer
+
+DashboardLayout
+```
+
+---
+
+# إدارة الحالة
+
+تم اعتماد **Angular Signals** لإدارة الحالة.
+
+مثال:
+
+```typescript
+private readonly _token = signal<string | null>(null);
+
+readonly token = this._token.asReadonly();
+```
+
+ويمنع إنشاء BehaviorSubject جديد للحالات الداخلية إلا إذا كانت هناك حاجة حقيقية لذلك.
+
+---
+
+# HTTP
+
+يجب أن تمر جميع الطلبات عبر:
+
+```
+ApiClient
+```
+
+ولا يتم استخدام HttpClient مباشرة داخل Features.
+
+---
+
+مثال:
+
+```
+AuthApiService
+
+↓
+
+ApiClient
+
+↓
+
+HttpClient
+```
+
+---
+
+# Authentication
+
+التدفق المعتمد:
+
+```
+LoginComponent
+
+↓
+
+AuthFacade
+
+↓
+
+AuthService
+
+↓
+
+AuthApiService
+
+↓
+
+ApiClient
+
+↓
+
+Backend
+```
+
+بعد نجاح تسجيل الدخول:
+
+```
+JWT
+
+↓
+
+TokenService
+
+↓
+
+AuthState
+
+↓
+
+Router
+```
+
+---
+
+# Components
+
+كل Component يجب أن يكون:
+
+- صغيراً.
+- قابلاً لإعادة الاستخدام.
+- مسؤولاً عن وظيفة واحدة فقط.
+
+---
+
+# Styling
+
+الاعتماد على:
+
+```
+SCSS
+```
+
+مع استخدام متغيرات التصميم.
+
+مثل:
+
+```scss
+--color-primary
+
+--radius-md
+
+--space-4
+```
+
+ويمنع استخدام ألوان ثابتة داخل المكونات قدر الإمكان.
+
+---
+
+# Design System
+
+المكونات الأساسية الحالية:
+
+- AppButton
+- AppInput
+- AppCard
+- AppLogo
+
+وسيتم إضافة:
+
+- Badge
+- Avatar
+- Table
+- Dialog
+- Snackbar
+- Tabs
+- Empty State
+- Stats Card
+
+---
+
+# Routing
+
+كل وحدة تمتلك Routes خاصة بها.
+
+ويستخدم:
+
+- Lazy Loading
+- Route Guards
+
+لحماية الصفحات.
+
+---
+
+# Naming Convention
+
+## الملفات
+
+```
+login.component.ts
+
+auth.service.ts
+
+auth.interceptor.ts
+
+dashboard.page.ts
+```
+
+---
+
+## الكلاسات
+
+```
+UserService
+
+DonationService
+
+AuthFacade
+
+DashboardComponent
+```
+
+---
+
+## المتغيرات
+
+```
+camelCase
+```
+
+---
+
+## الثوابت
+
+```
+UPPER_CASE
+```
+
+---
+
+# Git Workflow
+
+بنهاية كل يوم:
+
+```
+git status
+
+git add .
+
+git commit
+
+git push
+```
+
+ثم تحديث ملفات:
+
+- DAY_xx.md
+- PROJECT_STATUS.md
+- CHANGELOG.md
+- ARCHITECTURE.md
+- ROADMAP.md
+- REQUIREMENTS.md
+- DECISIONS.md
+- DEVELOPMENT_GUIDE.md
+
+---
+
+# الاختبارات
+
+قبل إنهاء أي ميزة:
+
+- تشغيل Backend.
+- تشغيل Frontend.
+- اختبار Swagger.
+- اختبار الواجهة.
+- مراجعة Console.
+- مراجعة Network.
+- التأكد من عدم وجود أخطاء أثناء البناء (Build).
+
+---
+
+# معايير جودة الكود
+
+قبل اعتماد أي تغيير يجب التأكد من:
+
+- عدم وجود تكرار (DRY).
+- مسؤولية واحدة لكل كلاس (SRP).
+- سهولة القراءة.
+- أسماء واضحة.
+- فصل منطق الأعمال عن الواجهة.
+- قابلية إعادة الاستخدام.
+- الالتزام بهيكل المشروع.
+
+---
+
+# آلية تطوير ميزة جديدة
+
+1. إنشاء Entity (إن لزم).
+2. إنشاء Repository.
+3. إنشاء Service.
+4. إنشاء DTOs.
+5. إنشاء Controller.
+6. إضافة التوثيق في Swagger.
+7. كتابة الاختبارات اليدوية.
+8. بناء واجهة Angular.
+9. ربط الواجهة مع الـ API.
+10. تحديث الوثائق.
+
+---
+
+# سير العمل اليومي
+
+كل يوم تطوير يتبع الدورة التالية:
+
+```
+التخطيط
+
+↓
+
+التطوير
+
+↓
+
+الاختبار
+
+↓
+
+إصلاح الأخطاء
+
+↓
+
+التوثيق
+
+↓
+
+Git Commit
+
+↓
+
+Git Push
+```
+
+---
+
+# الحالة الحالية
+
+حتى نهاية **اليوم الثاني عشر** أصبح المشروع يمتلك:
+
+- Backend مستقر ومتكامل من حيث البنية الأساسية.
+- نظام مصادقة وصلاحيات جاهز للإنتاج بعد بعض التحسينات المستقبلية.
+- Frontend حديث مبني على Angular 21 مع Design System خاص بالمنصة.
+- صفحة تسجيل دخول احترافية مرتبطة بالكامل بالـ Backend.
+- Dashboard Layout جاهز لاستقبال الوحدات الوظيفية.
+
+ابتداءً من **اليوم الثالث عشر** سينتقل التركيز إلى بناء **Dashboard الحقيقي** وربطه بالبيانات الفعلية، ثم تطوير واجهات إدارة المستخدمين، المساجد، والتبرعات، مع الحفاظ على نفس معايير الجودة والتوثيق المعتمدة طوال المشروع.
+
 #### ##### #### ##### #### ##### #### ##### #### ##### 
 ### Day 13 ✅ Frontend
 #### ##### #### ##### #### ##### #### ##### #### #####

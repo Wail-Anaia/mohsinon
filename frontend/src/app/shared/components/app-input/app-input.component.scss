@@ -1,0 +1,101 @@
+:host {
+
+    display: block;
+
+
+}
+
+.input-wrapper {
+
+    // margin-bottom: var(--space-5);
+
+    direction: ltr;
+
+
+}
+
+.input-label {
+
+    display: block;
+
+    margin-bottom: var(--space-2);
+
+    font-size: .95rem;
+
+    font-weight: 600;
+
+    color: var(--color-text);
+
+}
+
+.full-width {
+
+    width: 100%;
+
+}
+
+mat-form-field {
+
+    width: 100%;
+
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+
+    background: white !important;
+
+    border-radius: var(--radius-md);
+
+}
+
+::ng-deep .mdc-notched-outline__leading,
+::ng-deep .mdc-notched-outline__notch,
+::ng-deep .mdc-notched-outline__trailing {
+
+    border-color: var(--color-border) !important;
+
+}
+
+::ng-deep .mdc-text-field--focused
+.mdc-notched-outline__leading,
+::ng-deep .mdc-text-field--focused
+.mdc-notched-outline__notch,
+::ng-deep .mdc-text-field--focused
+.mdc-notched-outline__trailing {
+
+    border-color: var(--color-primary) !important;
+
+    border-width: 2px;
+
+}
+
+mat-icon {
+
+    color: var(--color-primary);
+
+}
+
+input {
+
+    font-size: 15px;
+
+}
+
+::ng-deep input{
+
+    height:22px;
+
+    font-size:15px;
+
+}
+
+/* Microsoft Edge / Internet Explorer */
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+/* Edge Chromium */
+input::-webkit-credentials-auto-fill-button {
+    display: none !important;
+}

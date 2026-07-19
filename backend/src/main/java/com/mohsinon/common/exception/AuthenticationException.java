@@ -1,9 +1,16 @@
 package com.mohsinon.common.exception;
 
-public class AuthenticationException extends RuntimeException {
+import org.springframework.http.HttpStatus;
+
+public class AuthenticationException extends BusinessException {
 
     public AuthenticationException(String message) {
-        super(message);
+        super(
+        	ErrorCodes.AUTHENTICATION_FAILED,
+            message,
+            HttpStatus.UNAUTHORIZED
+            
+        );
     }
 
 }

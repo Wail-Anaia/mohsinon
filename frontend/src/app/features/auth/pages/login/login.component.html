@@ -1,0 +1,56 @@
+<div class="background-image"></div>
+
+<div class="login-content">
+
+  <app-card>
+
+    <div class="login-header">
+
+      <app-logo></app-logo>
+
+      <h1>أهلاً بك مع محسنون</h1>
+
+      <p>
+        <!-- سجل الدخول إلى منصة محسنون -->
+        منصة متكاملة لإدارة المساجد، المبادرات المجتمعية، التبرعات، والمتطوعين، مع تجربة استخدام حديثة وآمنة.
+      </p>
+
+    </div>
+
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="login()">
+
+      <app-input
+          label="اسم المستخدم أو البريد الإلكتروني"
+          icon="person"
+          [control]="loginForm.controls.usernameOrEmail">
+      </app-input>
+
+      <app-input
+          label="كلمة المرور"
+          type="password"
+          icon="lock"
+          [control]="loginForm.controls.password">
+      </app-input>
+
+      <app-button
+          type="submit"
+          variant="primary"
+          [loading]="loading()">
+
+          تسجيل الدخول
+
+      </app-button>
+
+      @if (errorMessage()) {
+        <div class="error">
+          {{ errorMessage() }}
+        </div>
+      }
+
+    </form>
+
+  </app-card>
+
+</div>

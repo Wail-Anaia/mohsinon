@@ -1,0 +1,32 @@
+<button
+    mat-flat-button
+    [type]="type"
+    [disabled]="disabled || loading"
+    [ngClass]="[
+      variant,
+      size,
+      fullWidth ? 'full-width' : ''
+    ]">
+
+    @if (loading) {
+
+        <mat-spinner
+            diameter="18"
+            strokeWidth="3">
+        </mat-spinner>
+
+    } @else {
+
+        @if (icon) {
+            <mat-icon>{{ icon }}</mat-icon>
+        }
+
+        <ng-content></ng-content>
+
+        @if (label) {
+            {{ label }}
+        }
+
+    }
+
+</button>

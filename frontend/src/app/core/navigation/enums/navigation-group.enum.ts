@@ -1,0 +1,11 @@
+export enum NavigationGroup {
+
+  MAIN = 'MAIN',
+
+  MANAGEMENT = 'MANAGEMENT',
+
+  ADMINISTRATION = 'ADMINISTRATION',
+
+  SETTINGS = 'SETTINGS'
+
+}
