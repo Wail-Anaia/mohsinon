@@ -1,0 +1,75 @@
+# =======================================================================
+# MOHSINON — .gitignore
+# Global Mutual Aid & Impact Platform
+# =======================================================================
+
+# --- Operating System Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# --- IDEs & Editors ---
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.project
+.classpath
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# --- Backend (Java / Maven / Spring Boot) ---
+backend/target/
+backend/**/*.class
+backend/.mvn/wrapper/maven-wrapper.jar
+!backend/.mvn/wrapper/maven-wrapper.properties
+backend/**/*.log
+backend/**/*.tmp
+backend/**/*.h2.db
+backend/data/
+
+# --- Frontend (Node / Angular) ---
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.angular/cache/
+frontend/coverage/
+frontend/**/*.log
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
+
+# --- Environment & Secret Files ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+*.p12
+*.jks
+*.keystore
+
+# --- Test Outputs & Reports ---
+target/
+dist/
+coverage/
+.nyc_output/
+
+# --- Temporary & Scratch Files ---
+*.swp
+*.bak
+*.tmp
+*.temp
+scratch/
