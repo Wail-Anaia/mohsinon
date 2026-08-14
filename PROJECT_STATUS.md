@@ -1,7 +1,7 @@
 # ÉTAT D'AVANCEMENT DU PROJET (PROJECT_STATUS.md) — MOHSINON
 
 **Dernière mise à jour :** 15 Août 2026  
-**Statut Global :** En cours — **Milestone 0 : Foundation, Documentation & Repository Skeleton**  
+**Statut Global :** **Milestone 1 Terminé & Validé** 🚀  
 
 ---
 
@@ -10,8 +10,8 @@
 | Milestone | Périmètre | Statut | Tests / Validation |
 | :--- | :--- | :---: | :--- |
 | **Milestone 0** | **Foundation + Documentation + Repository** | 🟢 **Terminé** | Documentation rédigée, Git initialisé, `.gitignore` créé, arborescences créées. |
-| **Milestone 1** | **Core + Config + Database + BaseEntity + Exceptions** | ⚪ À venir | Prochaine étape prioritaire. |
-| **Milestone 2** | **Identity + Authentication + JWT + Refresh Tokens** | ⚪ À venir | - |
+| **Milestone 1** | **Core + Config + Database + BaseEntity + Exceptions** | 🟢 **Terminé** | **24 tests unitaires & d'intégration passés** (GeoLocation, BaseEntity UUID, PageResponse, ImpactTransaction Ledger, ProblemDetails RFC 7807, CoreHealthController). |
+| **Milestone 2** | **Identity + Authentication + JWT + Refresh Tokens** | ⚪ À venir | Prochaine étape prioritaire. |
 | **Milestone 3** | **Authorization + Roles + Permissions** | ⚪ À venir | - |
 | **Milestone 4** | **Users + Profiles** | ⚪ À venir | - |
 | **Milestone 5** | **Mosques + Imam + Mosque Committee + Memberships** | ⚪ À venir | - |
@@ -22,33 +22,25 @@
 
 ---
 
-## 🔍 Détail du Milestone Actuel (Milestone 0)
+## 🔍 Détail du Milestone 1 (Core Foundation & Infrastructure)
 
-### Actions Réalisées :
-1. ✅ **Initialisation Git** : Dépôt initialisé sur la branche `main` avec remote configuré vers `https://github.com/Wail-Anaia/mohsinon.git`.
-2. ✅ **Création du `.gitignore`** universel pour Java/Spring, Node/Angular, IDEs et systèmes d'exploitation.
-3. ✅ **Rédaction du Référentiel Documentaire** :
-   - `README.md`
-   - `VISION.md`
-   - `ARCHITECTURE.md`
-   - `REQUIREMENTS.md`
-   - `ROADMAP.md`
-   - `DECISIONS.md` (ADR-001 à ADR-007)
-   - `DEVELOPMENT_GUIDE.md`
-   - `PROJECT_STATUS.md`
-   - `CHANGELOG.md`
-   - `IMPLEMENTATION_BASELINE.md`
-4. ✅ **Création des Dossiers Thématiques** : `docs/architecture/`, `docs/api/`, `docs/database/`, `docs/security/`, `docs/decisions/`, `docs/daily/`.
-5. ✅ **Journal de bord initial** : `docs/daily/2026-08-15-milestone-0-foundation.md`.
+### Composants Implémentés :
+1. ✅ **Build & Packaging Backend** : Spring Boot 3.3.4 / Java 17 LTS, Maven Wrapper `mvnw.cmd` configuré.
+2. ✅ **BaseEntity** : Entité abstraite avec `UUID` standardisé (RFC 4122), `@CreatedDate`, `@LastModifiedDate` et verrouillage optimiste `@Version`.
+3. ✅ **GeoLocation Value Object** : Coordonnées spatiales, formule de Haversine intégrée, calcul de proximité et méthode `toApproximate()` pour protection de la vie privée.
+4. ✅ **RFC 7807 Problem Details** : `GlobalExceptionHandler` unifié interceptant toutes les exceptions (`ResourceNotFoundException`, `ConflictException`, `ForbiddenException`, `ValidationException`) avec codes d'erreur et timestamps.
+5. ✅ **Pagination & Sorting Génériques** : `PageResponse<T>`, `PaginationRequest`, `SortDirection`.
+6. ✅ **Impact Transaction Ledger** : `ImpactTransaction` (type `EARNED`, `SPENT`, `ADJUSTED`), `ImpactTransactionRepository` avec calcul de solde par utilisateur.
+7. ✅ **Sécurité & Configuration** : `CoreSecurityConfig` (BCrypt 12, CORS, stateless session), `JpaConfig` (`@EnableJpaAuditing`), `OpenApiConfig` (OpenAPI 3 / Swagger UI).
+8. ✅ **Profils d'Environnement** : `application-dev.yml` (H2 mode PostgreSQL), `application-prod.yml` (PostgreSQL), `application-test.yml`.
+9. ✅ **Tests Automatisés** : 24 tests unitaires et d'intégration validés avec succès via `./mvnw.cmd test`.
 
 ---
 
 ## 🎯 Prochaine Étape Immédiate
-👉 **Milestone 1 : Core + Configuration + Database + BaseEntity + Exception Handling**
-- Initialisation du projet backend Maven Spring Boot 3 / Java 17.
-- Mise en place du module `com.mohsinon.core` :
-  - `BaseEntity` (ID, audit `createdAt`, `updatedAt`, `version`).
-  - RFC 7807 `ProblemDetail` & `GlobalExceptionHandler`.
-  - Abstraction géographique `GeoLocation` (Haversine v1).
-  - Profils `dev` (H2 PostgreSQL) et `prod` (PostgreSQL).
-  - Tests unitaires du Core.
+👉 **Milestone 2 : Identity + Authentication + JWT + Refresh Tokens**
+- Entités `User`, `RefreshToken`.
+- `AuthService`, `TokenProvider` (JJWT 0.12).
+- Rotation automatique et révocation des Refresh Tokens.
+- Filtre de sécurité JWT (`JwtAuthenticationFilter`) & Endpoints `/api/v1/auth/register`, `/login`, `/refresh`, `/logout`.
+- Tests unitaires et d'intégration de sécurité.
