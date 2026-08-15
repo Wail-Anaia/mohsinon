@@ -17,6 +17,8 @@ Ce document enregistre les décisions d'architecture majeures (ADRs - Architectu
 | **ADR-007** | Frontend Angular Standalone avec Signals et Design System Dédié | **Accepté** | 2026-08-15 |
 | **ADR-008** | UUID comme Identifiant Standard Universel des Entités | **Accepté** | 2026-08-15 |
 | **ADR-009** | Architecture en Ledger Immuable pour les Points d'Impact (`ImpactTransaction`) | **Accepté** | 2026-08-15 |
+| **ADR-010** | Stockage Haché (SHA-256) & Rotation Automatique des Refresh Tokens avec Détection de Fraude | **Accepté** | 2026-08-15 |
+| **ADR-011** | Abstraction `CurrentUserProvider` pour le Découplage de la Sécurité | **Accepté** | 2026-08-15 |
 
 ---
 
@@ -72,17 +74,32 @@ Ce document enregistre les décisions d'architecture majeures (ADRs - Architectu
 ### ADR-008 : UUID comme Identifiant Standard Universel des Entités
 **Contexte :** Les identifiants numériques auto-incrémentés (`Long`) exposent des risques d'énumération non sécurisée et compliquent la synchronisation ou le partitionnement futur des bases de données.  
 **Décision :** Toutes les entités persistantes de Mohsinon utilisent des identifiants **UUID v4 / RFC 4122** définis dans `BaseEntity`.  
-**Conséquences :**
-- Sécurité renforcée (impossibilité de deviner ou énumérer les IDs).
-- Indépendance vis-à-vis de la base de données pour la génération des clés primaires.
-- Préparation optimale à la réplication, au sharding et à l'éventuelle extraction en services distribués.
+**Conséquences :** Sécurité renforcée, génération décentralisée des clés, préparation optimale au sharding et à la scalabilité.
 
 ---
 
 ### ADR-009 : Architecture en Ledger Immuable pour les Points d'Impact (`ImpactTransaction`)
-**Contexte :** Stocker un simple entier `user.impactPoints` modifiable directement par divers services génère des pertes de traçabilité, des corruptions de données et des contestations d'audit.  
-**Décision :** Chaque variation de points d'impact est enregistrée sous forme de transaction immuable dans une table de registre d'audit (`ImpactTransaction`) avec `userId`, `type` (`EARNED`, `SPENT`, `ADJUSTED`), `points`, `referenceType`, `referenceId`, `reason` et `createdAt`. Le solde est dérivé de la somme des transactions ou matérialisé sous contrôle strict.  
+**Contexte :** Stocker un simple entier `user.impactPoints` modifiable directement par divers services génère des pertes de traçabilité et des corruptions.  
+**Décision :** Chaque variation de points d'impact est enregistrée sous forme de transaction immuable dans une table de registre d'audit (`ImpactTransaction`).  
+**Conséquences :** Traçabilité et auditabilité totales de l'origine de chaque point, intégrité historique garantie.
+
+---
+
+### ADR-010 : Stockage Haché (SHA-256) & Rotation Automatique des Refresh Tokens avec Détection de Fraude
+**Contexte :** Les Refresh Tokens sont des secrets sensibles à longue durée de vie (7 jours). Les stocker en clair en base expose à un vol massif en cas d'accès direct à la base de données. De plus, un token volé pourrait être réutilisé si aucune politique de rotation n'est en place.  
+**Décision :** 
+1. Le Refresh Token brut (opaque 48-bytes Base64URL) est envoyé au client mais seule son empreinte **SHA-256** est persistée en base.
+2. À chaque requête de rafraîchissement (`/api/v1/auth/refresh`), l'ancien token est immédiatement révoqué et marqué avec le hash du nouveau token émis (`replacedByTokenHash`).
+3. Si une requête présente un token déjà remplacé ou révoqué, une **tentative de vol/réutilisation est détectée** : toutes les sessions actives de l'utilisateur sont immédiatement révoquées et l'accès est bloqué.  
 **Conséquences :**
-- Traçabilité et auditabilité totales de l'origine de chaque point.
-- Répudiation impossible et intégrité historique garantie.
-- Zéro point fantôme ou arbitraire.
+- Protection maximale contre les fuites de données (le token brut n'est jamais en base).
+- Détection et neutralisation proactives des attaques par rejeu de jetons.
+
+---
+
+### ADR-011 : Abstraction `CurrentUserProvider` pour le Découplage de la Sécurité
+**Contexte :** Faire appel directement à `SecurityContextHolder.getContext().getAuthentication()` dans les services métier introduit un couplage fort avec le framework Spring Security et complique les tests unitaires.  
+**Décision :** Définition de l'interface `CurrentUserProvider` (`getCurrentUserId()`, `getCurrentUser()`, `requireCurrentUserId()`) injectée dans les services et contrôleurs.  
+**Conséquences :**
+- Code métier pur et facilement testable avec des mocks ou des contextes simulés.
+- Isolation nette entre le Core Security et les modules applicatifs.

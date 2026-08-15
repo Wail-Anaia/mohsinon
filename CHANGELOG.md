@@ -5,25 +5,35 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
+## [0.3.0-alpha] - 2026-08-15
+
+### Ajouté (Milestone 2 : Identity & Authentication)
+- **Modèle User** : Entité `User` (`UUID id`, `username`, `email`, `passwordHash`, `firstName`, `lastName`, `displayName`, `status`).
+- **UserStatus** : Enum de cycle de vie de compte (`ACTIVE`, `INACTIVE`, `SUSPENDED`, `PENDING_VERIFICATION`).
+- **RefreshToken & Sécurité** : Entité `RefreshToken` avec stockage haché (SHA-256), rotation atomique et détection de réutilisation/fraude invalidant toutes les sessions (ADR-010).
+- **JWT & TokenProvider** : Émission et validation de jetons JWT Access Token signés HMAC-SHA-256 (JJWT 0.12) et génération de refresh tokens sécurisés.
+- **Filtres de Sécurité** : `JwtAuthenticationFilter`, `JwtAuthenticationEntryPoint` (formatant les 401 en RFC 7807 ProblemDetail).
+- **Abstraction CurrentUserProvider** : Découplage de `SecurityContextHolder` via `CurrentUserProvider` / `SecurityContextCurrentUserProvider` (ADR-011).
+- **Service d'Authentification** : `AuthService` gérant inscription, connexion, rafraîchissement avec rotation, déconnexion et profil.
+- **API REST `/api/v1/auth/*`** : Endpoints `/register`, `/login`, `/refresh`, `/logout`, `/me`.
+- **Flyway V1** : Script de migration SQL `V1__init_identity_schema.sql`.
+- **Tests** : 41 tests unitaires et d'intégration validés sans erreur.
+
+---
+
 ## [0.2.0-alpha] - 2026-08-15
 
 ### Ajouté (Milestone 1 : Core Foundation & Infrastructure)
-- **BaseEntity** : Entité de base standardisée avec identifiant `UUID`, audit timestamps (`createdAt`, `updatedAt`) et optimistic locking `@Version`.
-- **GeoLocation** : Value Object `@Embeddable` avec calcul géodésique Haversine (`distanceToInKm`) et méthode de floutage de coordonnées pour le respect de la vie privée (`toApproximate()`).
-- **RFC 7807 Problem Details** : `GlobalExceptionHandler` unifié et hiérarchie d'exceptions (`BusinessException`, `ResourceNotFoundException`, `ConflictException`, `ForbiddenException`, `ValidationException`).
-- **Pagination & Sorting** : DTOs génériques indépendants du domaine (`PageResponse<T>`, `PaginationRequest`, `SortDirection`).
-- **Impact Transaction Ledger** : Modèle immuable de transactions d'impact (`ImpactTransaction`, `ImpactTransactionType`) et repository avec calcul de solde agrégé.
-- **Sécurité Core & Configuration** : `CoreSecurityConfig`, `JpaConfig`, `OpenApiConfig`, contrôleur de santé `/api/v1/health`.
-- **Profils Multi-Environnements** : `application-dev.yml` (H2 compatible PostgreSQL), `application-prod.yml` (PostgreSQL), `application-test.yml`.
-- **Architecture Decisions** : Ajout de l'ADR-008 (UUID Universel) et de l'ADR-009 (Impact Ledger).
-- **Tests** : 24 tests unitaires et d'intégration validés sans erreur.
+- **BaseEntity** : Entité abstraite avec `UUID`, timestamps et verrouillage optimiste.
+- **GeoLocation** : Value Object `@Embeddable` avec calcul Haversine et floutage de coordonnées.
+- **RFC 7807 Problem Details** : `GlobalExceptionHandler` et hiérarchie `BusinessException`.
+- **Pagination & Sorting** : DTOs génériques (`PageResponse<T>`, `PaginationRequest`).
+- **Impact Transaction Ledger** : Modèle immuable `ImpactTransaction` et repository de calcul de solde.
+- **Sécurité Core & Configuration** : `CoreSecurityConfig`, `JpaConfig`, `OpenApiConfig`, `/api/v1/health`.
 
 ---
 
 ## [0.1.0-alpha] - 2026-08-15
 
 ### Ajouté (Milestone 0 : Foundation, Documentation & Repository)
-- Initialisation du dépôt Git avec configuration de la branche `main` et remote origin.
-- `.gitignore` universel pour Java, Maven, Angular, Node, IDEs.
-- Suite documentaire complète (`README.md`, `VISION.md`, `ARCHITECTURE.md`, `REQUIREMENTS.md`, `ROADMAP.md`, `DECISIONS.md`, `DEVELOPMENT_GUIDE.md`, `PROJECT_STATUS.md`, `CHANGELOG.md`, `IMPLEMENTATION_BASELINE.md`).
-- Arborescence `docs/` (`architecture/`, `api/`, `database/`, `security/`, `decisions/`, `daily/`).
+- Initialisation Git, `.gitignore`, suite documentaire complète et arborescence `docs/`.

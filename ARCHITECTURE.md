@@ -6,7 +6,7 @@ Mohsinon est conçu pour devenir une infrastructure numérique mondiale capable 
 
 ### Principes Clés :
 1. **Modular Monolith** : Un déploiement unifié avec des frontières de domaine strictement isolées. Pas de complexité opérationnelle prématurée liée aux microservices.
-2. **Core-First Architecture** : Un noyau partagé (`com.mohsinon.core`) contenant les services transversaux stables (sécurité, audit, exceptions RFC 7807, abstractions géographiques, entités de base UUID, pagination, registre d'impact).
+2. **Core-First Architecture** : Un noyau partagé (`com.mohsinon.core`) contenant les services transversaux stables (sécurité, audit, exceptions RFC 7807, abstractions géographiques, entités de base UUID, pagination, registre d'impact, abstraction `CurrentUserProvider`).
 3. **Domain-Driven Design (DDD)** : Chaque module métier modélise son contexte délimité (*Bounded Context*) avec son langage ubiquitaire propre, ses entités, ses value objects, ses repositories et ses services d'application.
 4. **Dependency Inversion & Clean Architecture** : La logique de domaine est indépendante des frameworks, de l'infrastructure et de l'interface utilisateur.
 5. **Préparation à l'Évolution** : Aucun couplage direct entre modules métier via des tables ou des classes internes. Les communications inter-modules s'effectuent par interfaces explicites ou événements de domaine (`Domain Events`).
@@ -26,40 +26,41 @@ com.mohsinon
 │   ├── reputation/                          # ImpactTransaction (Ledger d'impact immuable), ImpactTransactionRepository
 │   ├── exception/                           # BusinessException, ResourceNotFound, Conflict, Forbidden, GlobalExceptionHandler (RFC 7807)
 │   ├── pagination/                          # PageResponse<T>, PaginationRequest, SortDirection
+│   ├── security/                            # JwtAuthenticationFilter, JwtAuthenticationEntryPoint, TokenProvider, CurrentUserProvider
 │   └── web/                                 # CoreHealthController (/api/v1/health)
 │
 └── modules/                                 # CONTEXTES MÉTIER DÉLIMITÉS (BOUNDED CONTEXTS)
-    ├── identity/                            # Authentification, Utilisateurs, RBAC (Rôles & Permissions)
-    │   ├── domain/                          # User, Role, Permission, RefreshToken
-    │   ├── repository/                      # UserRepository, RoleRepository, RefreshTokenRepository
-    │   ├── service/                         # AuthService, UserService, TokenService
-    │   └── web/                             # AuthController, UserController (DTOs v1)
+    ├── identity/                            # Authentification, Utilisateurs, Cycle de vie des Sessions
+    │   ├── domain/                          # User, UserStatus, RefreshToken
+    │   ├── repository/                      # UserRepository, RefreshTokenRepository
+    │   ├── service/                         # AuthService
+    │   └── web/                             # AuthController (/api/v1/auth/register, /login, /refresh, /logout, /me)
     │
-    ├── mosques/                             # Hubs Locaux, Imams, Comités de Mosquée, Validation
+    ├── mosques/                             # Hubs Locaux, Imams, Comités de Mosquée, Validation (Milestone 5)
     │   ├── domain/                          # Mosque, MosqueCommittee, MosqueMember, MosqueVerification
     │   ├── repository/                      # MosqueRepository, MosqueMemberRepository
     │   ├── service/                         # MosqueService, MosqueSearchService (Proximité)
     │   └── web/                             # MosqueController (DTOs v1)
     │
-    ├── donations/                           # Bourse d'Entraide Multi-Ressources
+    ├── donations/                           # Bourse d'Entraide Multi-Ressources (Milestone 6)
     │   ├── domain/                          # DonationItem, DonationCategory, DonationStatus
     │   ├── repository/                      # DonationRepository
     │   ├── service/                         # DonationService
     │   └── web/                             # DonationController (DTOs v1)
     │
-    ├── skills/                              # Référentiel de Compétences & Bénévolat
+    ├── skills/                              # Référentiel de Compétences & Bénévolat (Milestone 7)
     │   ├── domain/                          # Skill, UserSkill, SkillLevel, VolunteerProfile
     │   ├── repository/                      # SkillRepository, UserSkillRepository
     │   ├── service/                         # SkillService, VolunteerMatchingService
     │   └── web/                             # SkillController, VolunteerController (DTOs v1)
     │
-    ├── initiatives/                         # Besoins, Idées, Projets Locaux & Jalons
+    ├── initiatives/                         # Besoins, Idées, Projets Locaux & Jalons (Milestone 8)
     │   ├── domain/                          # Initiative, Project, Milestone, Participant, Evidence
     │   ├── repository/                      # InitiativeRepository, ProjectRepository
     │   ├── service/                         # InitiativeService, ProjectExecutionService
     │   └── web/                             # InitiativeController, ProjectController (DTOs v1)
     │
-    └── reputation/                          # Moteur d'Impact, Niveaux & Badges de Contribution
+    └── reputation/                          # Moteur d'Impact, Niveaux & Badges de Contribution (Milestone 9)
         ├── domain/                          # Badge, Achievement, ContributionLevel
         ├── repository/                      # BadgeRepository, AchievementRepository
         ├── service/                         # ReputationEvaluationService
@@ -68,38 +69,32 @@ com.mohsinon
 
 ---
 
-## 3. Socle du Core (`com.mohsinon.core`)
+## 3. Module Identity & Authentification (Milestone 2)
 
-### 3.1 BaseEntity
-Toutes les entités du domaine dérivent de `BaseEntity` :
-- `UUID id` : Clé primaire standard non prédictible.
-- `Instant createdAt` : Horodatage d'audit immuable.
-- `Instant updatedAt` : Horodatage de dernière modification.
-- `Long version` : Verrouillage optimiste (`@Version`) garantissant la cohérence en environnement concurrent.
+### 3.1 Entité `User`
+- Clé primaire `UUID id` héritée de `BaseEntity`.
+- Unicité stricte garantie en base (`uk_users_email`, `uk_users_username`) et normalisation automatique en minuscules.
+- Statut d'authentification explicite (`UserStatus` : `ACTIVE`, `INACTIVE`, `SUSPENDED`, `PENDING_VERIFICATION`).
+- Hachage de mot de passe via `PasswordEncoder` (BCrypt cost factor 12) ; le hash n'est jamais sérialisé vers l'extérieur.
 
-### 3.2 Abstraction Géographique `GeoLocation`
-- Value Object `@Embeddable` encapsulant latitude, longitude, ville et code pays.
-- Calcul de distance géodésique via la formule de **Haversine** intégrée (`distanceToInKm`).
-- Méthode `toApproximate()` garantissant le floutage des coordonnées de résidences privées pour préserver la vie privée des membres (Privacy-by-Design).
-- Prêt pour la transition vers les index spatiaux PostGIS natifs (`GIST`) sans impacter les contrats d'application.
-
-### 3.3 Registre d'Impact Immuable (`ImpactTransaction`)
-- Système de ledger comptabilisant chaque crédit ou débit de points d'impact.
-- Chaque transaction associe un `userId`, un type (`EARNED`, `SPENT`, `ADJUSTED`), le nombre de `points`, le type de référence (`DONATION`, `VOLUNTEERING`, `PROJECT_CONTRIBUTION`), l'ID de référence et le motif vérifié.
-- Le solde total est garanti par recalcul ou matérialisation auditable.
-
-### 3.4 Format Unifié des Erreurs (RFC 7807)
-- `GlobalExceptionHandler` intercepte toutes les exceptions métier (`ResourceNotFoundException`, `ConflictException`, `ForbiddenException`, `ValidationException`, etc.) et génère des réponses conformes à **RFC 7807 (Problem Details for HTTP APIs)** :
-  ```json
-  {
-    "type": "https://mohsinon.org/errors/resource_not_found",
-    "title": "Resource Not Found",
-    "status": 404,
-    "detail": "Mosque with id '00000000-0000-0000-0000-000000000001' was not found.",
-    "errorCode": "RESOURCE_NOT_FOUND",
-    "timestamp": "2026-08-15T00:48:00Z"
-  }
-  ```
+### 3.2 Cycle des Jetons (JWT + Refresh Token Rotation)
+```text
+Client                              API Backend                               Database
+  │                                     │                                         │
+  │── POST /api/v1/auth/login ─────────>│                                         │
+  │   (email/username + password)       │── Verify password BCrypt ──────────────>│
+  │                                     │── Generate JWT Access Token (15 min)    │
+  │                                     │── Generate Opaque Refresh Token (7 days)│
+  │                                     │── Persist SHA-256(RefreshToken) ───────>│
+  │<── Return AccessToken + RefreshToken│                                         │
+  │                                     │                                         │
+  │── POST /api/v1/auth/refresh ───────>│                                         │
+  │   (RefreshToken A)                  │── Hash & Lookup Token A ───────────────>│
+  │                                     │   ├── If revoked/reused: REVOKE ALL! ──>│
+  │                                     │   └── If valid: Mark A revoked &        │
+  │                                     │       generate Token B (linked) ───────>│
+  │<── Return new AccessToken + Token B ─│                                        │
+```
 
 ---
 

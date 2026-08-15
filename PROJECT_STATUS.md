@@ -1,7 +1,7 @@
 # ÉTAT D'AVANCEMENT DU PROJET (PROJECT_STATUS.md) — MOHSINON
 
 **Dernière mise à jour :** 15 Août 2026  
-**Statut Global :** **Milestone 1 Terminé & Validé** 🚀  
+**Statut Global :** **Milestone 2 Terminé & Validé** 🚀  
 
 ---
 
@@ -10,9 +10,9 @@
 | Milestone | Périmètre | Statut | Tests / Validation |
 | :--- | :--- | :---: | :--- |
 | **Milestone 0** | **Foundation + Documentation + Repository** | 🟢 **Terminé** | Documentation rédigée, Git initialisé, `.gitignore` créé, arborescences créées. |
-| **Milestone 1** | **Core + Config + Database + BaseEntity + Exceptions** | 🟢 **Terminé** | **24 tests unitaires & d'intégration passés** (GeoLocation, BaseEntity UUID, PageResponse, ImpactTransaction Ledger, ProblemDetails RFC 7807, CoreHealthController). |
-| **Milestone 2** | **Identity + Authentication + JWT + Refresh Tokens** | ⚪ À venir | Prochaine étape prioritaire. |
-| **Milestone 3** | **Authorization + Roles + Permissions** | ⚪ À venir | - |
+| **Milestone 1** | **Core + Config + Database + BaseEntity + Exceptions** | 🟢 **Terminé** | 24 tests unitaires & d'intégration passés (GeoLocation, BaseEntity UUID, PageResponse, Impact Ledger, RFC 7807). |
+| **Milestone 2** | **Identity + Authentication + JWT + Refresh Tokens** | 🟢 **Terminé** | **41 tests passés** (Enregistrement, Login, JWT Access/Refresh, Rotation automatique, Détection de réutilisation/fraude, Logout, Migration Flyway V1). |
+| **Milestone 3** | **Authorization + Roles + Permissions** | ⚪ À venir | Prochaine étape prioritaire. |
 | **Milestone 4** | **Users + Profiles** | ⚪ À venir | - |
 | **Milestone 5** | **Mosques + Imam + Mosque Committee + Memberships** | ⚪ À venir | - |
 | **Milestone 6** | **Donations Multi-Ressources** | ⚪ À venir | - |
@@ -22,25 +22,39 @@
 
 ---
 
-## 🔍 Détail du Milestone 1 (Core Foundation & Infrastructure)
+## 🔍 Détail du Milestone 2 (Identity & Authentication)
 
 ### Composants Implémentés :
-1. ✅ **Build & Packaging Backend** : Spring Boot 3.3.4 / Java 17 LTS, Maven Wrapper `mvnw.cmd` configuré.
-2. ✅ **BaseEntity** : Entité abstraite avec `UUID` standardisé (RFC 4122), `@CreatedDate`, `@LastModifiedDate` et verrouillage optimiste `@Version`.
-3. ✅ **GeoLocation Value Object** : Coordonnées spatiales, formule de Haversine intégrée, calcul de proximité et méthode `toApproximate()` pour protection de la vie privée.
-4. ✅ **RFC 7807 Problem Details** : `GlobalExceptionHandler` unifié interceptant toutes les exceptions (`ResourceNotFoundException`, `ConflictException`, `ForbiddenException`, `ValidationException`) avec codes d'erreur et timestamps.
-5. ✅ **Pagination & Sorting Génériques** : `PageResponse<T>`, `PaginationRequest`, `SortDirection`.
-6. ✅ **Impact Transaction Ledger** : `ImpactTransaction` (type `EARNED`, `SPENT`, `ADJUSTED`), `ImpactTransactionRepository` avec calcul de solde par utilisateur.
-7. ✅ **Sécurité & Configuration** : `CoreSecurityConfig` (BCrypt 12, CORS, stateless session), `JpaConfig` (`@EnableJpaAuditing`), `OpenApiConfig` (OpenAPI 3 / Swagger UI).
-8. ✅ **Profils d'Environnement** : `application-dev.yml` (H2 mode PostgreSQL), `application-prod.yml` (PostgreSQL), `application-test.yml`.
-9. ✅ **Tests Automatisés** : 24 tests unitaires et d'intégration validés avec succès via `./mvnw.cmd test`.
+1. ✅ **Entités & Modèle de Domaine** :
+   - `User` (`UUID id`, `username` unique normalisé, `email` unique normalisé, `passwordHash` BCrypt, `firstName`, `lastName`, `displayName`, `status`).
+   - `UserStatus` (`ACTIVE`, `INACTIVE`, `SUSPENDED`, `PENDING_VERIFICATION`).
+   - `RefreshToken` (Stockage sécurisé par empreinte SHA-256, `expiresAt`, `revokedAt`, `replacedByTokenHash`, `ipAddress`, `userAgent`).
+2. ✅ **Sécurité & Fournisseur de Jetons** :
+   - `TokenProvider` (JJWT 0.12, signature HMAC-SHA-256, Access Token 15 min, Refresh Token 7 jours, hachage SHA-256).
+   - `JwtAuthenticationFilter` (Extraction Bearer token, validation et injection `UserPrincipal` dans le SecurityContext).
+   - `JwtAuthenticationEntryPoint` (Formatage standardisé des erreurs 401 Unauthorized en RFC 7807 ProblemDetail).
+   - `CurrentUserProvider` (Abstraction `SecurityContextCurrentUserProvider` découplant les domaines applicatifs).
+3. ✅ **Service d'Authentification (`AuthService`)** :
+   - Inscription (`register`) avec vérification des conflits d'email et username.
+   - Connexion (`login`) avec rejet sécurisé des identifiants invalides ou comptes suspendus.
+   - Renouvellement avec rotation atomique (`refreshToken`) et détection de réutilisation/vol de jeton avec révocation globale immédiate.
+   - Déconnexion (`logout`) avec révocation des jetons actifs.
+4. ✅ **Contrôleur REST (`/api/v1/auth/*`)** :
+   - `POST /api/v1/auth/register` (201 Created)
+   - `POST /api/v1/auth/login` (200 OK)
+   - `POST /api/v1/auth/refresh` (200 OK)
+   - `POST /api/v1/auth/logout` (200 OK)
+   - `GET /api/v1/auth/me` (200 OK - Authentification Bearer requise)
+5. ✅ **Base de Données & Migrations** :
+   - Script Flyway `V1__init_identity_schema.sql` (`users`, `refresh_tokens`, `impact_transactions` avec index et contraintes d'intégrité).
+6. ✅ **Tests Automatisés** : 41 tests unitaires et d'intégration validés sans erreur (`mvn clean test`).
 
 ---
 
 ## 🎯 Prochaine Étape Immédiate
-👉 **Milestone 2 : Identity + Authentication + JWT + Refresh Tokens**
-- Entités `User`, `RefreshToken`.
-- `AuthService`, `TokenProvider` (JJWT 0.12).
-- Rotation automatique et révocation des Refresh Tokens.
-- Filtre de sécurité JWT (`JwtAuthenticationFilter`) & Endpoints `/api/v1/auth/register`, `/login`, `/refresh`, `/logout`.
-- Tests unitaires et d'intégration de sécurité.
+👉 **Milestone 3 : Authorization + Roles + Permissions**
+- Entités `Role` et `Permission` découplées.
+- Rôles initiaux : `ROLE_USER`, `ROLE_VOLUNTEER`, `ROLE_DONOR`, `ROLE_IMAM`, `ROLE_MOSQUE_COMMITTEE`, `ROLE_ADMIN`.
+- Permissions granulaires (`MOSQUE_CREATE`, `MOSQUE_VERIFY`, `DONATION_MANAGE`, etc.).
+- Annotation de sécurité `@RequirePermission` et liaison avec `UserPrincipal`.
+- Tests d'autorisation et d'accès contextuel.
