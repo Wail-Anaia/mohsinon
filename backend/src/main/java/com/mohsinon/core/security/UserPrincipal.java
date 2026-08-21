@@ -37,8 +37,10 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal fromUser(User user) {
-        // Milestone 2 baseline authority (ROLE_USER). Milestone 3 will expand with fine-grained permissions.
-        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return fromUser(user, List.of(new SimpleGrantedAuthority("ROLE_USER")));
+    }
+
+    public static UserPrincipal fromUser(User user, Collection<? extends GrantedAuthority> authorities) {
         return new UserPrincipal(
                 user.getId(),
                 user.getUsername(),
@@ -46,7 +48,7 @@ public class UserPrincipal implements UserDetails {
                 user.getPasswordHash(),
                 user.getDisplayName(),
                 user.getStatus(),
-                authorities
+                authorities != null && !authorities.isEmpty() ? authorities : List.of(new SimpleGrantedAuthority("ROLE_USER"))
         );
     }
 

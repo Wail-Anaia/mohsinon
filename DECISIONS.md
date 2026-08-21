@@ -19,6 +19,8 @@ Ce document enregistre les décisions d'architecture majeures (ADRs - Architectu
 | **ADR-009** | Architecture en Ledger Immuable pour les Points d'Impact (`ImpactTransaction`) | **Accepté** | 2026-08-15 |
 | **ADR-010** | Stockage Haché (SHA-256) & Rotation Automatique des Refresh Tokens avec Détection de Fraude | **Accepté** | 2026-08-15 |
 | **ADR-011** | Abstraction `CurrentUserProvider` pour le Découplage de la Sécurité | **Accepté** | 2026-08-15 |
+| **ADR-012** | Modèle d'Autorisation Hybride Tridimensionnel & Gouvernance Locale Autonome | **Accepté** | 2026-08-22 |
+| **ADR-013** | Résolution Statique en Mémoire des Permissions et Intégration Déclarative SpEL (`@authz`) | **Accepté** | 2026-08-22 |
 
 ---
 
@@ -91,15 +93,30 @@ Ce document enregistre les décisions d'architecture majeures (ADRs - Architectu
 1. Le Refresh Token brut (opaque 48-bytes Base64URL) est envoyé au client mais seule son empreinte **SHA-256** est persistée en base.
 2. À chaque requête de rafraîchissement (`/api/v1/auth/refresh`), l'ancien token est immédiatement révoqué et marqué avec le hash du nouveau token émis (`replacedByTokenHash`).
 3. Si une requête présente un token déjà remplacé ou révoqué, une **tentative de vol/réutilisation est détectée** : toutes les sessions actives de l'utilisateur sont immédiatement révoquées et l'accès est bloqué.  
-**Conséquences :**
-- Protection maximale contre les fuites de données (le token brut n'est jamais en base).
-- Détection et neutralisation proactives des attaques par rejeu de jetons.
+**Conséquences :** Protection maximale contre les fuites de données et détection proactive des attaques par rejeu.
 
 ---
 
 ### ADR-011 : Abstraction `CurrentUserProvider` pour le Découplage de la Sécurité
 **Contexte :** Faire appel directement à `SecurityContextHolder.getContext().getAuthentication()` dans les services métier introduit un couplage fort avec le framework Spring Security et complique les tests unitaires.  
 **Décision :** Définition de l'interface `CurrentUserProvider` (`getCurrentUserId()`, `getCurrentUser()`, `requireCurrentUserId()`) injectée dans les services et contrôleurs.  
-**Conséquences :**
-- Code métier pur et facilement testable avec des mocks ou des contextes simulés.
-- Isolation nette entre le Core Security et les modules applicatifs.
+**Conséquences :** Code métier pur et facilement testable avec des mocks ou des contextes simulés.
+
+---
+
+### ADR-012 : Modèle d'Autorisation Hybride Tridimensionnel & Gouvernance Locale Autonome
+**Contexte :** L'autorité locale de chaque mosquée (Imam, Président, Trésorier, Membres du Comité) est au cœur du modèle communautaire de Mohsinon. Un modèle RBAC plat accorderait des privilèges globaux indésirables (ex: un Imam de la Mosquée A pouvant administrer la Mosquée B).  
+**Décision :** Adoption d'un modèle d'autorisation tridimensionnel :
+$$\text{Rôle Global (Identité)} \times \text{Membership Local (Position dans un lieu)} \times \text{Permission Granulaire (Action)}$$
+Le pipeline d'évaluation applique le principe **Deny by Default** : l'accès à une mosquée requiert expressément un `Membership` actif pour cette mosquée précise (`ResourceContext.mosque(mosqueId)`).  
+**Conséquences :** Isolation stricte et prouvée entre mosquées. Gouvernance locale autonome sans prolifération de rôles système globaux.
+
+---
+
+### ADR-013 : Résolution Statique en Mémoire des Permissions et Intégration Déclarative SpEL (`@authz`)
+**Contexte :** Persister les permissions et leurs mappings dans des tables de base de données relationnelle engendre des jointures SQL coûteuses à chaque requête HTTP et expose à des modifications accidentelles non versionnées. Par ailleurs, écrire des vérifications de sécurité impératives dans les contrôleurs disperse la logique.  
+**Décision :**
+1. Les permissions (`PermissionType`) et leurs matrices d'attribution (`PermissionRegistry`) sont des structures Java immuables résolues en mémoire sans coût SQL.
+2. Seules les données dynamiques (`user_global_roles`, `memberships`) sont persistées en base avec indexation optimisée.
+3. Un évaluateur Spring `@Component("authz")` expose des méthodes minces utilisables dans `@PreAuthorize` (ex: `@PreAuthorize("@authz.canManageMosque(principal, #mosqueId)")`).  
+**Conséquences :** Performance optimale (zéro jointure pour la résolution de permissions), typage fort au build, et contrôleurs REST propres et déclaratifs.
