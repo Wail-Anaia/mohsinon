@@ -35,17 +35,30 @@ public class MembershipService {
      * Assigns or reactivates a contextual membership role for a user on a specific resource.
      */
     public Membership assignMembership(UUID userId,
-                                      String resourceType,
-                                      UUID resourceId,
-                                      MembershipRole role,
-                                      Instant expiresAt,
-                                      UUID assignedBy) {
+                                       String resourceType,
+                                       UUID resourceId,
+                                       MembershipRole role,
+                                       Instant expiresAt,
+                                       UUID assignedBy) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID must not be null.");
+        }
+        if (resourceType == null || resourceType.trim().isEmpty()) {
+            throw new IllegalArgumentException("Resource type must not be null or empty.");
+        }
+        if (resourceId == null) {
+            throw new IllegalArgumentException("Resource ID must not be null.");
+        }
+        if (role == null) {
+            throw new IllegalArgumentException("Membership role must not be null.");
+        }
+
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("User", userId);
         }
 
         Optional<Membership> existing = membershipRepository
-                .findByUserIdAndResourceTypeAndResourceIdAndMembershipRole(userId, resourceType, resourceId, role);
+                .findByUserIdAndResourceTypeAndResourceIdAndMembershipRole(userId, resourceType.trim().toUpperCase(), resourceId, role);
 
         Membership membership;
         if (existing.isPresent()) {
@@ -62,14 +75,28 @@ public class MembershipService {
         return membershipRepository.save(membership);
     }
 
+    public Membership assignMembership(UUID userId, ResourceContext context, MembershipRole role, Instant expiresAt, UUID assignedBy) {
+        if (context == null) {
+            throw new IllegalArgumentException("Resource context must not be null.");
+        }
+        return assignMembership(userId, context.resourceType(), context.resourceId(), role, expiresAt, assignedBy);
+    }
+
+    public Membership assignMembership(UUID userId, ResourceContext context, MembershipRole role, UUID assignedBy) {
+        return assignMembership(userId, context, role, null, assignedBy);
+    }
+
     public Membership assignMosqueMembership(UUID userId, UUID mosqueId, MembershipRole role, UUID assignedBy) {
         return assignMembership(userId, ResourceContext.TYPE_MOSQUE, mosqueId, role, null, assignedBy);
     }
 
     /**
-     * Revokes a membership.
+     * Revokes a membership by its ID.
      */
     public void revokeMembership(UUID membershipId) {
+        if (membershipId == null) {
+            throw new IllegalArgumentException("Membership ID must not be null.");
+        }
         Membership membership = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new ResourceNotFoundException("Membership", membershipId));
 
@@ -82,7 +109,11 @@ public class MembershipService {
      * Revokes a specific membership role for a user on a resource.
      */
     public void revokeMembership(UUID userId, String resourceType, UUID resourceId, MembershipRole role) {
-        membershipRepository.findByUserIdAndResourceTypeAndResourceIdAndMembershipRole(userId, resourceType, resourceId, role)
+        if (userId == null || resourceType == null || resourceId == null || role == null) {
+            throw new IllegalArgumentException("Parameters must not be null.");
+        }
+        membershipRepository.findByUserIdAndResourceTypeAndResourceIdAndMembershipRole(
+                userId, resourceType.trim().toUpperCase(), resourceId, role)
                 .ifPresent(m -> {
                     m.revoke();
                     membershipRepository.save(m);
@@ -90,13 +121,34 @@ public class MembershipService {
                 });
     }
 
+    public void revokeMembership(UUID userId, ResourceContext context, MembershipRole role) {
+        if (context == null) {
+            throw new IllegalArgumentException("Resource context must not be null.");
+        }
+        revokeMembership(userId, context.resourceType(), context.resourceId(), role);
+    }
+
     @Transactional(readOnly = true)
     public List<Membership> getUserActiveMemberships(UUID userId) {
+        if (userId == null) {
+            return List.of();
+        }
         return membershipRepository.findByUserIdAndStatus(userId, MembershipStatus.ACTIVE);
     }
 
     @Transactional(readOnly = true)
     public List<Membership> getResourceActiveMemberships(String resourceType, UUID resourceId) {
-        return membershipRepository.findByResourceTypeAndResourceIdAndStatus(resourceType, resourceId, MembershipStatus.ACTIVE);
+        if (resourceType == null || resourceId == null) {
+            return List.of();
+        }
+        return membershipRepository.findByResourceTypeAndResourceIdAndStatus(resourceType.trim().toUpperCase(), resourceId, MembershipStatus.ACTIVE);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Membership> getEffectiveMemberships(UUID userId, ResourceContext context) {
+        if (userId == null || context == null) {
+            return List.of();
+        }
+        return membershipRepository.findEffectiveMemberships(userId, context.resourceType(), context.resourceId(), Instant.now());
     }
 }
