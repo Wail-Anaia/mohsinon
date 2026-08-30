@@ -22,32 +22,36 @@ flowchart LR
 
 ---
 
-### 🔹 Milestone 0 : Foundation, Documentation & Repository (Actuel)
+### 🔹 Milestone 0 : Foundation, Documentation & Repository
 - [x] Initialisation du dépôt Git avec `.gitignore` universel.
 - [x] Création des 9 documents de référence et de la baseline technique.
 - [x] Mise en place de l'arborescence documentaire (`docs/daily/`, `docs/architecture/`, etc.).
 - [x] Squelette de projet Backend (Spring Boot 3 / Java 17) et Frontend (Angular 18+).
 
 ### 🔹 Milestone 1 : Core Foundation & Infrastructure
-- [ ] Configuration Spring Boot 3.x, profils `dev` (H2-PostgreSQL) et `prod` (PostgreSQL/PostGIS).
-- [ ] Entités de base `BaseEntity` (id, timestamps d'audit `createdAt`/`updatedAt`, `version` optimistic locking).
-- [ ] Gestion centralisée des exceptions conforme **RFC 7807 (Problem Details)**.
-- [ ] Structure de pagination & filtrage standardisée (`PageResponse`, `FilterCriteria`).
-- [ ] Abstraction de géolocalisation `GeoLocation` (calcul Haversine découplé).
-- [ ] Configuration Flyway initiale.
+- [x] Configuration Spring Boot 3.x, profils `dev` (H2-PostgreSQL) et `prod` (PostgreSQL/PostGIS).
+- [x] Entités de base `BaseEntity` (id, timestamps d'audit `createdAt`/`updatedAt`, `version` optimistic locking).
+- [x] Gestion centralisée des exceptions conforme **RFC 7807 (Problem Details)**.
+- [x] Structure de pagination & filtrage standardisée (`PageResponse`, `FilterCriteria`).
+- [x] Abstraction de géolocalisation `GeoLocation` (calcul Haversine découplé).
+- [x] Configuration Flyway initiale (Migration V1).
 
 ### 🔹 Milestone 2 : Identity & Authentication (JWT & Refresh Tokens)
-- [ ] Entités `User`, `RefreshToken`.
-- [ ] Services `AuthService`, `TokenProvider` (JJWT 0.12+).
-- [ ] Rotation automatique et révocation des Refresh Tokens.
-- [ ] Filtre de sécurité JWT (`JwtAuthenticationFilter`) & Endpoints `/api/v1/auth/login`, `/register`, `/refresh`, `/logout`.
-- [ ] Tests unitaires et d'intégration de sécurité.
+- [x] Entités `User`, `RefreshToken` (stockage SHA-256).
+- [x] Services `AuthService`, `TokenProvider` (JJWT 0.12+).
+- [x] Rotation automatique et révocation des Refresh Tokens avec détection de fraude.
+- [x] Filtre de sécurité JWT (`JwtAuthenticationFilter`) & Endpoints `/api/v1/auth/login`, `/register`, `/refresh`, `/logout`, `/me`.
+- [x] Tests unitaires et d'intégration de sécurité (41 tests).
 
-### 🔹 Milestone 3 : Authorization, Roles & Permissions
-- [ ] Entités `Role`, `Permission`, table de jointure avec cache.
-- [ ] Découplage strict Rôles vs Permissions.
-- [ ] Annotation de sécurité personnalisée `@RequirePermission`.
-- [ ] Rôles initiaux : `USER`, `VOLUNTEER`, `DONOR`, `IMAM`, `MOSQUE_COMMITTEE`, `ADMIN`.
+### 🔹 Milestone 3 : Authorization, Roles & Permissions (Gouvernance Locale Tridimensionnelle)
+- [x] Modèle tridimensionnel : Rôle Global $\neq$ Permission $\neq$ Membership $\neq$ ResourceContext.
+- [x] Registre statique `PermissionRegistry` in-memory (zéro jointure SQL).
+- [x] Entités `GlobalRole`, `UserGlobalRole`, `Membership` (avec cycle de vie et expiration).
+- [x] Moteur d'autorisation `AuthorizationService` (pipeline Deny-by-Default en 6 étapes).
+- [x] Gestionnaire de positions locales `MembershipService`.
+- [x] Évaluateur Spring Security SpEL `@authz` (`SecurityAuthzEvaluator`).
+- [x] Migration Flyway V2 (`V2__init_authorization_schema.sql`) validée sur PostgreSQL 18.2.
+- [x] Tests d'étanchéité et preuve formelle d'isolation cross-mosque (110 tests passés).
 
 ### 🔹 Milestone 4 : Users & Profiles
 - [ ] Profils utilisateurs enrichis (bio, préférences de notification, ville, langues).

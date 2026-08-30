@@ -5,19 +5,19 @@ Le format est basé sur [Keep a Changelog](https://keepachangelog.com/fr/1.0.0/)
 
 ---
 
-## [0.4.0-alpha] - 2026-08-22
+## [0.4.0-alpha] - 2026-08-30
 
-### Ajouté (Milestone 3 : Authorization & Contextual Governance)
-- **Modèle Tridimensionnel d'Autorisation** : Découplage strict entre Rôles Globaux (`GlobalRoleType`), Positions Locales (`MembershipRole`), et Permissions Granulaires (`PermissionType`).
-- **ResourceContext Value Object** : Encapsulation immuable `(resourceType, resourceId)` pour évaluer les actions sur une ressource précise.
+### Ajouté (Milestone 3 : Authorization & Contextual Governance — Clôturé)
+- **Modèle Tridimensionnel d'Autorisation** : Découplage strict entre Rôles Globaux (`GlobalRoleType`), Positions Locales (`MembershipRole`), Permissions Granulaires (`PermissionType`), et Contexte (`ResourceContext`).
+- **ResourceContext Value Object** : Encapsulation immuable `(resourceType, resourceId)` avec constructeurs typés (`ResourceContext.mosque(id)`).
 - **PermissionRegistry In-Memory** : Registre statique immuable résolvant les permissions sans jointure SQL (ADR-013).
-- **Entités JPA & Persistance** : `GlobalRole`, `UserGlobalRole`, `Membership` (avec statuts `ACTIVE`, `PENDING_APPROVAL`, `REVOKED`, `EXPIRED` et date de fin optionnelle).
-- **Moteur d'Autorisation (`AuthorizationService` / `DefaultAuthorizationService`)** : Pipeline Deny-by-Default en 6 étapes garantissant l'isolation inter-mosquées (ADR-012).
+- **Entités JPA & Persistance** : `GlobalRole`, `UserGlobalRole`, `Membership` (avec statuts `ACTIVE`, `PENDING_APPROVAL`, `REVOKED`, `EXPIRED`, audit `assignedBy` et date de fin optionnelle).
+- **Moteur d'Autorisation (`AuthorizationService` / `DefaultAuthorizationService`)** : Pipeline Deny-by-Default en 6 étapes garantissant l'isolation inter-mosquées et le bypass universel pour `ROLE_ADMIN` (ADR-012).
 - **MembershipService** : Gestion du cycle de vie des appartenances et positions locales (Imam, Président, Trésorier, etc.).
 - **Évaluateur Spring Security SpEL (`SecurityAuthzEvaluator` / `@authz`)** : Composant `@Component("authz")` pour annotations déclaratives `@PreAuthorize`.
 - **Intégration UserPrincipal** : Chargement dynamique des rôles globaux dans le contexte de sécurité via `JwtAuthenticationFilter`.
-- **Flyway V2** : Script de migration SQL `V2__init_authorization_schema.sql` avec index optimisés et seed des rôles initiaux.
-- **Tests** : 66 tests unitaires et d'intégration validés sans erreur, incluant la preuve formelle d'isolation cross-mosque sur la frontière HTTP.
+- **Flyway V2** : Script de migration SQL `V2__init_authorization_schema.sql` validé sur serveur réel PostgreSQL 18.2 (`mohsinon_db`) avec `ddl-auto: validate`.
+- **Tests & Validation** : 110 tests unitaires et d'intégration validés sans erreur (`mvn clean test`), incluant la preuve formelle d'isolation cross-mosque, l'étanchéité inter-ressources et la frontière d'authentification 401/403.
 
 ---
 
